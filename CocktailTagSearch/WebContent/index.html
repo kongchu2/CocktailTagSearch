@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <title>칵테일</title>
+    <style type="text/css">
+    </style>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+   <div id="contents">
+    <div id="menuContents">
+        
+    </div>
+    <div id="searchContents">
+        <form method="get" target="_self" id="search" action="">
+          <img src="image/search.png" alt="search" class="searchIcon image" />
+          <input
+            type="search"
+            id="searchText"
+            autocomplete="off"
+            spellcheck="false"
+            aria-live="polite"
+          />
+          <img src="image/cancel.png" alt="cancel" class="cancelIcon image" />
+        </form>
+        <div id="autocompleteTagsContents">
+
+        </div>
+        <div id="searchTagsContents">
+          
+        </div>
+    </div>
+    <main>
+      <div id="cocktailContents">
+        <div id="cocktailMenuContents"></div>
+        <div class="cocktailItems">
+          <img src="image/test1.png" alt="소주 커피" class="cocktailImages">
+          <div class="itemTitle">소주 커피</div>
+          <div class="itemTagsBox">
+            <div class="itemTags">달달</div>
+          </div>
+        </div>
+        <div class="cocktailNotFound">NOT FOUND</div>
+      </div>
+      <div id="tagContents">
+          
+      </div>
+    </main>
+   </div>
+
+   <script src="js/index.js"></script>
+</body>
+</html>
