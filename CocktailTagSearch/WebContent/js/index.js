@@ -2,7 +2,7 @@ const hover = document.querySelectorAll(".cocktailItems");
 const hoverSize = hover.length;
 const search = document.querySelector("#searchText");
 const autocomplete = document.querySelector("#autocompleteTagsContents");
-var autocompleteTag = document.querySelectorAll(".autocompleteTags");
+const autocompleteTag = document.querySelectorAll(".autocompleteTags");
 
 var save_search_sentence = "";
 
@@ -19,7 +19,11 @@ search.addEventListener("focusout", function() {
   autocomplete.style.display = "none";
 });
  
-
+for(var i=0; i<autocompleteTag.length; i++) {
+  autocompleteTag[i].addEventListener("mouseover", showComplete);
+  autocompleteTag[i].addEventListener("mouseout", hideComplete);
+  autocompleteTag[i].addEventListener("mousedown", addTag);
+}
 
 function tagSearch() {
   const autoTag = document.querySelectorAll(".searchTags");
@@ -215,53 +219,4 @@ function removeTag() {
 for(var i=0; i<hoverSize; i++) {
   hover[i].addEventListener("mouseover", styleAppendOver);
   hover[i].addEventListener("mouseout", styleAppendOut);
-}
-var searchInput = document.getElementById("searchText");
-searchInput.addEventListener('input', search2);
-function search2() {
-	$.ajax({
-		type:"post",
-		url:"http://localhost:8090/cocktail_tag_webproject/search",
-		data: {
-		search: searchInput.value
-		},
-		success:function(data) {
-			if(data === "")
-			return;
-			var autocom = document.getElementById("autocompleteTagsContents");
-			autocom.innerHTML = "";
-	        for(var i=0;i<data.tag.length;i++) {
-	        	autocom.innerHTML += "<div class='autocompleteTags'>" + data.tag[i].name + "</div>";
-	        }
-	        autocompleteTag = document.querySelectorAll(".autocompleteTags");
-			tagReady();
-	    }
-    })
-}
-function tagReady() {
-	for(var i=0; i<autocompleteTag.length; i++) {
-	  autocompleteTag[i].addEventListener("mouseover", showComplete);
-	  autocompleteTag[i].addEventListener("mouseout", hideComplete);
-    autocompleteTag[i].addEventListener("mousedown", addTag);
-    
-	}
-}
-function tagSearch2() {
-	var searchTags = document.querySelectorAll(".searchTags");
-	var searchTagStr = " ";
-	for(var i=0;i<searchTags.length;i++) {
-		searchTagStr += searchTags[i].innerText + ",";
-  }
-  searchTagStr = searchTagStr.slice(0, -1);
-  console.log(searchTagStr);
-  $.ajax({
-    type:"get",
-    url:"http://localhost:8090/cocktail_tag_webproject/TagSearch", 
-    data: {
-      tags: searchTagStr
-    },
-    success:function(data) {
-      
-    }
-  })
 }
