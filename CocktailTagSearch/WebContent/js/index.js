@@ -2,7 +2,7 @@ const hover = document.querySelectorAll(".cocktailItems");
 const hoverSize = hover.length;
 const search = document.querySelector("#searchText");
 const autocomplete = document.querySelector("#autocompleteTagsContents");
-const autocompleteTag = document.querySelectorAll(".autocompleteTags");
+var autocompleteTag = document.querySelectorAll(".autocompleteTags");
 
 var save_search_sentence = "";
 
@@ -219,4 +219,32 @@ function removeTag() {
 for(var i=0; i<hoverSize; i++) {
   hover[i].addEventListener("mouseover", styleAppendOver);
   hover[i].addEventListener("mouseout", styleAppendOut);
+}
+
+document.getElementById("searchText").addEventListener("input", getAutocompleteTags);
+
+function getAutocompleteTags() {
+  console.log($("#searchText").val());
+  $.ajax({
+		type:"post",
+		url:"http://localhost:8090/CocktailTagSearch/search",
+		data: {
+		  search: $("#searchText").val()
+		},
+		success:function(data) {
+			if(data === "")
+			  return;
+      $("#autocompleteTagsContents").html("");
+      $.each(data.tag, function(index, item) {
+        $("#autocompleteTagsContents").append("<div class='autocompleteTags'>" + item.name + "</div>");
+      });
+	    autocompleteTag = document.querySelectorAll(".autocompleteTags");
+			$.each(autocompleteTag, function(index, item) {
+        item.addEventListener("mouseover", showComplete);
+	      item.addEventListener("mouseout", hideComplete);
+        item.addEventListener("mousedown", addTag);
+      });
+	  }
+    
+  });
 }
