@@ -13,6 +13,7 @@
 	<meta charset="UTF-8">
 	<title>칵테일</title>
 	<link rel="stylesheet" href="css/index.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
 	<div id="contents">
