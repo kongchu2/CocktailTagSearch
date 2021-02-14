@@ -22,6 +22,8 @@ public class Search extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
+		response.setContentType("json");
+		PrintWriter out = response.getWriter();
 		
 		String searchStr = request.getParameter("search");
 		
@@ -41,13 +43,10 @@ public class Search extends HttpServlet {
 				isExist = true;
 			}
 		}
-		json.put("tag", tags);
+		json.put("tags", tags);
 		
 		System.out.println(json);
-		
-		response.setContentType("json");
 
-		PrintWriter out = response.getWriter(); 
 		if(isExist) {
 			out.print(json);
 		} else {

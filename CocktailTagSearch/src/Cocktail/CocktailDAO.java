@@ -168,7 +168,6 @@ public class CocktailDAO {
 		return cocktailList;
 	}
 	public ArrayList<CocktailVO> getCocktailListByTagList(ArrayList<Integer> tagList) {
-		
 		ArrayList<CocktailVO> cocktailList = new ArrayList<CocktailVO>();
 		
 		try {

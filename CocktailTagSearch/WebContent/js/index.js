@@ -179,12 +179,20 @@ function addTag() {
   var tag = document.createElement("div");
   tag.setAttribute("class", "searchTags"); 
   tag.addEventListener("click", removeTag);
+  tag.addEventListener("click", searchTest);
 
   value = this.textContent.toUpperCase();
   tag.innerText = value;
   input = document.getElementById("searchTagsContents");
 
   input.appendChild(tag);
+
+  for(var i=0;i<autocompleteTagList.length;i++) {
+    if(value === autocompleteTagList[i].name) {
+      selectTagList.push(autocompleteTagList[i]);
+      break;
+    }
+  }
   
   setTimeout(function() {  
     search.value = "";
@@ -196,8 +204,14 @@ function addTag() {
 }
 
 function removeTag() {
+    $.each(selectTagList, function(index, item) {
+      if(item.name === this.name) {
+        selectTagList.splice(index, 1);
+      }
+    })
+
     this.parentNode.removeChild(this);
-    
+
     const item = document.getElementsByClassName("cocktailItems");
     for(var i=0; i<item.length; i++) {
       const itemTag = item[i].getElementsByClassName("itemTags");
@@ -221,10 +235,12 @@ for(var i=0; i<hoverSize; i++) {
   hover[i].addEventListener("mouseout", styleAppendOut);
 }
 
+var autocompleteTagList = [];
+var selectTagList = [];
+
 document.getElementById("searchText").addEventListener("input", getAutocompleteTags);
 
 function getAutocompleteTags() {
-  console.log($("#searchText").val());
   $.ajax({
 		type:"post",
 		url:"http://localhost:8090/CocktailTagSearch/search",
@@ -235,16 +251,73 @@ function getAutocompleteTags() {
 			if(data === "")
 			  return;
       $("#autocompleteTagsContents").html("");
-      $.each(data.tag, function(index, item) {
+      autocompleteTagList = [];
+      $.each(data.tags, function(index, item) {
         $("#autocompleteTagsContents").append("<div class='autocompleteTags'>" + item.name + "</div>");
+        autocompleteTagList.push({name:item.name, id:item.id});
       });
+
 	    autocompleteTag = document.querySelectorAll(".autocompleteTags");
 			$.each(autocompleteTag, function(index, item) {
         item.addEventListener("mouseover", showComplete);
 	      item.addEventListener("mouseout", hideComplete);
         item.addEventListener("mousedown", addTag);
+        item.addEventListener("mousedown", searchTest);
       });
-	  }
-    
+	  }   
   });
+}
+
+search.addEventListener('input', searchTest);
+
+function searchTest() {
+  $.ajax({
+    type:"post",
+		url:"http://localhost:8090/CocktailTagSearch/TagSearch",
+    dataType:"json",
+		data: {
+		  search: $("#searchText").val(),
+      tags: JSON.stringify(selectTagList)
+		},
+    success:function(data) {
+      $.each(data.cocktails, function(index, item) {
+        var isExist = false;
+        itemTitle = $('.itemTitle');
+        if(itemTitle.length == 1) {
+          isExist = itemTitle.textContent === item.name;
+        } else {
+          itemTitle.each(function(index, cocktailName) {
+            isExist = cocktailName.textContent === item.name;
+          });
+        }
+        if(isExist) {
+          return true;
+          //continue;
+        }
+
+        var cocktail = $('#template').clone();
+
+        cocktail.removeAttr('style');
+        cocktail.removeAttr('id');
+
+        cocktail.children('img').attr('src', item.image);
+        cocktail.children('img').attr('alt', item.name);
+
+        cocktail.children('.itemTitle').text(item.name);
+
+        $.each(item.tags, function(index, tag_item) {
+          cocktail.children('.itemTagsBox').append($('<div/>', {
+            class: "itemTags",
+            text: tag_item.name
+          }));
+        });
+
+        $('#cocktailContents').append(cocktail);
+      });
+      $('.cocktailItems').each(function(index, item) {
+        item.addEventListener("mouseover", styleAppendOver);
+        item.addEventListener("mouseout", styleAppendOut);
+      });
+    }
+  })
 }
