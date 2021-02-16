@@ -63,11 +63,10 @@ public class TagSearch extends HttpServlet {
 			cocktailList = dao.getCocktailListByTagList(tagIdList);
 		
 
-		JSONObject json = null;
+		String json = null;
 		HashMap<String, Object> hashMap = null;
 		
 		JSONArray cocktailArray = new JSONArray();
-		ArrayList<String> cocktailName = new ArrayList<String>();
 		for(CocktailVO cocktail : cocktailList) {
 			
 			if(cocktail.getName().contains(searchStr)) {
@@ -103,19 +102,19 @@ public class TagSearch extends HttpServlet {
 				JSONObject cocktailJson = new JSONObject(hashMap);
 				cocktailArray.add(cocktailJson);
 				
-				System.out.println(cocktailArray);
-				
-				cocktailName.add(cocktail.getName());
 			}
 			
 			hashMap = null;
 		}
-
-		hashMap = new HashMap<String, Object>();
-		for(int i=0; i<cocktailArray.size(); i++) {
-			hashMap.put(cocktailName.get(i), cocktailArray.get(i));
+		
+		if(cocktailArray.size() > 0) {
+			json = "{\"cocktails\":[";
+			for(int i=0; i<cocktailArray.size(); i++) {
+				if(i>0) json += ",";
+				json += cocktailArray.get(i);
+			}
+			json += "]}";
 		}
-		json = new JSONObject(hashMap);
 		
 		out.print(json);
 		
