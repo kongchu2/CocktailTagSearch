@@ -4,12 +4,17 @@ const search = document.querySelector("#searchText");
 const autocomplete = document.querySelector("#autocompleteTagsContents");
 var autocompleteTag = document.querySelectorAll(".autocompleteTags");
 
+var autocompleteTagList = [];
+var selectTagList = [];
+
 var save_search_sentence = "";
 
 search.addEventListener("keyup", cocktailFilter);
 search.addEventListener("keyup", tagFilter);
-search.addEventListener("keydown", hideComplete);
 search.addEventListener("keyup", showNotFound);
+search.addEventListener("keydown", hideComplete);
+search.addEventListener("input", getAutocompleteTags);
+search.addEventListener('input', searchTest);
 
 search.addEventListener("focus", function() {
   autocomplete.style.display = "block";
@@ -18,11 +23,17 @@ search.addEventListener("focus", function() {
 search.addEventListener("focusout", function() {
   autocomplete.style.display = "none";
 });
+
  
 for(var i=0; i<autocompleteTag.length; i++) {
   autocompleteTag[i].addEventListener("mouseover", showComplete);
   autocompleteTag[i].addEventListener("mouseout", hideComplete);
   autocompleteTag[i].addEventListener("mousedown", addTag);
+}
+
+for(var i=0; i<hoverSize; i++) {
+  hover[i].addEventListener("mouseover", styleAppendOver);
+  hover[i].addEventListener("mouseout", styleAppendOut);
 }
 
 function tagSearch() {
@@ -73,15 +84,7 @@ function showInFullCocktails() {
 
 // 모든 칵테일이 표시가 안될 때 Not Found 표시
 function showNotFound() {
-  const item = hover;
-  var flag = true;
-  for(var i=0; i<item.length; i++) {
-    if(item[i].style.display == "flex") {
-      flag = false;
-      break;
-    }
-  }
-  if(flag == true) {
+  if($('.cocktailItems').length < 1) {
     document.querySelector(".cocktailNotFound").style.display = "flex";
   } else {
     document.querySelector(".cocktailNotFound").style.display = "none";
@@ -147,9 +150,9 @@ function cocktailFilter(){
         item[i].style.display = "none";
       }
     }
-  }
+}
 
-  function tagFilter(){
+function tagFilter(){
     var value, item;
 
     value = search.value.toUpperCase().trim();
@@ -172,7 +175,7 @@ function cocktailFilter(){
       }
     }
 
-  }
+}
 
 function addTag() {
 
@@ -233,16 +236,6 @@ function removeTag() {
 
 }
 
-for(var i=0; i<hoverSize; i++) {
-  hover[i].addEventListener("mouseover", styleAppendOver);
-  hover[i].addEventListener("mouseout", styleAppendOut);
-}
-
-var autocompleteTagList = [];
-var selectTagList = [];
-
-document.getElementById("searchText").addEventListener("input", getAutocompleteTags);
-
 function getAutocompleteTags() {
   $.ajax({
 		type:"post",
@@ -271,8 +264,6 @@ function getAutocompleteTags() {
   });
 }
 
-search.addEventListener('input', searchTest);
-
 function searchTest() {
   $.ajax({
     type:"post",
@@ -295,22 +286,15 @@ function searchTest() {
 	          });
 	        }
 	        if(isExist) {
-	          return true;
-	          //continue;
+	          return true;//continue;
 	        }
-	
 	        var cocktail = $('#template').clone();
-	
-	        cocktail.removeAttr('style');
-	        cocktail.removeAttr('id');
-          
+	        cocktail.attr('style', 'display:flex');
+	        cocktail.removeAttr('id');   
           cocktail.children('a').attr('href', 'Cocktail_post.jsp?id='+item.id);
-
 	        cocktail.find('img').attr('src', item.image);
 	        cocktail.find('img').attr('alt', item.name);
-	
 	        cocktail.children('.itemTitle').text(item.name);
-	
 	        $.each(item.tags, function(index, tag_item) {
 	          cocktail.children('.itemTagsBox').append($('<div/>', {
 	            class: "itemTags",
