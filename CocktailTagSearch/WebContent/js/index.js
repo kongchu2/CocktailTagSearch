@@ -303,9 +303,11 @@ function searchTest() {
 	
 	        cocktail.removeAttr('style');
 	        cocktail.removeAttr('id');
-	
-	        cocktail.children('img').attr('src', item.image);
-	        cocktail.children('img').attr('alt', item.name);
+          
+          cocktail.children('a').attr('href', 'Cocktail_post.jsp?id='+item.id);
+
+	        cocktail.find('img').attr('src', item.image);
+	        cocktail.find('img').attr('alt', item.name);
 	
 	        cocktail.children('.itemTitle').text(item.name);
 	
@@ -324,5 +326,5 @@ function searchTest() {
 	      });
 	    }
 	}
-  })
+  });
 }
