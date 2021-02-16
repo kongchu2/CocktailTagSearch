@@ -1,8 +1,9 @@
 package servlet;
-
+ 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,10 +23,12 @@ import Tag.TagVO;
 @WebServlet("/TagSearch")
 public class TagSearch extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
-		response.setContentType("json");
+		response.setContentType("application/json;charset=UTF-8");
+
 		PrintWriter out = response.getWriter();
 		
 		String searchStr = request.getParameter("search");
@@ -59,40 +62,63 @@ public class TagSearch extends HttpServlet {
 		else
 			cocktailList = dao.getCocktailListByTagList(tagIdList);
 		
-		JSONObject json = new JSONObject();
-		JSONArray cocktailArray = new JSONArray();
+
+		JSONObject json = null;
+		HashMap<String, Object> hashMap = null;
 		
+		JSONArray cocktailArray = new JSONArray();
+		ArrayList<String> cocktailName = new ArrayList<String>();
 		for(CocktailVO cocktail : cocktailList) {
+			
 			if(cocktail.getName().contains(searchStr)) {
-				JSONObject cocktailJson = new JSONObject();
-				cocktailJson.put("id", cocktail.getId());
-				cocktailJson.put("name", cocktail.getName());
-				cocktailJson.put("image", cocktail.getImage());
-				cocktailJson.put("desc", cocktail.getDesc());
-				cocktailJson.put("history", cocktail.getHistory());
-				cocktailJson.put("taste", cocktail.getTaste());
-				cocktailJson.put("base", cocktail.getBase());
-				cocktailJson.put("build", cocktail.getBuild());
-				cocktailJson.put("glass", cocktail.getGlass());
+				hashMap = new HashMap<String, Object>();
+				hashMap.put("id", cocktail.getId());
+				hashMap.put("name", cocktail.getName());
+				hashMap.put("image", cocktail.getImage());
+				hashMap.put("desc", cocktail.getDesc());
+				hashMap.put("history", cocktail.getHistory());
+				hashMap.put("taste", cocktail.getTaste());
+				hashMap.put("base", cocktail.getBase());
+				hashMap.put("build", cocktail.getBuild());
+				hashMap.put("glass", cocktail.getGlass());
+
+				
 				JSONArray tempTagArray = new JSONArray();
+				JSONObject tagJson = null;
+				HashMap<String, Object> tempHashMap = null;
 				for(TagVO tag : cocktail.getTagList()) {
-					JSONObject tagJson = new JSONObject();
-					tagJson.put("id", tag.getId());
-					tagJson.put("name", tag.getName());
-					tagJson.put("desc", tag.getDesc());
-					tagJson.put("category", tag.getCategory());
+					tempHashMap = new HashMap<String, Object>();
+					
+					tempHashMap.put("id", tag.getId());
+					tempHashMap.put("name", tag.getName());
+					tempHashMap.put("desc", tag.getDesc());
+					tempHashMap.put("category", tag.getCategory());
+					
+					tagJson = new JSONObject(tempHashMap);
 					tempTagArray.add(tagJson);
 				}
-				cocktailJson.put("tags", tempTagArray);
+				
+				hashMap.put("tags", tempTagArray);
+				
+				JSONObject cocktailJson = new JSONObject(hashMap);
 				cocktailArray.add(cocktailJson);
+				
+				System.out.println(cocktailArray);
+				
+				cocktailName.add(cocktail.getName());
 			}
+			
+			hashMap = null;
 		}
-		
-		json.put("cocktails", cocktailArray);
-		
-		System.out.println(json);
+
+		hashMap = new HashMap<String, Object>();
+		for(int i=0; i<cocktailArray.size(); i++) {
+			hashMap.put(cocktailName.get(i), cocktailArray.get(i));
+		}
+		json = new JSONObject(hashMap);
 		
 		out.print(json);
+		
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);

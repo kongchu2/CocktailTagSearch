@@ -23,13 +23,17 @@
 	    <div id="searchContents">
 	        <form method="get" target="_blank" id="search">
 				<img src="image/search.png" alt="search" class="searchIcon image" />
-				<input type="search" id="searchText" spellcheck="false" aria-live="polite"/>
+				<input type="search"
+			           id="searchText"
+			           autocomplete="off"
+			           spellcheck="false"
+			           aria-live="polite"/>
 	          	<img src="image/cancel.png" alt="cancel" class="cancelIcon image" />
 	        </form>
 	        <div id="autocompleteTagsContents">
 	        	<%
 	        	TagDAO tagDAO = new TagDAO();
-	        	ArrayList<TagVO> tagList =tagDAO.getTagList();  
+	        	ArrayList<TagVO> tagList = tagDAO.getTagList();  
 	        	for(TagVO tag : tagList) {
 					out.print("<div class=\"autocompleteTags\">");
 						out.print(tag.getName());
@@ -65,6 +69,7 @@
 			    	out.print("</div>");
 			    }
 			    %>
+        	<div class="cocktailNotFound">NOT FOUND</div>
 	   		</div>
 	      	<div id="tagContents">
 	          

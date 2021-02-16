@@ -175,6 +175,7 @@ function cocktailFilter(){
   }
 
 function addTag() {
+
   var value, input;
   var tag = document.createElement("div");
   tag.setAttribute("class", "searchTags"); 
@@ -188,6 +189,7 @@ function addTag() {
   input.appendChild(tag);
 
   for(var i=0;i<autocompleteTagList.length;i++) {
+	console.log(autocompleteTagList[i]);
     if(value === autocompleteTagList[i].name) {
       selectTagList.push(autocompleteTagList[i]);
       break;
@@ -196,6 +198,7 @@ function addTag() {
   
   setTimeout(function() {  
     search.value = "";
+	searchTest();
     tagFilter();
     tagSearch();
     cocktailFilter();
@@ -277,47 +280,49 @@ function searchTest() {
     dataType:"json",
 		data: {
 		  search: $("#searchText").val(),
-      tags: JSON.stringify(selectTagList)
+	      tags: JSON.stringify(selectTagList)
 		},
     success:function(data) {
-      $.each(data.cocktails, function(index, item) {
-        var isExist = false;
-        itemTitle = $('.itemTitle');
-        if(itemTitle.length == 1) {
-          isExist = itemTitle.textContent === item.name;
-        } else {
-          itemTitle.each(function(index, cocktailName) {
-            isExist = cocktailName.textContent === item.name;
-          });
-        }
-        if(isExist) {
-          return true;
-          //continue;
-        }
-
-        var cocktail = $('#template').clone();
-
-        cocktail.removeAttr('style');
-        cocktail.removeAttr('id');
-
-        cocktail.children('img').attr('src', item.image);
-        cocktail.children('img').attr('alt', item.name);
-
-        cocktail.children('.itemTitle').text(item.name);
-
-        $.each(item.tags, function(index, tag_item) {
-          cocktail.children('.itemTagsBox').append($('<div/>', {
-            class: "itemTags",
-            text: tag_item.name
-          }));
-        });
-
-        $('#cocktailContents').append(cocktail);
-      });
-      $('.cocktailItems').each(function(index, item) {
-        item.addEventListener("mouseover", styleAppendOver);
-        item.addEventListener("mouseout", styleAppendOut);
-      });
-    }
+		if(data != null) {
+	      $.each(data.cocktails, function(index, item) {
+	        var isExist = false;
+	        itemTitle = $('.itemTitle');
+	        if(itemTitle.length == 1) {
+	          isExist = itemTitle.textContent === item.name;
+	        } else {
+	          itemTitle.each(function(index, cocktailName) {
+	            isExist = cocktailName.textContent === item.name;
+	          });
+	        }
+	        if(isExist) {
+	          return true;
+	          //continue;
+	        }
+	
+	        var cocktail = $('#template').clone();
+	
+	        cocktail.removeAttr('style');
+	        cocktail.removeAttr('id');
+	
+	        cocktail.children('img').attr('src', item.image);
+	        cocktail.children('img').attr('alt', item.name);
+	
+	        cocktail.children('.itemTitle').text(item.name);
+	
+	        $.each(item.tags, function(index, tag_item) {
+	          cocktail.children('.itemTagsBox').append($('<div/>', {
+	            class: "itemTags",
+	            text: tag_item.name
+	          }));
+	        });
+	
+	        $('#cocktailContents').append(cocktail);
+	      });
+	      $('.cocktailItems').each(function(index, item) {
+	        item.addEventListener("mouseover", styleAppendOver);
+	        item.addEventListener("mouseout", styleAppendOut);
+	      });
+	    }
+	}
   })
 }
