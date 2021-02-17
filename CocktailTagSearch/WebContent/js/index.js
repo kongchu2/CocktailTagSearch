@@ -86,7 +86,7 @@ function showInFullCocktails() {
 
 // 모든 칵테일이 표시가 안될 때 Not Found 표시
 function showNotFound() {
-  if($('.cocktailItems').length < 1) {
+  if($('.cocktailItems').length < 0) {
     document.querySelector(".cocktailNotFound").style.display = "flex";
   } else {
     document.querySelector(".cocktailNotFound").style.display = "none";
@@ -276,14 +276,15 @@ function searchTest() {
 	      tags: JSON.stringify(selectTagList)
 		},
     success:function(data) {
-	  if(data != null) {
+      $('.cocktailItems').remove();
+	    if(data != null) {
 	    $.each(data.cocktails, createCocktail);
-		$('.cocktailItems').each(function(index, item) {
+		  $('.cocktailItems').each(function(index, item) {
           item.addEventListener("mouseover", styleAppendOver);
           item.addEventListener("mouseout", styleAppendOut);
         });
+	    }
 	  }
-	}
   });
 }
 
@@ -295,12 +296,11 @@ function loadData() {
 function loadCocktailData() {
   $.ajax({
     type:"post",
-	url:"http://localhost:8090/CocktailTagSearch/LoadCocktail",
-		
-	success:function(data) {
-	  if(data != null) {
-	    $.each(data.cocktails, createCocktail);
-		$('.cocktailItems').each(function(index, item) {
+	  url:"http://localhost:8090/CocktailTagSearch/LoadCocktail",
+	  success:function(data) {
+      if(data != null) {
+        $.each(data.cocktails, createCocktail);
+        $('.cocktailItems').each(function(index, item) {
           item.addEventListener("mouseover", styleAppendOver);
           item.addEventListener("mouseout", styleAppendOut);
         });
@@ -335,22 +335,11 @@ function createTag(index, item) {
 }
 
 function createCocktail(index, item) {
-    var isExist = false;
-    itemTitle = $('.itemTitle');
-    if(itemTitle.length == 1) {
-      isExist = itemTitle.textContent === item.name;
-    } else {
-      itemTitle.each(function(index, cocktailName) {
-        isExist = cocktailName.textContent === item.name;
-      });
-    }
-    if(isExist) {
-      return true;//continue;
-    }
     var cocktail = $('#template').clone();
     cocktail.attr('style', 'display:flex');
+    cocktail.attr('class', 'cocktailItems');
     cocktail.removeAttr('id');   
- 	cocktail.children('a').attr('href', 'Cocktail_post.jsp?id='+item.id);
+ 	  cocktail.children('a').attr('href', 'Cocktail_post.jsp?id='+item.id);
     cocktail.find('img').attr('src', item.image);
     cocktail.find('img').attr('alt', item.name);
     cocktail.children('.itemTitle').text(item.name);

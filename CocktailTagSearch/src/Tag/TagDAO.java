@@ -69,20 +69,22 @@ public class TagDAO {
 			rs = stmt.executeQuery(sql);
 			
 			tagList = new ArrayList<TagVO>();
-			if(rs.next())
+			while(rs.next())
 			{
 				int tag_id = rs.getInt("TAG_ID");
 				
 				sql = "SELECT * FROM TAG WHERE TAG_ID="+tag_id;
-				ResultSet tag_rs = stmt.executeQuery(sql);
+				Statement statement = conn.createStatement();
+				ResultSet tag_rs = statement.executeQuery(sql);
 				
-				while(tag_rs.next()) {
+				if(tag_rs.next()) {
 						 	tag_id 			= tag_rs.getInt("TAG_ID");
 					String 	tag_name		= tag_rs.getString("TAG_NAME");
 					String 	tag_desc		= tag_rs.getString("DESC");
 					String 	tag_category 	= tag_rs.getString("CATEGORY");
 					tagList.add(new TagVO(tag_id, tag_name, tag_desc, tag_category));
 				}
+				statement.close();
 				tag_rs.close();
 			}
 			
