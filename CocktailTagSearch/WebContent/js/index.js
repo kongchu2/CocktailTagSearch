@@ -9,6 +9,8 @@ var selectTagList = [];
 
 var save_search_sentence = "";
 
+$(document).ready(loadData);
+
 search.addEventListener("keyup", cocktailFilter);
 search.addEventListener("keyup", tagFilter);
 search.addEventListener("keyup", showNotFound);
@@ -274,41 +276,91 @@ function searchTest() {
 	      tags: JSON.stringify(selectTagList)
 		},
     success:function(data) {
-		if(data != null) {
-	      $.each(data.cocktails, function(index, item) {
-	        var isExist = false;
-	        itemTitle = $('.itemTitle');
-	        if(itemTitle.length == 1) {
-	          isExist = itemTitle.textContent === item.name;
-	        } else {
-	          itemTitle.each(function(index, cocktailName) {
-	            isExist = cocktailName.textContent === item.name;
-	          });
-	        }
-	        if(isExist) {
-	          return true;//continue;
-	        }
-	        var cocktail = $('#template').clone();
-	        cocktail.attr('style', 'display:flex');
-	        cocktail.removeAttr('id');   
-          cocktail.children('a').attr('href', 'Cocktail_post.jsp?id='+item.id);
-	        cocktail.find('img').attr('src', item.image);
-	        cocktail.find('img').attr('alt', item.name);
-	        cocktail.children('.itemTitle').text(item.name);
-	        $.each(item.tags, function(index, tag_item) {
-	          cocktail.children('.itemTagsBox').append($('<div/>', {
-	            class: "itemTags",
-	            text: tag_item.name
-	          }));
-	        });
-	
-	        $('#cocktailContents').append(cocktail);
-	      });
-	      $('.cocktailItems').each(function(index, item) {
-	        item.addEventListener("mouseover", styleAppendOver);
-	        item.addEventListener("mouseout", styleAppendOut);
-	      });
-	    }
+	  if(data != null) {
+	    $.each(data.cocktails, createCocktail);
+		$('.cocktailItems').each(function(index, item) {
+          item.addEventListener("mouseover", styleAppendOver);
+          item.addEventListener("mouseout", styleAppendOut);
+        });
+	  }
 	}
   });
 }
+
+function loadData() {
+	loadCocktailData();
+	loadTagData();
+}
+
+function loadCocktailData() {
+  $.ajax({
+    type:"post",
+	url:"http://localhost:8090/CocktailTagSearch/LoadCocktail",
+		
+	success:function(data) {
+	  if(data != null) {
+	    $.each(data.cocktails, createCocktail);
+		$('.cocktailItems').each(function(index, item) {
+          item.addEventListener("mouseover", styleAppendOver);
+          item.addEventListener("mouseout", styleAppendOut);
+        });
+      }
+    }		
+  });
+}
+
+function loadTagData() {
+  $.ajax({
+    type:"post",
+	url:"http://localhost:8090/CocktailTagSearch/LoadTag",
+		
+	success:function(data) {
+	  if(data != null) {
+	    $.each(data.tags, createTag);
+		$('.autocompleteTags').each(function(index, item) {
+          item.addEventListener("mouseover", showComplete);
+ 		  item.addEventListener("mouseout", hideComplete);
+ 		  item.addEventListener("mousedown", addTag);
+        });
+      }
+    }		
+  });
+}
+
+function createTag(index, item) {
+	$('#autocompleteTagsContents').append($('<div/>', {
+      class: "autocompleteTags",
+      text: item.name
+    }));
+}
+
+function createCocktail(index, item) {
+    var isExist = false;
+    itemTitle = $('.itemTitle');
+    if(itemTitle.length == 1) {
+      isExist = itemTitle.textContent === item.name;
+    } else {
+      itemTitle.each(function(index, cocktailName) {
+        isExist = cocktailName.textContent === item.name;
+      });
+    }
+    if(isExist) {
+      return true;//continue;
+    }
+    var cocktail = $('#template').clone();
+    cocktail.attr('style', 'display:flex');
+    cocktail.removeAttr('id');   
+ 	cocktail.children('a').attr('href', 'Cocktail_post.jsp?id='+item.id);
+    cocktail.find('img').attr('src', item.image);
+    cocktail.find('img').attr('alt', item.name);
+    cocktail.children('.itemTitle').text(item.name);
+    $.each(item.tags, function(index, tag_item) {
+      cocktail.children('.itemTagsBox').append($('<div/>', {
+        class: "itemTags",
+        text: tag_item.name
+      }));
+    });
+
+    $('#cocktailContents').append(cocktail);
+}
+      
