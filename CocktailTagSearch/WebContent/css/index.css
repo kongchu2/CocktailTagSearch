@@ -247,7 +247,8 @@ footer::after {
   visibility: hidden;
 }
 .cocktailImages {
-  position: absolute;
+  left: 0;
+  position: relative;
   height: 100%;
 }
 .cocktailNotFound {
