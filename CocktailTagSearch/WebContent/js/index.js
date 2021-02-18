@@ -11,8 +11,6 @@ var save_search_sentence = "";
 
 $(document).ready(loadData);
 
-search.addEventListener("keyup", cocktailFilter);
-search.addEventListener("keyup", tagFilter);
 search.addEventListener("keyup", showNotFound);
 search.addEventListener("keydown", hideComplete);
 search.addEventListener("input", getAutocompleteTags);
@@ -36,52 +34,6 @@ for(var i=0; i<autocompleteTag.length; i++) {
 for(var i=0; i<hoverSize; i++) {
   hover[i].addEventListener("mouseover", styleAppendOver);
   hover[i].addEventListener("mouseout", styleAppendOut);
-}
-
-function tagSearch() {
-  const autoTag = document.querySelectorAll(".searchTags");
-  const item = document.getElementsByClassName("cocktailItems");
-
-  hideInFullCocktails();
-
-  for(var i=0; i<item.length; i++) {
-    var flag = false;
-    var flagCount = 0;
-
-    itemTag = item[i].getElementsByClassName("itemTags");
-    
-    for(var j=0; j<autoTag.length; j++) {
-      for(var k=0; k<itemTag.length; k++) {
-        if(autoTag[j].textContent == itemTag[k].textContent) {
-          flagCount ++;
-        }
-      }
-    }
-    if(flagCount == autoTag.length) {
-      flag = true;
-    }
-    if(flag == true) {
-      item[i].style.display = "flex";
-    } else {
-      item[i].setAttribute("mark", "x");
-    }
-  }
-}
-
-function hideInFullCocktails() {
-  const item = document.getElementsByClassName("cocktailItems");
-
-  for(var i=0; i<item.length; i++) {
-    item[i].style.display = "none";
-  }
-}
-
-function showInFullCocktails() {
-  const item = document.getElementsByClassName("cocktailItems");
-
-  for(var i=0; i<item.length; i++) {
-    item[i].style.display = "flex";
-  }
 }
 
 // 모든 칵테일이 표시가 안될 때 Not Found 표시
@@ -135,50 +87,6 @@ function styleAppendOut() {
     title.style.visibility = "hidden";
 }
 
-function cocktailFilter(){
-
-    var value, item;
-
-    value = search.value.toUpperCase().trim();
-
-    item = document.getElementsByClassName("cocktailItems");
-
-    for(var i=0;i<item.length;i++){
-      var name = item[i].getElementsByClassName("itemTitle");
-      var flag = item[i].getAttribute("mark") != "x";
-      if(name[0].innerHTML.toUpperCase().indexOf(value) > -1 && flag){
-        item[i].style.display = "flex";
-      }else{
-        item[i].style.display = "none";
-      }
-    }
-}
-
-function tagFilter(){
-    var value, item;
-
-    value = search.value.toUpperCase().trim();
-
-    var tag = document.querySelectorAll(".searchTags");
-
-    item = document.getElementsByClassName("autocompleteTags");
-
-    for(var i=0;i<item.length;i++){
-      var name = item[i];
-      if(name.textContent.toUpperCase().indexOf(value) > -1){
-        item[i].style.display = "block";
-      }else{
-        item[i].style.display = "none";
-      }
-      for(var j=0; j<tag.length; j++) {
-        if(tag[j].textContent.toUpperCase() == item[i].textContent.toUpperCase()) {
-          item[i].style.display = "none";
-        }
-      }
-    }
-
-}
-
 function addTag() {
 
   var value, input;
@@ -204,9 +112,6 @@ function addTag() {
   setTimeout(function() {  
     search.value = "";
 	searchTest();
-    tagFilter();
-    tagSearch();
-    cocktailFilter();
     showNotFound();
   }, 0.001);
 }
@@ -220,21 +125,7 @@ function removeTag() {
 
     this.parentNode.removeChild(this);
 
-    const item = document.getElementsByClassName("cocktailItems");
-    for(var i=0; i<item.length; i++) {
-      const itemTag = item[i].getElementsByClassName("itemTags");
-      for(var j=0; j<itemTag.length; j++) {
-        if(itemTag[j].textContent != this.textContent) {
-          item[i].removeAttribute("mark", "x");
-          break;
-        }
-      }
-    }
-    
-    tagFilter();
-    tagSearch();
     showNotFound();
-    cocktailFilter();
 
 }
 

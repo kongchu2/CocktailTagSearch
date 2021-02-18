@@ -31,7 +31,7 @@ public class TagSearch extends HttpServlet {
 
 		PrintWriter out = response.getWriter();
 		
-		String searchStr = request.getParameter("search");
+		String searchStr = request.getParameter("search").trim();
 		String tagStr = request.getParameter("tags");
 		
 		JSONArray tagArray = null;
