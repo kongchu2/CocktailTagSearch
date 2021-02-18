@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class JDBCConnection {
-	public static Connection getConenction() throws ClassNotFoundException, SQLException{
+	public static Connection getConnection() throws ClassNotFoundException, SQLException{
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
 		String user = "kongchu2";
 		String password = "5233";

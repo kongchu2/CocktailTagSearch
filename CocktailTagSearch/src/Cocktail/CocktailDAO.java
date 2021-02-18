@@ -18,7 +18,7 @@ public class CocktailDAO {
 		CocktailVO cocktail = null;
 		
 		try {
-			conn = JDBCConnection.getConenction();
+			conn = JDBCConnection.getConnection();
 			
 			String sql = "SELECT * FROM COCKTAIL WHERE COCKTAIL_ID=?";
 			stmt = conn.prepareStatement(sql);
@@ -67,7 +67,7 @@ public class CocktailDAO {
 		ArrayList<CocktailVO> cocktailList = new ArrayList<CocktailVO>();
 		
 		try {
-			conn = JDBCConnection.getConenction();
+			conn = JDBCConnection.getConnection();
 			
 			String sql = "SELECT * FROM COCKTAIL";
 			stmt = conn.prepareStatement(sql);
@@ -115,7 +115,7 @@ public class CocktailDAO {
 		ArrayList<CocktailVO> cocktailList = new ArrayList<CocktailVO>();
 		
 		try {
-			conn = JDBCConnection.getConenction();
+			conn = JDBCConnection.getConnection();
 			
 			String sql = "SELECT COCKTAIL_ID FROM COCKTAIL_TAG WHERE TAG_ID=?";
 			stmt = conn.prepareStatement(sql);
@@ -171,7 +171,7 @@ public class CocktailDAO {
 		ArrayList<CocktailVO> cocktailList = new ArrayList<CocktailVO>();
 		
 		try {
-			conn = JDBCConnection.getConenction();
+			conn = JDBCConnection.getConnection();
 			
 			String sql = "SELECT max(COCKTAIL_ID) as max FROM COCKTAIL_TAG";
 			stmt = conn.prepareStatement(sql);

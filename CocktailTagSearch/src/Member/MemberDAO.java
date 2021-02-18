@@ -16,7 +16,7 @@ public class MemberDAO {
 	public MemberVO getMember(String login_id) {
 		MemberVO member = null;
 		try {
-			conn = JDBCConnection.getConenction();
+			conn = JDBCConnection.getConnection();
 			String sql = "SELECT * FROM MEMBER WHERE LOGIN_ID=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, login_id);
@@ -38,7 +38,7 @@ public class MemberDAO {
 	public int addMember(MemberVO member) {
 		int cnt = -1;
 		try {
-			conn = JDBCConnection.getConenction();
+			conn = JDBCConnection.getConnection();
 			conn.setAutoCommit(false);
 			String sql = "INSERT INTO MEMBER VALUES((SELECT nvl(max(MEMBER_ID), 0)+1 FROM MEMBER), ?, ?, ?, ?)";
 			stmt = conn.prepareStatement(sql);
@@ -66,7 +66,7 @@ public class MemberDAO {
 	public int updateMember(MemberVO member) {
 		int cnt = -1;
 		try {
-			conn = JDBCConnection.getConenction();
+			conn = JDBCConnection.getConnection();
 			conn.setAutoCommit(false);
 			String sql = "UPDATE MEMBER SET NAME=?, PASSWORD=? WHERE LOGIN_ID = ?";
 			stmt = conn.prepareStatement(sql);

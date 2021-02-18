@@ -15,7 +15,7 @@ public class TagDAO {
 		TagVO tag = null;
 		
 		try {			
-			conn = JDBCConnection.getConenction(); 
+			conn = JDBCConnection.getConnection(); 
 			
 			String sql = "SELECT * FROM TAG WHERE TAG_ID="+id;
 			stmt = conn.createStatement();
@@ -38,7 +38,7 @@ public class TagDAO {
 		ArrayList<TagVO> tagList = new ArrayList<TagVO>();
 		
 		try {
-			conn = JDBCConnection.getConenction();
+			conn = JDBCConnection.getConnection();
 			
 			stmt = conn.createStatement();
 			String sql = "SELECT * FROM TAG";
@@ -61,7 +61,7 @@ public class TagDAO {
 		ArrayList<TagVO> tagList = null;
 		
 		try {
-			conn = JDBCConnection.getConenction();
+			conn = JDBCConnection.getConnection();
 			
 			String sql = "SELECT TAG_ID FROM COCKTAIL_TAG WHERE COCKTAIL_ID="+cocktailId;
 			stmt = conn.createStatement();
