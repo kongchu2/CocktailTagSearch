@@ -73,7 +73,7 @@ request.setCharacterEncoding("UTF-8");
             <div id="postTagContents">
             	<%
             	for(TagVO tag : tagList) {
-            		out.print("<a href=\"tag_post.jsp?id="+tag.getId()+"\"><div class=\"tagBlock "+ tag.getCategory()+"\">" + tag.getName() + "</div></a>");
+            		out.print("<a desc="+ tag.getDesc().replaceAll(" ", "&nbsp;") +" href=\"tag_post.jsp?id="+tag.getId()+"\"><div class=\"tagBlock "+ tag.getCategory()+"\">" + tag.getName() + "</div></a>");
             	}
             	%>
                 <!-- <div class="tagBlock base">소주</div>

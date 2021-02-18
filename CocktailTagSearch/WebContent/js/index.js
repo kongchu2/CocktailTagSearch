@@ -9,6 +9,10 @@ var selectTagList = [];
 
 var save_search_sentence = "";
 
+$(function () {
+	$('[data-toggle="tooltip"]').tooltip()
+})
+
 $(document).ready(loadData);
 $(document).ready(getSessionData);
 
@@ -172,9 +176,13 @@ function searchTest() {
 	    if(data != null) {
 	    $.each(data.cocktails, createCocktail);
 		  $('.cocktailItems').each(function(index, item) {
-          item.addEventListener("mouseover", styleAppendOver);
-          item.addEventListener("mouseout", styleAppendOut);
-        });
+            item.addEventListener("mouseover", styleAppendOver);
+            item.addEventListener("mouseout", styleAppendOut);
+          });
+		  $('.itemTags').each(function(index, item) {
+            item.addEventListener("mouseover", styleAppendOver);
+            item.addEventListener("mouseout", styleAppendOut);
+          });
 	    }
 	  }
   });
@@ -231,20 +239,21 @@ function createCocktail(index, item) {
     cocktail.attr('style', 'display:flex');
     cocktail.attr('class', 'cocktailItems');
     cocktail.removeAttr('id');   
- 	  cocktail.children('a').attr('href', 'Cocktail_post.jsp?id='+item.id);
+ 	cocktail.children('a').attr('href', 'Cocktail_post.jsp?id='+item.id);
     cocktail.find('img').attr('src', item.image);
     cocktail.find('img').attr('alt', item.name);
     cocktail.children('.itemTitle').text(item.name);
     $.each(item.tags, function(index, tag_item) {
       cocktail.children('.itemTagsBox').append($('<div/>', {
         class: "itemTags",
+		desc: tag_item.desc,
         text: tag_item.name
       }));
     });
 
     $('#cocktailContents').append(cocktail);
 }
-      
+
 function getSessionData() {
   $.ajax({
     type:"post",
