@@ -35,6 +35,29 @@ public class MemberDAO {
 		}
 		return member;
 	}
+	public MemberVO loginCheck(String id, String pw) {
+		MemberVO member = null;
+		try {
+			conn = JDBCConnection.getConnection();
+			String sql = "SELECT * FROM MEMBER WHERE LOGIN_ID=? AND PASSWORD=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, id);
+			stmt.setString(2, pw);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				member = new MemberVO();
+				member.setMember_id(rs.getInt("MEMBER_ID"));
+				member.setLogin_id(rs.getString("LOGIN_ID"));
+				member.setName(rs.getString("NAME"));
+				member.setPassword(rs.getString("PASSWORD"));
+			} 
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, stmt, conn);
+		}
+		return member;
+	}
 	public int addMember(MemberVO member) {
 		int cnt = -1;
 		try {

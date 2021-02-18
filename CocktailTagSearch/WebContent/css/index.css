@@ -48,6 +48,10 @@ footer::after {
 
   top: 0;
 }
+#sign {
+  position:absolute;
+  right:0;
+}
 #cocktailContents {
   background-color: #ffdda8;
   padding: 5px;

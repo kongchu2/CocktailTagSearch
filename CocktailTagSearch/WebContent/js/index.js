@@ -10,6 +10,7 @@ var selectTagList = [];
 var save_search_sentence = "";
 
 $(document).ready(loadData);
+$(document).ready(getSessionData);
 
 search.addEventListener("keyup", showNotFound);
 search.addEventListener("keydown", hideComplete);
@@ -203,7 +204,7 @@ function loadCocktailData() {
 function loadTagData() {
   $.ajax({
     type:"post",
-	url:"http://localhost:8090/CocktailTagSearch/LoadTag",
+	  url:"http://localhost:8090/CocktailTagSearch/LoadTag",
 		
 	success:function(data) {
 	  if(data != null) {
@@ -244,3 +245,23 @@ function createCocktail(index, item) {
     $('#cocktailContents').append(cocktail);
 }
       
+function getSessionData() {
+  $.ajax({
+    type:"post",
+	  url:"http://localhost:8090/CocktailTagSearch/SessionData",
+    success: function(data) {
+      if(data.signed == "0") {
+        var html = "<a href='login.html'>로그인</a>";
+        $('#sign').append(html);
+      } else {
+        var html = "<p>" + data.user.name + "님 안녕하세요.</p>\n<a href='javascript:logout()'>로그아웃</a>";
+        $('#sign').append(html);
+      }
+    }
+  });
+}
+
+function logout() {
+  fetch('http://localhost:8090/CocktailTagSearch/Logout');
+  location.reload();
+}
