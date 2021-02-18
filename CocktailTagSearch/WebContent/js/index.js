@@ -9,10 +9,6 @@ var selectTagList = [];
 
 var save_search_sentence = "";
 
-$(function () {
-	$('[data-toggle="tooltip"]').tooltip()
-})
-
 $(document).ready(loadData);
 $(document).ready(getSessionData);
 
@@ -176,10 +172,6 @@ function searchTest() {
 	    if(data != null) {
 	    $.each(data.cocktails, createCocktail);
 		  $('.cocktailItems').each(function(index, item) {
-            item.addEventListener("mouseover", styleAppendOver);
-            item.addEventListener("mouseout", styleAppendOut);
-          });
-		  $('.itemTags').each(function(index, item) {
             item.addEventListener("mouseover", styleAppendOver);
             item.addEventListener("mouseout", styleAppendOut);
           });
