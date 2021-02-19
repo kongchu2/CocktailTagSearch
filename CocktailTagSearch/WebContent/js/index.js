@@ -119,13 +119,14 @@ function addTag() {
 
 function removeTag() {
   var thisName = this.textContent;
-    this.parentNode.removeChild(this);
     $.each(selectTagList, function(index, item) {
       if(item.name === thisName) {
         selectTagList.splice(index, 1);
+		return false;
       }
     })
 
+    this.parentNode.removeChild(this);
 
 	getAutocompleteTags();
 	searchTest();

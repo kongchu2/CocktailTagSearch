@@ -63,9 +63,7 @@ public class Search extends HttpServlet {
 
 		HashMap<String, Object> hashMap = null;
 		JSONObject tagJson = null;
-		System.out.println(tagStr);
 		for(TagVO tag : tagList) {
-			System.out.println(tag.getName());
 			if(tag.getName().contains(searchStr) && !tagIdList.contains(tag.getId())) {
 				hashMap = new HashMap<String, Object>();
 				

@@ -31,7 +31,7 @@ public class TagSearch extends HttpServlet {
 
 		PrintWriter out = response.getWriter();
 		
-		String searchStr = request.getParameter("search");
+		String searchStr = request.getParameter("search").trim();
 		String tagStr = request.getParameter("tags");
 		
 		JSONArray tagArray = null;
@@ -56,13 +56,33 @@ public class TagSearch extends HttpServlet {
 		
 		CocktailDAO dao = new CocktailDAO();
 		ArrayList<CocktailVO> cocktailList = null;
-		
+
 		if(tagIdList.size() == 0)
 			cocktailList = dao.getCocktailList();
-		else
-			cocktailList = dao.getCocktailListByTagList(tagIdList);
-		
+		else {
+			ArrayList<CocktailVO> tempCocktailList = dao.getCocktailListByTagList(tagIdList);
+			cocktailList = new ArrayList<CocktailVO>();
+			int save_before_cocktail_id = 0;
+			for(CocktailVO cocktail : tempCocktailList) {
+				int count = 0;
+				boolean flag = true;
+				
+				ArrayList<TagVO> tempTagList = cocktail.getTagList();
+				
+				if(save_before_cocktail_id == cocktail.getId())
+					continue;
+				save_before_cocktail_id = cocktail.getId();
 
+				for(TagVO tag : tempTagList) {
+					if(tagIdList.contains(tag.getId()))
+						count++;
+				}
+				if(count < tagIdList.size()) 
+					flag = false;
+				if(flag) 
+					cocktailList.add(cocktail);
+			}
+		}
 		String json = null;
 		HashMap<String, Object> hashMap = null;
 		
