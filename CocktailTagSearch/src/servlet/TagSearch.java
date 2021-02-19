@@ -1,5 +1,5 @@
 package servlet;
- 
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -16,8 +16,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import Cocktail.CocktailDAO;
-import Cocktail.CocktailVO;
+import Tag.TagDAO;
 import Tag.TagVO;
 
 @WebServlet("/TagSearch")
@@ -28,10 +27,10 @@ public class TagSearch extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json;charset=UTF-8");
-
+		
 		PrintWriter out = response.getWriter();
 		
-		String searchStr = request.getParameter("search").trim();
+		String searchStr = request.getParameter("search");
 		String tagStr = request.getParameter("tags");
 		
 		JSONArray tagArray = null;
@@ -54,92 +53,41 @@ public class TagSearch extends HttpServlet {
 			}
 		}
 		
-		CocktailDAO dao = new CocktailDAO();
-		ArrayList<CocktailVO> cocktailList = null;
-
-		if(tagIdList.size() == 0)
-			cocktailList = dao.getCocktailList();
-		else {
-			ArrayList<CocktailVO> tempCocktailList = dao.getCocktailListByTagList(tagIdList);
-			cocktailList = new ArrayList<CocktailVO>();
-			int save_before_cocktail_id = 0;
-			for(CocktailVO cocktail : tempCocktailList) {
-				int count = 0;
-				boolean flag = true;
-				
-				ArrayList<TagVO> tempTagList = cocktail.getTagList();
-				
-				if(save_before_cocktail_id == cocktail.getId())
-					continue;
-				save_before_cocktail_id = cocktail.getId();
-
-				for(TagVO tag : tempTagList) {
-					if(tagIdList.contains(tag.getId()))
-						count++;
-				}
-				if(count < tagIdList.size()) 
-					flag = false;
-				if(flag) 
-					cocktailList.add(cocktail);
-			}
-		}
-		String json = null;
-		HashMap<String, Object> hashMap = null;
+		TagDAO tag_dao = new TagDAO();
+		ArrayList<TagVO> tagList = tag_dao.getTagList();
 		
-		JSONArray cocktailArray = new JSONArray();
-		for(CocktailVO cocktail : cocktailList) {
-			
-			if(cocktail.getName().contains(searchStr)) {
-				hashMap = new HashMap<String, Object>();
-				hashMap.put("id", cocktail.getId());
-				hashMap.put("name", cocktail.getName());
-				hashMap.put("image", cocktail.getImage());
-				hashMap.put("desc", cocktail.getDesc());
-				hashMap.put("history", cocktail.getHistory());
-				hashMap.put("taste", cocktail.getTaste());
-				hashMap.put("base", cocktail.getBase());
-				hashMap.put("build", cocktail.getBuild());
-				hashMap.put("glass", cocktail.getGlass());
+		JSONObject json = null;
+		JSONArray tags = new JSONArray();
+		
+		boolean isExist = false;
 
+		HashMap<String, Object> hashMap = null;
+		JSONObject tagJson = null;
+		for(TagVO tag : tagList) {
+			if(tag.getName().contains(searchStr) && !tagIdList.contains(tag.getId())) {
+				hashMap = new HashMap<String, Object>();
 				
-				JSONArray tempTagArray = new JSONArray();
-				JSONObject tagJson = null;
-				HashMap<String, Object> tempHashMap = null;
-				for(TagVO tag : cocktail.getTagList()) {
-					tempHashMap = new HashMap<String, Object>();
-					
-					tempHashMap.put("id", tag.getId());
-					tempHashMap.put("name", tag.getName());
-					tempHashMap.put("desc", tag.getDesc());
-					tempHashMap.put("category", tag.getCategory());
-					
-					tagJson = new JSONObject(tempHashMap);
-					tempTagArray.add(tagJson);
-				}
+				hashMap.put("id", tag.getId());
+				hashMap.put("name", tag.getName());
 				
-				hashMap.put("tags", tempTagArray);
-				
-				JSONObject cocktailJson = new JSONObject(hashMap);
-				cocktailArray.add(cocktailJson);
-				
+				tagJson = new JSONObject(hashMap);
+				tags.add(tagJson);
+				isExist = true;
 			}
-			
 			hashMap = null;
 		}
-		
-		if(cocktailArray.size() > 0) {
-			json = "{\"cocktails\":[";
-			for(int i=0; i<cocktailArray.size(); i++) {
-				if(i>0) json += ",";
-				json += cocktailArray.get(i);
-			}
-			json += "]}";
+		hashMap = new HashMap<String, Object>();
+		hashMap.put("tags", tags);
+		json = new JSONObject(hashMap);
+
+		if(isExist) {
+			out.print(json);
+		} else {
+			out.print("");
 		}
-		
-		out.print(json);
-		
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
+
 }

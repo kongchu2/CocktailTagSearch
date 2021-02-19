@@ -10,13 +10,11 @@ var selectTagList = [];
 var save_search_sentence = "";
 
 $(document).ready(loadData);
-$(document).ready(getSessionData);
-$(document).ready(getAutocompleteTags);
 
 search.addEventListener("keyup", showNotFound);
 search.addEventListener("keydown", hideComplete);
 search.addEventListener("input", getAutocompleteTags);
-search.addEventListener('input', searchTest);
+search.addEventListener('input', getCocktailItems);
 
 search.addEventListener("focus", function() {
   autocomplete.style.display = "block";
@@ -25,18 +23,6 @@ search.addEventListener("focus", function() {
 search.addEventListener("focusout", function() {
   autocomplete.style.display = "none";
 });
-
- 
-for(var i=0; i<autocompleteTag.length; i++) {
-  autocompleteTag[i].addEventListener("mouseover", showComplete);
-  autocompleteTag[i].addEventListener("mouseout", hideComplete);
-  autocompleteTag[i].addEventListener("mousedown", addTag);
-}
-
-for(var i=0; i<hoverSize; i++) {
-  hover[i].addEventListener("mouseover", styleAppendOver);
-  hover[i].addEventListener("mouseout", styleAppendOut);
-}
 
 // 모든 칵테일이 표시가 안될 때 Not Found 표시
 function showNotFound() {
@@ -109,10 +95,12 @@ function addTag() {
     }
   }
 
+  this.parentNode.removeChild(this);
+
   setTimeout(function() {  
     search.value = "";
 	getAutocompleteTags();
-	searchTest();
+	getCocktailItems();
     showNotFound();
   }, 0.001);
 }
@@ -129,7 +117,7 @@ function removeTag() {
     this.parentNode.removeChild(this);
 
 	getAutocompleteTags();
-	searchTest();
+	getCocktailItems();
     showNotFound();
 
 }
@@ -137,7 +125,7 @@ function removeTag() {
 function getAutocompleteTags() {
   $.ajax({
 		type:"post",
-		url:"http://localhost:8090/CocktailTagSearch/search",
+		url:"http://localhost:8090/CocktailTagSearch/TagSearch",
 		dataType:"json",
 		data: {
 		  search: $("#searchText").val(),
@@ -164,10 +152,10 @@ function getAutocompleteTags() {
   });
 }
 
-function searchTest() {
+function getCocktailItems() {
   $.ajax({
     type:"post",
-		url:"http://localhost:8090/CocktailTagSearch/TagSearch",
+		url:"http://localhost:8090/CocktailTagSearch/CocktailSearch",
     dataType:"json",
 		data: {
 		  search: $("#searchText").val(),
@@ -187,42 +175,9 @@ function searchTest() {
 }
 
 function loadData() {
-	loadCocktailData();
-	loadTagData();
-}
-
-function loadCocktailData() {
-  $.ajax({
-    type:"post",
-	  url:"http://localhost:8090/CocktailTagSearch/LoadCocktail",
-	  success:function(data) {
-      if(data != null) {
-        $.each(data.cocktails, createCocktail);
-        $('.cocktailItems').each(function(index, item) {
-          item.addEventListener("mouseover", styleAppendOver);
-          item.addEventListener("mouseout", styleAppendOut);
-        });
-      }
-    }		
-  });
-}
-
-function loadTagData() {
-  $.ajax({
-    type:"post",
-	  url:"http://localhost:8090/CocktailTagSearch/LoadTag",
-		
-	success:function(data) {
-	  if(data != null) {
-	    $.each(data.tags, createTag);
-		$('.autocompleteTags').each(function(index, item) {
-          item.addEventListener("mouseover", showComplete);
- 		  item.addEventListener("mouseout", hideComplete);
- 		  item.addEventListener("mousedown", addTag);
-        });
-      }
-    }		
-  });
+	getSessionData();
+	getAutocompleteTags();
+	getCocktailItems();
 }
 
 function createTag(index, item) {
