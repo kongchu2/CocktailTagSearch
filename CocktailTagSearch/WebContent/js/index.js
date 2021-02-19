@@ -11,6 +11,7 @@ var save_search_sentence = "";
 
 $(document).ready(loadData);
 $(document).ready(getSessionData);
+$(document).ready(getAutocompleteTags);
 
 search.addEventListener("keyup", showNotFound);
 search.addEventListener("keydown", hideComplete);
@@ -94,7 +95,6 @@ function addTag() {
   var tag = document.createElement("div");
   tag.setAttribute("class", "searchTags"); 
   tag.addEventListener("click", removeTag);
-  tag.addEventListener("click", searchTest);
 
   value = this.textContent.toUpperCase();
   tag.innerText = value;
@@ -103,29 +103,32 @@ function addTag() {
   input.appendChild(tag);
 
   for(var i=0;i<autocompleteTagList.length;i++) {
-	console.log(autocompleteTagList[i]);
     if(value === autocompleteTagList[i].name) {
       selectTagList.push(autocompleteTagList[i]);
       break;
     }
   }
-  
+
   setTimeout(function() {  
     search.value = "";
+	getAutocompleteTags();
 	searchTest();
     showNotFound();
   }, 0.001);
 }
 
 function removeTag() {
+  var thisName = this.textContent;
+    this.parentNode.removeChild(this);
     $.each(selectTagList, function(index, item) {
-      if(item.name === this.name) {
+      if(item.name === thisName) {
         selectTagList.splice(index, 1);
       }
     })
 
-    this.parentNode.removeChild(this);
 
+	getAutocompleteTags();
+	searchTest();
     showNotFound();
 
 }
@@ -134,8 +137,10 @@ function getAutocompleteTags() {
   $.ajax({
 		type:"post",
 		url:"http://localhost:8090/CocktailTagSearch/search",
+		dataType:"json",
 		data: {
-		  search: $("#searchText").val()
+		  search: $("#searchText").val(),
+	      tags: JSON.stringify(selectTagList)
 		},
 		success:function(data) {
 			if(data === "")
@@ -143,16 +148,16 @@ function getAutocompleteTags() {
       $("#autocompleteTagsContents").html("");
       autocompleteTagList = [];
       $.each(data.tags, function(index, item) {
-        $("#autocompleteTagsContents").append("<div class='autocompleteTags'>" + item.name + "</div>");
+        createTag(index, item);
         autocompleteTagList.push({name:item.name, id:item.id});
       });
 
-	    autocompleteTag = document.querySelectorAll(".autocompleteTags");
+	    
+	autocompleteTag = document.querySelectorAll(".autocompleteTags");
 			$.each(autocompleteTag, function(index, item) {
         item.addEventListener("mouseover", showComplete);
 	      item.addEventListener("mouseout", hideComplete);
         item.addEventListener("mousedown", addTag);
-        item.addEventListener("mousedown", searchTest);
       });
 	  }   
   });

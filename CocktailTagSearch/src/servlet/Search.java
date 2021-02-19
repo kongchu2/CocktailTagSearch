@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import Tag.TagDAO;
 import Tag.TagVO;
@@ -29,6 +31,27 @@ public class Search extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		String searchStr = request.getParameter("search");
+		String tagStr = request.getParameter("tags");
+		
+		JSONArray tagArray = null;
+		try {
+			JSONParser parser = new JSONParser();
+			tagArray = (JSONArray)parser.parse(tagStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		ArrayList<Integer> tagIdList = new ArrayList<Integer>();
+		
+		for(int i=0;i<tagArray.size();i++) {
+			Object tag = tagArray.get(i);
+			if(tag instanceof JSONObject) {
+				Object tagIdObject = ((JSONObject) tag).get("id");
+				if(tagIdObject instanceof java.lang.Long) {
+					tagIdList.add(((Long)tagIdObject).intValue());
+				}
+			}
+		}
 		
 		TagDAO tag_dao = new TagDAO();
 		ArrayList<TagVO> tagList = tag_dao.getTagList();
@@ -40,9 +63,10 @@ public class Search extends HttpServlet {
 
 		HashMap<String, Object> hashMap = null;
 		JSONObject tagJson = null;
-		
+		System.out.println(tagStr);
 		for(TagVO tag : tagList) {
-			if(tag.getName().contains(searchStr)) {
+			System.out.println(tag.getName());
+			if(tag.getName().contains(searchStr) && !tagIdList.contains(tag.getId())) {
 				hashMap = new HashMap<String, Object>();
 				
 				hashMap.put("id", tag.getId());
