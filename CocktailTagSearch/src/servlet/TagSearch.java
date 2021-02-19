@@ -63,8 +63,11 @@ public class TagSearch extends HttpServlet {
 
 		HashMap<String, Object> hashMap = null;
 		JSONObject tagJson = null;
+		int tagCount = 0;
+		int limit = 3; // 최대로 보여줄 태그 수
 		for(TagVO tag : tagList) {
-			if(tag.getName().contains(searchStr) && !tagIdList.contains(tag.getId())) {
+			if(tag.getName().contains(searchStr) && !tagIdList.contains(tag.getId()) && tagCount < limit) {
+				tagCount++;
 				hashMap = new HashMap<String, Object>();
 				
 				hashMap.put("id", tag.getId());
