@@ -18,12 +18,14 @@ function getSessionData() {
 		  $.each(data.cocktail, function(index, item) {
 			$('#myPageCocktailContents').append($('<div/>', {
 		      class: "myPageCocktails",
+			  desc: item.desc,
 		      text: item.name
 		    }));
 		  });
 		  $.each(data.tag, function(index, item) {
 			$('#myPageTagContents').append($('<div/>', {
 		      class: "myPageTags",
+			  desc: item.desc,
 		      text: item.name
 		    }));
 		  });

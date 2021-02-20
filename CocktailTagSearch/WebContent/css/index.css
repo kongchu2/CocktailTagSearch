@@ -162,7 +162,6 @@ footer::after {
   margin-top: 40px;
   display: flex;
   flex-wrap: wrap;
-  align-content: center;
   flex-direction: column;
   
   position: relative;
@@ -170,7 +169,7 @@ footer::after {
   box-shadow: 0px 0px 4px black;
 
   height: auto;
-  width: 95%;
+  width: 720px;
 }
 #myPageTitleContents {
   padding: 5px;
@@ -183,6 +182,54 @@ footer::after {
 
   height: 60px;
   width: 300px;
+}
+#myPageProfileContents {
+  margin-top: 30px;
+	
+  position: relative;
+  
+  overflow: visible;
+  
+  display: flex;
+  
+  justify-content: center;
+  
+  width: 100%;
+  
+}
+#myPageUserContents {
+  background-color: #CCFFEC;
+  
+  border: 1px solid black;
+  border-radius: 10px;
+  
+  overflow: visible;
+  
+  width: 180px;
+  height: 110px;
+  
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+  
+  flex-direction: column;
+  
+  text-align: center;
+}
+#myPageCocktailContents, #myPageTagContents {
+  background-color: #CCFFEC;
+  
+  padding: 10px;
+  
+  overflow: visible;
+  
+  border: 1px solid black;
+  border-radius: 10px;
+  
+  width: 200px;
+  
+  text-align: center;
 }
 #search {
   background-color: white;
@@ -320,7 +367,7 @@ footer::after {
   
   position: relative;
   
-  padding: 4px;
+  padding: 4px 8px;
   margin: 0.5vh 0.2vh;
 
   display: inline-block;
@@ -370,7 +417,8 @@ footer::after {
 }
 .searchTags {
   background-color: rgba(153, 233, 167, 0.8);
-  padding: 4px;
+  
+  padding: 4px 8px;
   margin: 0.5vh 0.4vh;
 
   display: inline-block;
@@ -401,8 +449,11 @@ footer::after {
 }
 .tagBlock {
   background-color: rgba(153, 233, 167, 0.8);
-  padding: 4px;
+  
+  padding: 4px 8px;
   margin: 0.5vh 0.2vh;
+
+  color: black;
 
   display: inline-block;
 
@@ -422,23 +473,42 @@ footer::after {
 
   height: 45%;
 }
-.myPageName::before {
-  content: "이름: ";
+.myPageName {
+  font-size: 20pt;
+  font-weight: 500;
+  font-family: 휴먼모음T, HY견고딕;
+  
+  color: #240011;
 }
-.myPageId::before {
-  content: "아이디: ";
+.myPageId{
+  font-size: 12pt;
+  font-family: Narrow, Narrow;
+}
+.myPageCocktails:not(:first-child), .myPageTags:not(:first-child) {
+  padding: 4px 8px;
+  margin: 0.5vh 0.2vh;
+
+  maring: auto;
+
+  cursor: pointer;
+  
+  border-radius: 40px;
+}
+.myPageCocktails:not(:first-child) {
+  background-color: rgba(153, 233, 240, 0.8);
+}
+.myPageTags:not(:first-child) {
+  display: inline-block;
+  background-color: rgba(153, 233, 167, 0.8);
 }
 .myPageCocktails:first-child::before {
-  content: "좋아하는 칵테일 : ";
-}
-.myPageCocktails:not(:first-child)::before {
-  content: " | ";
+  content: "LOVE COCKTAIL";
 }
 .myPageTags:first-child::before {
-  content: "좋아하는 태그: ";
+  content: "LOVE TAG";
 }
-.myPageTags:not(:first-child)::before {
-  content: " | ";
+.myPageCocktails:first-child, .myPageTags:first-child {
+  border-bottom: 1px solid black;
 }
 #likeimg {
   position:absolute;
