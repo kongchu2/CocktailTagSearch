@@ -208,17 +208,62 @@ function createCocktail(index, item) {
     $('#cocktailContents').append(cocktail);
 }
 
+function createSignName(name) {
+	$('#sign').append($('<div/>', {
+      class: "sign_name",
+      text: name
+    }));
+}
+function createSignUp() {
+	$('#sign').append($('<div/>', {
+      class: "sign_up",
+	  text: "회원가입"
+    }));
+	$('.sign_up').on("click", function() {
+		location.href = 'signup.jsp';
+	});
+}
+function createSignIn() {
+	$('#sign').append($('<div/>', {
+      class: "sign_in",
+      text: "로그인"
+    }));
+	$('.sign_in').on("click", function() {
+		location.href = 'login.html';
+	});
+	  
+}
+function createSignOut() {
+	$('#sign').append($('<div/>', {
+      class: "sign_out",
+	  text: "로그아웃"
+    }));
+	$('.sign_out').on("click", function() {
+		location.href = 'javascript:logout()';
+	});
+}
+function createMyPageLink() {
+	$('#sign').append($('<div/>', {
+      class: "myPageLink",
+	  text: "마이페이지"
+    }));
+	$('.myPageLink').on("click", function() {
+		location.href = 'myPage.html';
+	});
+}
+
 function getSessionData() {
   $.ajax({
     type:"post",
 	  url:"http://localhost:8090/CocktailTagSearch/SessionData",
     success: function(data) {
       if(data.signed == "0") {
-        var html = "<a href='login.html'>로그인</a>\n<a href='signup.jsp'>회원가입</a>";
-        $('#sign').append(html);
+        createSignIn();
+		createSignUp();
       } else {
-        var html = "<p>" + data.user.name + "님 안녕하세요.</p>\n<a href='javascript:logout()'>로그아웃</a>\n<a href='myPage.html'>마이페이지</a>";
-        $('#sign').append(html);
+		createSignOut();
+		createMyPageLink();
+        createSignName(data.user.name);
       }
     }
   });

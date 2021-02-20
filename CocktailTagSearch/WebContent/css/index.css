@@ -49,7 +49,13 @@ footer::after {
   top: 0;
 }
 #sign {
-  position:absolute;
+  margin: 8px 10px;
+  padding: 5px;
+  
+  display: flex;
+  justify-content: center;
+  
+  position: fixed;
   right:0;
 }
 #cocktailContents {
@@ -70,6 +76,7 @@ footer::after {
 #postContents {
   background-color: #ffdda8;
   padding: 20px 5px;
+  padding-top: 10px;
   margin-top: 40px;
   display: flex;
   flex-wrap: wrap;
@@ -433,7 +440,9 @@ footer::after {
   padding: 10px;
   padding-left: 15px;
 
-  font-size: 17pt;
+  font-size: 25pt;
+  font-weight: border;
+  font-family: 'Nanum Pen Script';
 
   height: auto;
 }
@@ -473,6 +482,37 @@ footer::after {
 
   height: 45%;
 }
+.sign_name {
+  padding: 7px 17px;
+  margin-left: 20px;
+  
+  color: #001122;
+  font-weight: border;
+  
+  display: flex;
+  align-items: center;
+  
+  border: 1.2px solid #AD7300;
+  
+  background-color: #F9A600;
+  border-radius: 8px;
+}
+.sign_in, .sign_up, .sign_out, .myPageLink {
+  padding: 7px 30px;
+  margin: 0 5px;
+  
+  background-color: #875A00;
+  
+  color: white;
+  text-decoration: none;
+  
+  display: flex;
+  align-items: center;
+  
+  cursor: pointer;
+  
+  border-radius: 8px;
+}
 .myPageName {
   font-size: 20pt;
   font-weight: 500;
@@ -488,7 +528,7 @@ footer::after {
   padding: 4px 8px;
   margin: 0.5vh 0.2vh;
 
-  maring: auto;
+  margin: auto;
 
   cursor: pointer;
   
@@ -510,9 +550,14 @@ footer::after {
 .myPageCocktails:first-child, .myPageTags:first-child {
   border-bottom: 1px solid black;
 }
+.myPageCocktails:not(:first-child), .myPageTags:not(:first-child) {
+  padding: 4px 8px;
+  margin: 0.5vh 0.4vh;
+}
 #likeimg {
   position:absolute;
-  right:10px;
+  right:25px;
+  top: 13px;
 
   width :50px;
   height:50px;
