@@ -113,4 +113,62 @@ public class MemberDAO {
 		}
 		return cnt;
 	}
+	public boolean switchlikePost(int memberId, int cocktailId) {
+		boolean like = false;
+		try {
+			conn = JDBCConnection.getConnection();
+			conn.setAutoCommit(false);
+			String sql = "SELECT * FROM FAVORITE_COCKTAIL WHERE MEMBER_ID=? AND COCKTAIL_ID=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, memberId);
+			stmt.setInt(2, cocktailId);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				sql = "DELETE FROM FAVORITE_COCKTAIL WHERE MEMBER_ID=? AND COCKTAIL_ID=?";
+			} else {
+				like = true;
+				sql = "INSERT INTO FAVORITE_COCKTAIL VALUES(?, ?)";
+			}
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, memberId);
+			stmt.setInt(2, cocktailId);
+			int count = stmt.executeUpdate();
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(stmt, conn);
+		}
+		return like;
+	}
+	public boolean isLikedPost(int memberId, int cocktailId) {
+		boolean like = false;
+		try {
+			conn = JDBCConnection.getConnection();
+			conn.setAutoCommit(false);
+			String sql = "SELECT * FROM FAVORITE_COCKTAIL WHERE MEMBER_ID=? AND COCKTAIL_ID=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, memberId);
+			stmt.setInt(2, cocktailId);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				like = true;
+			}
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(stmt, conn);
+		}
+		return like;
+	}
 }

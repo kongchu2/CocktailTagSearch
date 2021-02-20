@@ -5,7 +5,7 @@
 <%@page import="Cocktail.CocktailVO"%>
 <%@page import="Cocktail.CocktailDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" session = "false"%>
 <%
 request.setCharacterEncoding("UTF-8");
 %>
@@ -29,7 +29,7 @@ request.setCharacterEncoding("UTF-8");
 	%>
     <div id="contents">
         <div id="menuContents">
-            
+            <img src="image/notFilledHeart.png" id="likeimg">
         </div>
         <div id="postContents">
             <div id="postTitleContents">
@@ -87,5 +87,8 @@ request.setCharacterEncoding("UTF-8");
 		<footer>
         </footer>
     </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="js/post.js"></script>
+    <script>var postId=<%=postId%></script>
 </body>
 </html>

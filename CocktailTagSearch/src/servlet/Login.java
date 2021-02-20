@@ -30,7 +30,7 @@ public class Login extends HttpServlet {
 		MemberVO member = dao.loginCheck(id, pw);
 		
 		if(member != null) {
-			session.setAttribute("userId", id);
+			session.setAttribute("userId", member.getMember_id());
 			session.setAttribute("userName", member.getName());
 			response.sendRedirect("index.html");
 		} else {

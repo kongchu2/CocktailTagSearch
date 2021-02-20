@@ -8,36 +8,33 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
-@WebServlet("/SessionData")
-public class SessionData extends HttpServlet {
+import Member.MemberDAO;
+
+@WebServlet("/GetPostLike")
+public class GetPostLike extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
+		 
+		int cocktailId = Integer.parseInt(request.getParameter("cocktailId"));
+		int userId = Integer.parseInt(request.getParameter("userId"));
+		
+		MemberDAO dao = new MemberDAO();
+		boolean isLiked = dao.isLikedPost(cocktailId, userId);
+		
 		JSONObject json = new JSONObject();
-		HttpSession session = request.getSession(false);
-		if(session == null) {
-			json.put("signed", "0");
-		} else {
-			json.put("signed", "1");
-			String name = (String) session.getAttribute("userName");
-			int id = (Integer) session.getAttribute("userId");
-			
-			JSONObject user = new JSONObject();
-			user.put("id", id);
-			user.put("name", name);
-			json.put("user", user);
-		}
+		json.put("isLiked", isLiked ? "1":"0");
+		
 		out.print(json);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }
