@@ -32,9 +32,9 @@ public class FavoriteCocktailDAO {
 				int memberId = rs.getInt("MEMBER_ID");
 				
 				favoriteCocktail = new FavoriteCocktailVO();
-				
-				favoriteCocktail.setMemberId(cocktailId);
-				favoriteCocktail.setCocktailId(memberId);
+
+				favoriteCocktail.setMember_id(memberId);
+				favoriteCocktail.setCocktail_id(cocktailId);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -61,9 +61,9 @@ public class FavoriteCocktailDAO {
 				int memberId = rs.getInt("MEMBER_ID");
 				
 				favoriteCocktail = new FavoriteCocktailVO();
-				
-				favoriteCocktail.setMemberId(cocktailId);
-				favoriteCocktail.setCocktailId(memberId);
+
+				favoriteCocktail.setMember_id(memberId);
+				favoriteCocktail.setCocktail_id(cocktailId);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();

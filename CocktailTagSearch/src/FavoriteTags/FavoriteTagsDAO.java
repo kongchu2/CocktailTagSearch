@@ -34,8 +34,8 @@ public class FavoriteTagsDAO {
 				
 				favoriteTag = new FavoriteTagsVO();
 				
-				favoriteTag.setMemberId(tagId);
-				favoriteTag.setTagId(memberId);
+				favoriteTag.setMember_id(memberId);
+				favoriteTag.setTag_id(tagId);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -47,7 +47,7 @@ public class FavoriteTagsDAO {
 	public ArrayList<FavoriteTagsVO> getFavoriteTagList() {
 		
 		ArrayList<FavoriteTagsVO> favoriteTagList = new ArrayList<FavoriteTagsVO>();
-		FavoriteCocktailVO favoriteTag = null;
+		FavoriteTagsVO favoriteTag = null;
 		
 		try {
 			conn = JDBCConnection.getConnection();
@@ -58,13 +58,13 @@ public class FavoriteTagsDAO {
 			
 			while(rs.next())
 			{
-				int cocktailId = rs.getInt("TAG_ID");
+				int tagId = rs.getInt("TAG_ID");
 				int memberId = rs.getInt("MEMBER_ID");
 				
-				favoriteTag = new FavoriteCocktailVO();
-				
-				favoriteTag.setMemberId(cocktailId);
-				favoriteTag.setCocktailId(memberId);
+				favoriteTag = new FavoriteTagsVO();
+
+				favoriteTag.setMember_id(memberId);
+				favoriteTag.setTag_id(tagId);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
