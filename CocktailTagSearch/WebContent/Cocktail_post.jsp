@@ -29,12 +29,12 @@ request.setCharacterEncoding("UTF-8");
 	%>
     <div id="contents">
         <div id="menuContents">
-            <img src="image/notFilledHeart.png" id="likeimg">
         </div>
         <div id="postContents">
             <div id="postTitleContents">
                 <div class="postTitle"><%=cocktail.getName()%></div>
             </div>
+            <img src="image/notFilledHeart.png" id="likeimg">
             <div id="cocktailImageContents">
                 <img src=<%=cocktail.getImage()%> alt="칵테일사진" class="cocktailImages">
             </div>
