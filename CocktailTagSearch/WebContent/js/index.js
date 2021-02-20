@@ -196,6 +196,7 @@ function createCocktail(index, item) {
     cocktail.find('img').attr('src', item.image);
     cocktail.find('img').attr('alt', item.name);
     cocktail.children('.itemTitle').text(item.name);
+    cocktail.children('.itemTitle').attr('desc', item.name);
     $.each(item.tags, function(index, tag_item) {
       cocktail.children('.itemTagsBox').append($('<div/>', {
         class: "itemTags",
