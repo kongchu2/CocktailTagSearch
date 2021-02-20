@@ -69,7 +69,6 @@ function setLikeIcon(isLiked) {
 
 
 function likeTag(tagId) {
-    console.log(tagId);
     if(userData.signed == "0") {
         return;
     }

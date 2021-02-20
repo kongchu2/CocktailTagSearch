@@ -447,6 +447,35 @@ footer::after {
   width :50px;
   height:50px;
 }
+#login {
+  margin:auto;
+  margin-top: 80px;
+  text-align: center;
+}
+#login h1 {
+  margin-bottom: 50px;
+}
+#login form {
+  width:200px;
+}
+#login input[type=text], #login input[type=password] {
+    border: 2px solid #d9a44a;
+    border-radius: 15px;
+    height: 55px;
+    width: 200px;
+    margin-right: auto;
+    margin-bottom: 30px;
+    margin-left: auto;
+    text-align: center;
+    background-color: transparent;
+}
+#login input[type=submit] {
+  height:65px;
+  width:190px;
+  border:none;
+  border-radius: 15px;
+  background-color: #d9a44a;
+}
 input::-ms-clear,
 input::-ms-reveal {
   display: none;
