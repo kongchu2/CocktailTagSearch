@@ -26,7 +26,7 @@ public class GetPostLike extends HttpServlet {
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		
 		MemberDAO dao = new MemberDAO();
-		boolean isLiked = dao.isLikedPost(cocktailId, userId);
+		boolean isLiked = dao.isLikedPost(userId, cocktailId);
 		
 		JSONObject json = new JSONObject();
 		json.put("isLiked", isLiked ? "1":"0");
