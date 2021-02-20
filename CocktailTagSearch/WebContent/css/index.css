@@ -156,6 +156,34 @@ footer::after {
   margin: 2% 5%;
   margin-bottom: 4%;
 }
+#myPageContents {
+  background-color: #ffdda8;
+  padding: 20px 5px;
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  flex-direction: column;
+  
+  position: relative;
+
+  box-shadow: 0px 0px 4px black;
+
+  height: auto;
+  width: 95%;
+}
+#myPageTitleContents {
+  padding: 5px;
+  margin: auto;
+  margin-top: -10px;
+
+  border-bottom: 1.2px solid black;
+  
+  position: relative;
+
+  height: 60px;
+  width: 300px;
+}
 #search {
   background-color: white;
 
@@ -361,6 +389,16 @@ footer::after {
 
   height: auto;
 }
+.myPageTitle {
+  padding: 10px;
+
+  font-size: 25pt;
+  font-weight: bolder;
+
+  text-align: center;
+
+  height: auto;
+}
 .tagBlock {
   background-color: rgba(153, 233, 167, 0.8);
   padding: 4px;
@@ -383,6 +421,24 @@ footer::after {
   cursor: pointer;
 
   height: 45%;
+}
+.myPageName::before {
+  content: "이름: ";
+}
+.myPageId::before {
+  content: "아이디: ";
+}
+.myPageCocktails:first-child::before {
+  content: "좋아하는 칵테일 : ";
+}
+.myPageCocktails:not(:first-child)::before {
+  content: " | ";
+}
+.myPageTags:first-child::before {
+  content: "좋아하는 태그: ";
+}
+.myPageTags:not(:first-child)::before {
+  content: " | ";
 }
 #likeimg {
   position:absolute;

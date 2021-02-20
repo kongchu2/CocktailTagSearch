@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import basic.JDBCConnection;
 
@@ -34,6 +35,30 @@ public class MemberDAO {
 			JDBCConnection.close(rs, stmt, conn);
 		}
 		return member;
+	}
+	public ArrayList<MemberVO> getMemberList() {
+		ArrayList<MemberVO> memberList = new ArrayList<MemberVO>();
+		MemberVO member = null;
+		try {
+			conn = JDBCConnection.getConnection();
+			String sql = "SELECT * FROM MEMBER";
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				member = new MemberVO();
+				member.setMember_id(rs.getInt("MEMBER_ID"));
+				member.setLogin_id(rs.getString("LOGIN_ID"));
+				member.setName(rs.getString("NAME"));
+				member.setPassword(rs.getString("PASSWORD"));
+				
+				memberList.add(member);
+			} 
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, stmt, conn);
+		}
+		return memberList;
 	}
 	public MemberVO loginCheck(String id, String pw) {
 		MemberVO member = null;

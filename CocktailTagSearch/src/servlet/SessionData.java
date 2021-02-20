@@ -26,9 +26,11 @@ public class SessionData extends HttpServlet {
 		} else {
 			json.put("signed", "1");
 			String name = (String) session.getAttribute("userName");
+			String login_id = (String) session.getAttribute("userLogin_id");
 			int id = (Integer) session.getAttribute("userId");
 			
 			JSONObject user = new JSONObject();
+			user.put("login_id", login_id);
 			user.put("id", id);
 			user.put("name", name);
 			json.put("user", user);

@@ -31,6 +31,7 @@ public class Login extends HttpServlet {
 		
 		if(member != null) {
 			session.setAttribute("userId", member.getMember_id());
+			session.setAttribute("userLogin_id", member.getLogin_id());
 			session.setAttribute("userName", member.getName());
 			response.sendRedirect("index.html");
 		} else {
