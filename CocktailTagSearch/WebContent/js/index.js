@@ -213,7 +213,7 @@ function getSessionData() {
 	  url:"http://localhost:8090/CocktailTagSearch/SessionData",
     success: function(data) {
       if(data.signed == "0") {
-        var html = "<a href='login.html'>로그인</a>";
+        var html = "<a href='login.html'>로그인</a>\n<a href='signup.jsp'>회원가입</a>";
         $('#sign').append(html);
       } else {
         var html = "<p>" + data.user.name + "님 안녕하세요.</p>\n<a href='javascript:logout()'>로그아웃</a>";

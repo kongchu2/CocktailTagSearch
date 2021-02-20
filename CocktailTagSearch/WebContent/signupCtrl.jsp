@@ -23,9 +23,9 @@
 		newMember.setPassword(pw);
 		int cnt = dao.addMember(newMember);
 		if(cnt > 0) {
-			out.print("성공");
+			out.print("성공<a href='index.html'>메인 화면으로 돌아가기</a>");
 		} else {
-			out.print("실패");
+			out.print("실패<a href='index.html'>메인 화면으로 돌아가기</a>");
 		}
 	}
 	
