@@ -171,4 +171,37 @@ public class MemberDAO {
 		}
 		return like;
 	}
+	public boolean switchlikeTag(int memberId, int tagId) {
+		boolean like = false;
+		try {
+			conn = JDBCConnection.getConnection();
+			conn.setAutoCommit(false);
+			String sql = "SELECT * FROM FAVORITE_TAGS WHERE MEMBER_ID=? AND TAG_ID=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, memberId);
+			stmt.setInt(2, tagId);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				sql = "DELETE FROM FAVORITE_TAGS WHERE MEMBER_ID=? AND TAG_ID=?";
+			} else {
+				like = true;
+				sql = "INSERT INTO FAVORITE_TAGS VALUES(?, ?)";
+			}
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, memberId);
+			stmt.setInt(2, tagId);
+			int count = stmt.executeUpdate();
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(stmt, conn);
+		}
+		return like;
+	}
 }

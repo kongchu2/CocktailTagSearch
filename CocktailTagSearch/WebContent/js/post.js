@@ -66,3 +66,26 @@ function setLikeIcon(isLiked) {
     }
     $('#likeimg').attr('src', path);
 }
+
+
+function likeTag(tagId) {
+    console.log(tagId);
+    if(userData.signed == "0") {
+        return;
+    }
+    $.ajax({
+        type:"post",
+        url:"http://localhost:8090/CocktailTagSearch/AddTagLike",
+        data: {
+            tagId: tagId,
+            userId:userData.user.id
+        },
+        success: function(data) {
+            if(data.isLiked == "0") {
+                alert("좋아하는 태그에 추가되었습니다.");
+            } else {
+                alert("좋아하는 태그에서 삭제되었습니다.");
+            }
+        }
+    });
+}
