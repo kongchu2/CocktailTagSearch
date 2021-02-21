@@ -7,6 +7,10 @@ body {
 
   overflow-y: scroll;
 }
+main {
+	display: flex;
+	flex: none;
+}
 footer {
   background-color: ivory;
   position: absolute;
@@ -76,15 +80,37 @@ footer::after {
   padding: 5px;
   padding-top: 45px;
   display: flex;
+  flex: none;
   flex-wrap: wrap;
   align-content: flex-start;
 
   position: relative;
 
   box-shadow: 0px 0px 4px black;
+  
+  clear: both;
 
   height: auto;
-  width: 860px;
+  width: 850px;
+}
+#favoriteTagConetnts {
+  position: relative;
+  
+  visibility: hidden;
+	
+  background-color: #ffdda8;
+	
+  height: auto;
+  margin: 0 20px;
+  margin-bottom: 40px;
+	
+  padding: 5px;
+	
+  box-shadow: 0px 0px 4px black;
+	
+  width: 200px;
+
+  top: 40px;
 }
 #postContents {
   background-color: #ffdda8;
@@ -250,6 +276,8 @@ footer::after {
   
   width: 200px;
   
+  flex: none;	
+  
   text-align: center;
 }
 #search {
@@ -308,7 +336,7 @@ footer::after {
   margin-top: -6px;
   position: absolute;
 
-  z-index: 3;
+  z-index: 3000;
 
   display: none;
 
@@ -323,6 +351,25 @@ footer::after {
 }
 .autocompleteTags:hover {
   background-color: rgb(180, 180, 180);
+}
+.favoriteTags {
+  background-color: rgba(206, 0, 123, 0.8);
+  
+  position: relative;
+  
+  padding: 4px 8px;
+  margin: 0.5vh 0.2vh;
+
+  display: inline-block;
+
+  width: auto;
+  
+  cursor: pointer;
+  
+  border-radius: 40px;
+}
+.favoriteTags:hover {
+  background-color: rgba(168, 0, 101, 0.8);
 }
 .cocktailItems {
   position: relative;
@@ -374,6 +421,8 @@ footer::after {
     rgba(0, 0, 0, 0.8),
     rgba(0, 0, 0, 0.3)
   );
+  
+  z-index: 10;
 }
 .itemTagsBox {
   position: absolute;

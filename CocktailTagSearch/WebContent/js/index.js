@@ -9,6 +9,9 @@ var selectTagList = [];
 
 var save_search_sentence = "";
 
+var add_continuous_pressing = false;
+var remove_continuous_pressing = false;
+
 $(document).ready(loadData);
 
 search.addEventListener("keyup", showNotFound);
@@ -76,6 +79,9 @@ function styleAppendOut() {
 }
 
 function addTag() {
+  if(add_continuous_pressing) {
+	return;
+  }
 
   var value, input;
   var tag = document.createElement("div");
@@ -99,13 +105,20 @@ function addTag() {
 
   setTimeout(function() {  
     search.value = "";
+	getFavoriteTags();
 	getAutocompleteTags();
 	getCocktailItems();
     showNotFound();
   }, 0.001);
+  
+  add_continuous_pressing = true;
+  setTimeout(function() { add_continuous_pressing = false; }, 1000);
 }
 
 function removeTag() {
+  if(remove_continuous_pressing) {
+	return;
+  }
   var thisName = this.textContent;
     $.each(selectTagList, function(index, item) {
       if(item.name === thisName) {
@@ -113,12 +126,15 @@ function removeTag() {
 		return false;
       }
     })
-
     this.parentNode.removeChild(this);
-
+	
+	getFavoriteTags();
 	getAutocompleteTags();
 	getCocktailItems();
-    showNotFound();
+    showNotFound();	
+
+  remove_continuous_pressing = true;
+  setTimeout(function() { remove_continuous_pressing = false; }, 1000);
 
 }
 
@@ -174,9 +190,51 @@ function getCocktailItems() {
   });
 }
 
+function getFavoriteTags() {
+	var favoriteTags = [];
+	$.each($('.favoriteTags'), function(index, item) {
+		favoriteTags.push(item.textContent);
+	});
+	
+	$.ajax({
+    type:"post",
+	url:"http://localhost:8090/CocktailTagSearch/FavoriteTagData",
+	data: {
+		love: JSON.stringify(favoriteTags),
+	    tags: JSON.stringify(selectTagList)
+	},
+	dataType: "json",
+	error : function(error) {
+        console.log(error);
+    },
+    success: function(data) {
+	  if(data != null && data.tag != null) {
+		if(data.remove) {
+			$('#favoriteTagConetnts:last-child').empty();
+		}
+		$('#favoriteTagConetnts:last-child').css('visibility', 'visible');
+		$.each(data.tag, function(index, item) {
+			$('#favoriteTagConetnts:last-child').append($('<div/>', {
+		      class: "favoriteTags",
+			  desc: item.desc,
+		      text: item.name
+		    }));
+		  });
+		  $('.favoriteTags').each(function(index, item) {
+            item.addEventListener("mousedown", addTag);
+		  });
+	    }
+	  else {
+		$('#favoriteTagConetnts:last-child').css('visibility', 'hidden');
+	  }
+	}
+  });
+}
+
 function loadData() {
 	getAutocompleteTags();
 	getCocktailItems();
+	getFavoriteTags();
 }
 
 function createTag(index, item) {
