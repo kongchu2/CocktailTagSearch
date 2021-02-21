@@ -29,7 +29,6 @@ request.setCharacterEncoding("UTF-8");
 	%>
     <div id="contents">
         <div id="menuContents">
-        	<a href="index.html"><div id="title">칵테일 태그검색</div></a>
         </div>
         <div id="postContents">
             <div id="postTitleContents">
@@ -90,6 +89,7 @@ request.setCharacterEncoding("UTF-8");
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="js/post.js"></script>
+    <script src="js/loadMenu.js"></script>
     <script>var postId=<%=postId%></script>
 </body>
 </html>

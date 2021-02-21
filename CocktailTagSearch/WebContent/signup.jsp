@@ -31,7 +31,6 @@
 <body>
 	<div id="contents">
     <div id="menuContents">
-    	<a href="index.html"><div id="title">칵테일 태그검색</div></a>
     </div>
 	<div id="postContents" style="width:40%;height:700px">
 		<div id="signup">
@@ -46,5 +45,6 @@
 		</div>
 	</div>
 	</div>
+	<script src="js/loadMenu.js"></script>
 </body>
 </html>
