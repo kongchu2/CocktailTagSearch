@@ -53,8 +53,10 @@ footer::after {
 
   font-weight:600;
   font-size: xx-large;
+  color:black;
 
   float:left;
+  
 }
 #sign {
   margin: 8px 10px;

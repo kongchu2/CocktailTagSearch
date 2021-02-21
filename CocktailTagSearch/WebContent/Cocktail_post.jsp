@@ -29,7 +29,7 @@ request.setCharacterEncoding("UTF-8");
 	%>
     <div id="contents">
         <div id="menuContents">
-        	<div id="title">칵테일 태그검색</div>
+        	<a href="index.html"><div id="title">칵테일 태그검색</div></a>
         </div>
         <div id="postContents">
             <div id="postTitleContents">
