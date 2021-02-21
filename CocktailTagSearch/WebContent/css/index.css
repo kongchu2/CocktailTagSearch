@@ -46,9 +46,9 @@ footer::after {
 
   box-shadow: 0px 0px 4px black;
 
-  z-index: 9999;
-
   top: 0;
+
+  z-index: 1000;
 }
 #title {
   margin:10px;
@@ -67,9 +67,7 @@ footer::after {
   display: flex;
   justify-content: center;
   
-  position: fixed;
-  
-  z-index: 9999;
+  position: absolute;
   
   right:0;
 }
@@ -106,13 +104,14 @@ footer::after {
 }
 #postTitleContents {
   margin: 3px;
+  margin-top: 0;
 
   position: relative;
 
   border-bottom: 1.2px solid black;
 
   height: auto;
-  width: 860px;
+  width: 80%;
 }
 #tagContents {
   background-color: #ffdda8;
@@ -338,9 +337,10 @@ footer::after {
 
   background-color: black;
 
+  box-shadow: 0px 0px 0.2px 1px #262626;
+
   width: 160px;
   height: 160px;
-  border: 1px solid black;
 }
 .cocktailItems > div {
   visibility: hidden;
@@ -350,6 +350,8 @@ footer::after {
   position: relative;
   max-height: 100%;
   max-width: 100%;
+  
+  z-index: 9;
 }
 .cocktailNotFound {
   display: none;
@@ -383,7 +385,7 @@ footer::after {
   right: 0;
   bottom: 26px;
   
-  z-index: 0;
+  z-index: 2000;
 }
 .itemTags {
   background-color: rgba(153, 233, 167, 0.8);
@@ -405,7 +407,7 @@ footer::after {
   display: none;
 }
 
-[desc]:after {
+[desc]::after {
   transition: bottom .3s ease-in-out, opacity .3s ease-in-out;
 
   background-color: rgba(0, 0, 0, 0.8);
@@ -433,7 +435,7 @@ footer::after {
   content: attr(desc);
 }
 
-[desc]:hover:after {
+[desc]:hover::after {
   top: 0;
   left: 0;
   opacity: 1;
