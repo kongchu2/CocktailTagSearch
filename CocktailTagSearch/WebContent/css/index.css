@@ -93,8 +93,8 @@ footer::after {
   height: auto;
   width: 850px;
 }
-#favoriteTagConetnts, 
-#favoriteCocktailConetnts {
+#favoriteTagContents, 
+#favoriteCocktailContents {
   position: relative;
   
   visibility: hidden;
@@ -113,7 +113,7 @@ footer::after {
 
   top: 40px;
 }
-#favoriteCocktailConetnts {
+#favoriteCocktailContents {
 	visibility: hidden;
 }
 #postContents {
