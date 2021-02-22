@@ -207,7 +207,7 @@ public class MemberDAO {
 			stmt.setInt(2, tagId);
 			rs = stmt.executeQuery();
 			if(rs.next()) {
-				sql = " FROM FAVORITE_TAGS WHERE MEMBER_ID=? AND TAG_ID=?";
+				sql = "DELETE FROM FAVORITE_TAGS WHERE MEMBER_ID=? AND TAG_ID=?";
 			} else {
 				like = true;
 				sql = "INSERT INTO FAVORITE_TAGS VALUES(?, ?)";
