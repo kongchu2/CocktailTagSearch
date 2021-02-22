@@ -223,6 +223,16 @@ footer::after {
   height: 60px;
   width: 300px;
 }
+#myPageEditProfile {
+  padding: 7px 30px;
+  background-color: #875A00;
+  color: white;
+  text-decoration: none;
+  margin:auto;
+  margin-top:20px;
+  border-radius: 8px;
+  width:130px;
+}
 #myPageProfileContents {
   margin-top: 30px;
 	
@@ -621,7 +631,7 @@ footer::after {
   width :50px;
   height:50px;
 }
-#login, #signup {
+#login, #signup, #PasswordAuthContents{
   margin:auto;
   margin-top: 80px;
   text-align: center;
@@ -629,10 +639,10 @@ footer::after {
 #login h1, #signup h1{
   margin-bottom: 50px;
 }
-#login form, #signup form {
+form{
   width:200px;
 }
-#login input[type=text], #login input[type=password], #signup input[type=text], #signup input[type=password] {
+#id, #pw, #pwCheck, form #name{
     border: 2px solid #d9a44a;
     border-radius: 15px;
     height: 55px;
@@ -644,7 +654,7 @@ footer::after {
     background-color: transparent;
     font-size: medium;
 }
-#login input[type=submit], #signup input[type=submit] {
+#login input[type=submit], #signup input[type=submit], #authBtn{
   height:65px;
   width:190px;
   border:none;
@@ -652,6 +662,21 @@ footer::after {
   background-color: #d9a44a;
   font-size: large;
   font-weight: bold;
+}
+#chooseEdit, #profile {
+  margin:auto;
+}
+#nameEditBtn, #pwEditBtn {
+  padding: 7px 30px;
+  margin: 0 5px;
+  background-color: #875A00;
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-bottom: 30px;
 }
 input::-ms-clear,
 input::-ms-reveal {

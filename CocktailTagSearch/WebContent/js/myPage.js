@@ -1,8 +1,6 @@
-var userData = {signed: "0"};
+$(document).ready(getUserData);
 
-$(document).ready(getSessionData);
-
-function getSessionData() {
+function getUserData() {
   $.ajax({
     type:"post",
 	url:"http://localhost:8090/CocktailTagSearch/FavoriteData",

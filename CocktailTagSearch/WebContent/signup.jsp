@@ -7,6 +7,7 @@
 	<meta charset="UTF-8">
 	<title>회원가입</title>
 	<link rel="stylesheet" href="css/index.css">
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script>
 		function checkValue() {
 			if(document.memberInfo.id.value == "") {
