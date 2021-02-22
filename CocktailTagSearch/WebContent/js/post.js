@@ -28,12 +28,8 @@ function getSessionData() {
         success: function(data) {
             if(data.signed == "0") {
                 userData = data;
-            var html = "<a href='login.html'>로그인</a>";
-            $('#sign').append(html);
             } else {
                 userData = data;
-                var html = "<p>" + data.user.name + "님 안녕하세요.</p>\n<a href='javascript:logout()'>로그아웃</a>";
-                $('#sign').append(html);
                 getLikeData();
             }
         }
