@@ -207,7 +207,7 @@ public class MemberDAO {
 			stmt.setInt(2, tagId);
 			rs = stmt.executeQuery();
 			if(rs.next()) {
-				sql = "DELETE FROM FAVORITE_TAGS WHERE MEMBER_ID=? AND TAG_ID=?";
+				sql = " FROM FAVORITE_TAGS WHERE MEMBER_ID=? AND TAG_ID=?";
 			} else {
 				like = true;
 				sql = "INSERT INTO FAVORITE_TAGS VALUES(?, ?)";
@@ -300,5 +300,31 @@ public class MemberDAO {
 			JDBCConnection.close(stmt, conn);
 		}
 		return isUpdated;
+	}
+	public boolean deleteMember(int memberId) {
+		boolean delete = false;
+		try {
+			conn = JDBCConnection.getConnection();
+			conn.setAutoCommit(false);
+			String sql = "DELETE FROM MEMBER WHERE MEMBER_ID=?";
+			stmt = conn.prepareStatement(sql);
+			
+			stmt.setInt(1, memberId);
+			
+			int cnt = stmt.executeUpdate();
+			delete = cnt > 0;
+			
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(stmt, conn);
+		}
+		return delete;
 	}
 }
