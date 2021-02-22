@@ -28,10 +28,10 @@
 </head>
 <body>
 	<form method="post" action="updateMemberCtrl.jsp" name="memberInfo">
-		아이디<input type="text" name="login_id" id="id"><br>
-		이름<input type="text" name="name" id="name"><br>
-		비밀번호<input type="password" name="pw" id="pw"><br>
-		비밀번호 확인<input type="password" name="pwCheck" id="pwCheck"><br>
+		아이디<input type="text" name="login_id" id="id" class="inputBox" ><br>
+		이름<input type="text" name="name" id="name" class="inputBox" ><br>
+		비밀번호<input type="password" name="pw" id="pw" class="inputBox" ><br>
+		비밀번호 확인<input type="password" name="pwCheck" id="pwCheck" class="inputBox" ><br>
 		<input type="submit"> 
 	</form>
 </body>
