@@ -168,6 +168,36 @@ function getAutocompleteTags() {
   });
 }
 
+function getAllTags() {
+  $.ajax({
+		type:"post",
+		url:"http://localhost:8090/CocktailTagSearch/TagSearch",
+		dataType:"json",
+		data: {
+		  search: $("#searchText").val(),
+	      tags: JSON.stringify(selectTagList)
+		},
+		success:function(data) {
+			if(data === "")
+			  return;
+      $("#autocompleteTagsContents").html("");
+      autocompleteTagList = [];
+      $.each(data.tags, function(index, item) {
+        createTag(index, item);
+        autocompleteTagList.push({name:item.name, id:item.id});
+      });
+
+	    
+	autocompleteTag = document.querySelectorAll(".autocompleteTags");
+			$.each(autocompleteTag, function(index, item) {
+        item.addEventListener("mouseover", showComplete);
+	      item.addEventListener("mouseout", hideComplete);
+        item.addEventListener("mousedown", addTag);
+      });
+	  }   
+  });
+}
+
 function getCocktailItems() {
   $.ajax({
     type:"post",
@@ -210,11 +240,11 @@ function getFavoriteTags() {
     success: function(data) {
 	  if(data != null && data.tag != null) {
 		if(data.remove) {
-			$('#favoriteTagConetnts:last-child').empty();
+			$('#favoriteTagConetnts').empty();
 		}
-		$('#favoriteTagConetnts:last-child').css('visibility', 'visible');
+		$('#favoriteTagConetnts').css('visibility', 'visible');
 		$.each(data.tag, function(index, item) {
-			$('#favoriteTagConetnts:last-child').append($('<div/>', {
+			$('#favoriteTagConetnts').prepend($('<div/>', {
 		      class: "favoriteTags",
 			  desc: item.desc,
 		      text: item.name
@@ -225,7 +255,7 @@ function getFavoriteTags() {
 		  });
 	    }
 	  else {
-		$('#favoriteTagConetnts:last-child').css('visibility', 'hidden');
+		$('#favoriteTagConetnts').css('visibility', 'hidden');
 	  }
 	}
   });
@@ -242,18 +272,29 @@ function createTag(index, item) {
       class: "autocompleteTags",
       text: item.name
     }));
+	var limit = 5;
+	if(index+1 > limit) {
+		$('.autocompleteTags:nth-child('+(index+1)+')').css('display', 'none');
+	}
 }
 
 function createCocktail(index, item) {
-    var cocktail = $('#template').clone();
-    cocktail.attr('style', 'display:flex');
-    cocktail.attr('class', 'cocktailItems');
-    cocktail.removeAttr('id');   
- 	cocktail.children('a').attr('href', 'Cocktail_post.jsp?id='+item.id);
-    cocktail.find('img').attr('src', item.image);
-    cocktail.find('img').attr('alt', item.name);
-    cocktail.children('.itemTitle').text(item.name);
-    cocktail.children('.itemTitle').attr('desc', item.name);
+    var cocktail = $('<div/>');
+    cocktail.css('display', 'flex');
+    cocktail.addClass('cocktailItems');
+	cocktail.append($('<img/>', {
+      class: "cocktailImages",
+	  src: item.image,
+      alt: item.name
+    }));
+	cocktail.append($('<div/>', {
+      class: "itemTitle",
+      text: item.name,
+	  desc: item.name
+    }));
+	cocktail.append($('<div/>', {
+	  class: "itemTagsBox"
+	}));
     $.each(item.tags, function(index, tag_item) {
       cocktail.children('.itemTagsBox').append($('<div/>', {
         class: "itemTags",
@@ -262,5 +303,18 @@ function createCocktail(index, item) {
       }));
     });
 
+	cocktail.on('click', function() {
+		var url = "Cocktail_post.jsp?id="+item.id;
+		$(location).attr('href', url);
+	})
+
+	cocktail.children('.itemTagsBox').css('visibility', 'hidden');
+	cocktail.children('.itemTitle').css('visibility', 'hidden');
+	
+	var limit = 3;
+	if(index+1 > limit) {
+		$('.cocktailItems:nth-child('+(index+1)+')').css('display', 'none');
+	}
+	
     $('#cocktailContents').append(cocktail);
 }

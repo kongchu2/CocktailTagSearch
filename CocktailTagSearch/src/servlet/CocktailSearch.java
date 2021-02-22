@@ -88,7 +88,7 @@ public class CocktailSearch extends HttpServlet {
 		
 		JSONArray cocktailArray = new JSONArray();
 		int cocktailCount = 0;
-		int limit = 3; // 최대로 보여줄 칵테일 수
+		int limit = 100; // 최대로 보여줄 칵테일 수
 		for(CocktailVO cocktail : cocktailList) {
 			if(cocktail.getName().contains(searchStr) && cocktailCount < limit) {
 				cocktailCount++;

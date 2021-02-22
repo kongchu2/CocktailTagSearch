@@ -93,7 +93,8 @@ footer::after {
   height: auto;
   width: 850px;
 }
-#favoriteTagConetnts {
+#favoriteTagConetnts, 
+#favoriteCocktailConetnts {
   position: relative;
   
   visibility: hidden;
@@ -111,6 +112,9 @@ footer::after {
   width: 200px;
 
   top: 40px;
+}
+#favoriteCocktailConetnts {
+	visibility: hidden;
 }
 #postContents {
   background-color: #ffdda8;
@@ -138,17 +142,6 @@ footer::after {
 
   height: auto;
   width: 80%;
-}
-#tagContents {
-  background-color: #ffdda8;
-  padding: 5px;
-  padding-top: 45px;
-  margin-bottom: 20px;
-
-  box-shadow: 0px 0px 4px black;
-
-  height: auto;
-  width: 80px;
 }
 #postTagContents {
   float: right;
@@ -389,9 +382,6 @@ footer::after {
   width: 160px;
   height: 160px;
 }
-.cocktailItems > div {
-  visibility: hidden;
-}
 .cocktailImages {
   left: 0;
   position: relative;
@@ -422,7 +412,7 @@ footer::after {
     rgba(0, 0, 0, 0.3)
   );
   
-  z-index: 10;
+  z-index: 2000;
 }
 .itemTagsBox {
   position: absolute;
