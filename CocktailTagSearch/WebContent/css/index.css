@@ -5,7 +5,7 @@
 body {
   background-color: #ffebc1;
 
-  overflow-y: scroll;
+  overflow-x: hidden;
 }
 main {
 	display: flex;
@@ -379,6 +379,8 @@ footer::after {
 
   box-shadow: 0px 0px 0.2px 1px #262626;
 
+  cursor: pointer;
+  
   width: 160px;
   height: 160px;
 }

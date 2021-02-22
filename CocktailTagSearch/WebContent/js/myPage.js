@@ -16,11 +16,15 @@ function getSessionData() {
 	      $('.myPageName').text(data.user.name);
 	      $('.myPageId').text(data.user.login_id);
 		  $.each(data.cocktail, function(index, item) {
-			$('#myPageCocktailContents').append($('<div/>', {
-		      class: "myPageCocktails",
-			  desc: item.desc,
-		      text: item.name
-		    }));
+			var cocktail = $('<div/>');
+			cocktail.addClass('myPageCocktails');
+			cocktail.attr('desc', item.name);
+			cocktail.text(item.name);
+			cocktail.on('click', function() {
+			  var url = "Cocktail_post.jsp?id="+item.id;
+			  $(location).attr('href', url);
+			});
+			$('#myPageCocktailContents').append(cocktail);
 		  });
 		  $.each(data.tag, function(index, item) {
 			$('#myPageTagContents').append($('<div/>', {
