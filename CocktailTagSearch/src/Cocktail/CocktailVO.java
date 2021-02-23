@@ -1,5 +1,6 @@
 package Cocktail;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Tag.TagVO;
 
@@ -73,6 +74,19 @@ public class CocktailVO {
 	}
 	public void setTagList(ArrayList<TagVO> tagList) {
 		this.tagList = tagList;
+	}
+	public HashMap<String, Object> toHashMap() {
+		HashMap<String ,Object> hashMap = new HashMap<String, Object>();
+		hashMap.put("id", getId());
+		hashMap.put("name", getName());
+		hashMap.put("image", getImage());
+		hashMap.put("desc", getDesc());
+		hashMap.put("history", getHistory());
+		hashMap.put("taste", getTaste());
+		hashMap.put("base", getBase());
+		hashMap.put("build", getBuild());
+		hashMap.put("glass", getGlass());
+		return hashMap;
 	}
 	@Override
 	public String toString() {

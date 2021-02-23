@@ -87,40 +87,19 @@ public class CocktailSearch extends HttpServlet {
 		for(CocktailVO cocktail : cocktailList) {
 			if(cocktail.getName().contains(searchStr) && cocktailCount < limit) {
 				cocktailCount++;
-				hashMap = new HashMap<String, Object>();
-				hashMap.put("id", cocktail.getId());
-				hashMap.put("name", cocktail.getName());
-				hashMap.put("image", cocktail.getImage());
-				hashMap.put("desc", cocktail.getDesc());
-				hashMap.put("history", cocktail.getHistory());
-				hashMap.put("taste", cocktail.getTaste());
-				hashMap.put("base", cocktail.getBase());
-				hashMap.put("build", cocktail.getBuild());
-				hashMap.put("glass", cocktail.getGlass());
-
-				
+				hashMap = cocktail.toHashMap();
 				JSONArray tempTagArray = new JSONArray();
-				JSONObject tagJson = null;
-				HashMap<String, Object> tempHashMap = null;
 				for(TagVO tag : cocktail.getTagList()) {
-					tempHashMap = new HashMap<String, Object>();
-					
-					tempHashMap.put("id", tag.getId());
-					tempHashMap.put("name", tag.getName());
-					tempHashMap.put("desc", tag.getDesc());
-					tempHashMap.put("category", tag.getCategory());
-					
-					tagJson = new JSONObject(tempHashMap);
+					HashMap<String, Object> tempHashMap = tag.toHashMap();
+					JSONObject tagJson = new JSONObject(tempHashMap);
 					tempTagArray.add(tagJson);
 				}
-				
 				hashMap.put("tags", tempTagArray);
 				
 				JSONObject cocktailJson = new JSONObject(hashMap);
 				cocktailArray.add(cocktailJson);
 				
 			}
-			
 			hashMap = null;
 		}
 		

@@ -1,5 +1,6 @@
 package Tag;
 
+import java.util.HashMap;
 
 public class TagVO {
 	private int id = 0;
@@ -35,6 +36,15 @@ public class TagVO {
 		this.name = tag_name;
 		this.desc = desc;
 		this.category = category;
+	}
+	public HashMap<String, Object> toHashMap() {
+		HashMap<String, Object> hashMap = new HashMap<String, Object>();
+		
+		hashMap.put("id", getId());
+		hashMap.put("name", getName());
+		hashMap.put("desc", getDesc());
+		hashMap.put("category", getCategory());
+		return hashMap;
 	}
 	@Override
 	public String toString() {
