@@ -18,14 +18,14 @@ public class JDBCConnection {
 	}
 	public static void close(ResultSet rs, Statement stmt, Connection conn) {
 		try {
-			if(conn != null) {
-				conn.close();
+			if(rs != null) {
+				rs.close();
 			}
 			if(stmt != null) {
 				stmt.close();
 			}
-			if(rs != null) {
-				rs.close();
+			if(conn != null) {
+				conn.close();
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -33,11 +33,11 @@ public class JDBCConnection {
 	}
 	public static void close (Statement stmt, Connection conn) {
 		try {
-			if(conn != null) {
-				conn.close();
-			}
 			if(stmt != null) {
 				stmt.close();
+			}
+			if(conn != null) {
+				conn.close();
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();

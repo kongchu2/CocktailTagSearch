@@ -45,13 +45,8 @@ public class CocktailSearch extends HttpServlet {
 		ArrayList<Integer> tagIdList = new ArrayList<Integer>();
 		
 		for(int i=0;i<tagArray.size();i++) {
-			Object tag = tagArray.get(i);
-			if(tag instanceof JSONObject) {
-				Object tagIdObject = ((JSONObject) tag).get("id");
-				if(tagIdObject instanceof java.lang.Long) {
-					tagIdList.add(((Long)tagIdObject).intValue());
-				}
-			}
+			int tagId = (int) ((JSONObject)tagArray.get(i)).get("id");
+			tagIdList.add(tagId);
 		}
 		
 		CocktailDAO dao = new CocktailDAO();

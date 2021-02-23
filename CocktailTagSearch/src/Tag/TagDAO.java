@@ -66,29 +66,24 @@ public class TagDAO {
 		try {
 			conn = JDBCConnection.getConnection();
 			
-			String sql = "SELECT TAG_ID FROM COCKTAIL_TAG WHERE COCKTAIL_ID="+cocktailId;
-			stmt = conn.createStatement();
-			
-			rs = stmt.executeQuery(sql);
+			String sql = "SELECT * "
+					+ "FROM TAG "
+					+ "WHERE TAG_ID IN ("
+						+ "SELECT TAG_ID "
+						+ "FROM COCKTAIL_TAG "
+						+ "WHERE COCKTAIL_ID=?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cocktailId);
+			rs = pstmt.executeQuery();
 			
 			tagList = new ArrayList<TagVO>();
 			while(rs.next())
 			{
-				int tag_id = rs.getInt("TAG_ID");
-				
-				sql = "SELECT * FROM TAG WHERE TAG_ID="+tag_id;
-				Statement statement = conn.createStatement();
-				ResultSet tag_rs = statement.executeQuery(sql);
-				
-				if(tag_rs.next()) {
-						 	tag_id 			= tag_rs.getInt("TAG_ID");
-					String 	tag_name		= tag_rs.getString("TAG_NAME");
-					String 	tag_desc		= tag_rs.getString("DESC");
-					String 	tag_category 	= tag_rs.getString("CATEGORY");
-					tagList.add(new TagVO(tag_id, tag_name, tag_desc, tag_category));
-				}
-				statement.close();
-				tag_rs.close();
+			 	int 	tag_id 			= rs.getInt("TAG_ID");
+				String 	tag_name		= rs.getString("TAG_NAME");
+				String 	tag_desc		= rs.getString("DESC");
+				String 	tag_category 	= rs.getString("CATEGORY");
+				tagList.add(new TagVO(tag_id, tag_name, tag_desc, tag_category));
 			}
 			
 		} catch(Exception e) {
