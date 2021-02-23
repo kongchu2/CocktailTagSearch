@@ -45,7 +45,7 @@ public class CocktailSearch extends HttpServlet {
 		ArrayList<Integer> tagIdList = new ArrayList<Integer>();
 		
 		for(int i=0;i<tagArray.size();i++) {
-			int tagId = (int) ((JSONObject)tagArray.get(i)).get("id");
+			int tagId = ((Long)((JSONObject)tagArray.get(i)).get("id")).intValue();
 			tagIdList.add(tagId);
 		}
 		
