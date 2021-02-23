@@ -2,6 +2,9 @@ package Cocktail;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import Tag.TagVO;
 
 public class CocktailVO {
@@ -86,6 +89,13 @@ public class CocktailVO {
 		hashMap.put("base", getBase());
 		hashMap.put("build", getBuild());
 		hashMap.put("glass", getGlass());
+		JSONArray tempTagArray = new JSONArray();
+		for(TagVO tag : getTagList()) {
+			HashMap<String, Object> tempHashMap = tag.toHashMap();
+			JSONObject tagJson = new JSONObject(tempHashMap);
+			tempTagArray.add(tagJson);
+		}
+		hashMap.put("tags", tempTagArray);
 		return hashMap;
 	}
 	@Override

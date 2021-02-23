@@ -62,18 +62,8 @@ public class CocktailSearch extends HttpServlet {
 		JSONArray cocktailArray = new JSONArray();
 		for(CocktailVO cocktail : cocktailList) {
 			if(cocktail.getName().contains(searchStr)) {
-				hashMap = cocktail.toHashMap();
-				JSONArray tempTagArray = new JSONArray();
-				for(TagVO tag : cocktail.getTagList()) {
-					HashMap<String, Object> tempHashMap = tag.toHashMap();
-					JSONObject tagJson = new JSONObject(tempHashMap);
-					tempTagArray.add(tagJson);
-				}
-				hashMap.put("tags", tempTagArray);
-				
-				JSONObject cocktailJson = new JSONObject(hashMap);
+				JSONObject cocktailJson = new JSONObject(cocktail.toHashMap());
 				cocktailArray.add(cocktailJson);
-				
 			}
 			hashMap = null;
 		}
