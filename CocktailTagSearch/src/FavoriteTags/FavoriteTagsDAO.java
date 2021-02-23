@@ -3,6 +3,7 @@ package FavoriteTags;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import basic.JDBCConnection;
@@ -74,5 +75,31 @@ public class FavoriteTagsDAO {
 			JDBCConnection.close(rs, stmt, conn);
 		}
 		return favoriteTagList;
+	}
+	public int deleteFavoriteTagByMember_id(int member_id) {
+		int deleteCount = -1;
+		
+		try {
+			conn = JDBCConnection.getConnection();
+			conn.setAutoCommit(false);
+			
+			String sql = "DELETE FROM FAVORITE_TAGS WHERE MEMBER_ID=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, member_id);
+			deleteCount = stmt.executeUpdate();
+			
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(stmt, conn);
+		}
+		
+		return deleteCount;
 	}
 }

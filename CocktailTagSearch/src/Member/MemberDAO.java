@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import FavoriteCocktail.FavoriteCocktailDAO;
+import FavoriteTags.FavoriteTagsDAO;
 import basic.JDBCConnection;
 
 
@@ -306,6 +308,13 @@ public class MemberDAO {
 		try {
 			conn = JDBCConnection.getConnection();
 			conn.setAutoCommit(false);
+			
+			FavoriteCocktailDAO FCDao = new FavoriteCocktailDAO();
+			FavoriteTagsDAO FTDao = new FavoriteTagsDAO();
+			
+			FCDao.deleteFavoriteCocktailByMember_id(memberId);
+			FTDao.deleteFavoriteTagByMember_id(memberId);
+			
 			String sql = "DELETE FROM MEMBER WHERE MEMBER_ID=?";
 			stmt = conn.prepareStatement(sql);
 			
