@@ -176,72 +176,51 @@ public class CocktailDAO {
 		try {
 			conn = JDBCConnection.getConnection();
 			
-			String sql = "SELECT max(COCKTAIL_ID) as max FROM COCKTAIL_TAG";
+			String sql = "SELECT * "
+					+ "FROM COCKTAIL "
+					+ "WHERE COCKTAIL.COCKTAIL_ID IN "
+					+ "    (SELECT COCKTAIL_TAG.COCKTAIL_ID "
+					+ "    FROM COCKTAIL_TAG "
+					+ "    WHERE COCKTAIL_TAG.TAG_ID IN "
+					+ "        (SELECT TAG.TAG_ID "
+					+ "        FROM TAG "
+					+ "        WHERE";
+			
+			for(int tagId : tagList) {
+				sql += " TAG.TAG_ID=\'"+tagId+"\' OR";
+			}
+			sql = sql.substring(0, sql.length()-2);
+			sql += "))";
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
-			int max = 0;
-			if(rs.next()) {
-				max = rs.getInt("max");
-			}
-			stmt.close();
-			rs.close();
-			ArrayList<Integer> cocktailIdList = new ArrayList<Integer>();
-			for(int i=0;i<=max;i++) {
-				sql = "SELECT TAG_ID FROM COCKTAIL_TAG WHERE COCKTAIL_ID=?";
-				stmt = conn.prepareStatement(sql);
-				stmt.setInt(1, i);
-				rs = stmt.executeQuery();
-				ArrayList<Integer> temp_tagIdList = new ArrayList<Integer>();
-				while(rs.next()) {
-					temp_tagIdList.add(rs.getInt("TAG_ID"));
-				}
-				for(int tagid : temp_tagIdList) {
-					boolean flag = true;
-					if(!tagList.contains(tagid)) {
-						flag = false;
-					}
-					if(flag) {
-						cocktailIdList.add(i);
-					}
-				}
-				stmt.close();
-				rs.close();
-			}
-			for(int cocktailId : cocktailIdList) {
-				sql = "SELECT * FROM COCKTAIL WHERE COCKTAIL_ID=?";
-				stmt = conn.prepareStatement(sql);
-				stmt.setInt(1, cocktailId);
-				rs = stmt.executeQuery();
-				while(rs.next())
-				{
-					int id			= rs.getInt("COCKTAIL_ID");
-					String name 	= rs.getString("NAME");
-					String image 	= "image/" + rs.getString("IMAGE");
-					String desc 	= rs.getString("DESC").replace("\\n", "<br>");
-					String history 	= rs.getString("HISTORY_DESC").replace("\\n", "<br>");
-					String taste 	= rs.getString("TASTE_DESC").replace("\\n", "<br>");
-					String base		= rs.getString("BASE_ALCOHOL").replace("\\n", "<br>");
-					String build 	= rs.getString("BUILD_METHOD").replace("\\n", "<br>");
-					String glass	= rs.getString("COCKTAIL_GLASS").replace("\\n", "<br>");
-					
-					TagDAO dao = new TagDAO();
-					ArrayList<TagVO> temp_tagList =  dao.getTagListByCocktailId(id);
-					
-					CocktailVO cocktail = new CocktailVO();
-					
-					cocktail.setId(id);
-					cocktail.setName(name);
-					cocktail.setImage(image);
-					cocktail.setDesc(desc);
-					cocktail.setHistory(history);
-					cocktail.setTaste(taste);
-					cocktail.setBase(base);
-					cocktail.setBuild(build);
-					cocktail.setGlass(glass);
-					cocktail.setTagList(temp_tagList);
-					
-					cocktailList.add(cocktail);
-				}
+			while(rs.next()) {
+				int id			= rs.getInt("COCKTAIL_ID");
+				String name 	= rs.getString("NAME");
+				String image 	= "image/" + rs.getString("IMAGE");
+				String desc 	= rs.getString("DESC").replace("\\n", "<br>");
+				String history 	= rs.getString("HISTORY_DESC").replace("\\n", "<br>");
+				String taste 	= rs.getString("TASTE_DESC").replace("\\n", "<br>");
+				String base		= rs.getString("BASE_ALCOHOL").replace("\\n", "<br>");
+				String build 	= rs.getString("BUILD_METHOD").replace("\\n", "<br>");
+				String glass	= rs.getString("COCKTAIL_GLASS").replace("\\n", "<br>");
+				
+				TagDAO dao = new TagDAO();
+				ArrayList<TagVO> temp_tagList =  dao.getTagListByCocktailId(id);
+				
+				CocktailVO cocktail = new CocktailVO();
+				
+				cocktail.setId(id);
+				cocktail.setName(name);
+				cocktail.setImage(image);
+				cocktail.setDesc(desc);
+				cocktail.setHistory(history);
+				cocktail.setTaste(taste);
+				cocktail.setBase(base);
+				cocktail.setBuild(build);
+				cocktail.setGlass(glass);
+				cocktail.setTagList(temp_tagList);
+				
+				cocktailList.add(cocktail);
 			}
 			
 		} catch(Exception e) {
