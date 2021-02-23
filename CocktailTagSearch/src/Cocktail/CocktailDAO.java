@@ -178,20 +178,21 @@ public class CocktailDAO {
 			
 			String sql = "SELECT * "
 					+ "FROM COCKTAIL "
-					+ "WHERE COCKTAIL.COCKTAIL_ID IN "
-					+ "    (SELECT COCKTAIL_TAG.COCKTAIL_ID "
-					+ "    FROM COCKTAIL_TAG "
-					+ "    WHERE COCKTAIL_TAG.TAG_ID IN "
-					+ "        (SELECT TAG.TAG_ID "
-					+ "        FROM TAG "
-					+ "        WHERE";
+					+ "WHERE COCKTAIL_ID IN "
+					+ "(SELECT COCKTAIL_ID "
+					+ "FROM (SELECT * FROM COCKTAIL_TAG WHERE !) "
+					+ "GROUP BY COCKTAIL_ID "
+					+ "HAVING COUNT(*) > ?)";
+			
+			String subQueryWhere = "";
 			
 			for(int tagId : tagList) {
-				sql += " TAG.TAG_ID=\'"+tagId+"\' OR";
+				subQueryWhere += " TAG_ID=\'"+tagId+"\' OR";
 			}
-			sql = sql.substring(0, sql.length()-2);
-			sql += "))";
+			subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length()-2);
+			sql = sql.replace("!", subQueryWhere);
 			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, tagList.size()-1);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
 				int id			= rs.getInt("COCKTAIL_ID");

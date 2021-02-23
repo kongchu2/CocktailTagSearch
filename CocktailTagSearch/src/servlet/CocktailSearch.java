@@ -55,37 +55,13 @@ public class CocktailSearch extends HttpServlet {
 		if(tagIdList.size() == 0)
 			cocktailList = dao.getCocktailList();
 		else {
-			ArrayList<CocktailVO> tempCocktailList = dao.getCocktailListByTagList(tagIdList);
-			cocktailList = new ArrayList<CocktailVO>();
-			int save_before_cocktail_id = 0;
-			for(CocktailVO cocktail : tempCocktailList) {
-				int count = 0;
-				boolean flag = true;
-				
-				ArrayList<TagVO> tempTagList = cocktail.getTagList();
-				
-				if(save_before_cocktail_id == cocktail.getId())
-					continue;
-				save_before_cocktail_id = cocktail.getId();
-
-				for(TagVO tag : tempTagList) {
-					if(tagIdList.contains(tag.getId()))
-						count++;
-				}
-				if(count < tagIdList.size()) 
-					flag = false;
-				if(flag) 
-					cocktailList.add(cocktail);
-			}
+			cocktailList = dao.getCocktailListByTagList(tagIdList);
 		}
 		HashMap<String, Object> hashMap = null;
 		
 		JSONArray cocktailArray = new JSONArray();
-		int cocktailCount = 0;
-		int limit = 100; // 최대로 보여줄 칵테일 수
 		for(CocktailVO cocktail : cocktailList) {
-			if(cocktail.getName().contains(searchStr) && cocktailCount < limit) {
-				cocktailCount++;
+			if(cocktail.getName().contains(searchStr)) {
 				hashMap = cocktail.toHashMap();
 				JSONArray tempTagArray = new JSONArray();
 				for(TagVO tag : cocktail.getTagList()) {
