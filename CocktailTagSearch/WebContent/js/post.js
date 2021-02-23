@@ -1,5 +1,3 @@
-var userData = {signed: "0"};
-
 $(document).ready(getSessionData);
 
 $('#likeimg').click(likePost);

@@ -88,8 +88,8 @@ request.setCharacterEncoding("UTF-8");
         </footer>
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="js/post.js"></script>
-    <script src="js/loadMenu.js"></script>
     <script>var postId=<%=postId%></script>
+    <script src="js/loadMenu.js"></script>
+    <script src="js/post.js"></script>
 </body>
 </html>

@@ -1,0 +1,14 @@
+<script>
+    $("#nameEditBtn").click(function() {
+        $('#chooseEdit').remove();
+        $('#postContents').load("editName.html");
+    });
+    $("#pwEditBtn").click(function() {
+        $('#chooseEdit').remove();
+        $('#postContents').load("editPassword.html");
+    });
+</script>
+<div id="chooseEdit">
+    <div id="nameEditBtn" class="chooseBtn">이름 수정</div>
+    <div id="pwEditBtn" class="chooseBtn">비밀번호 수정</div>
+</div>

@@ -1,0 +1,19 @@
+<script>
+    $('document').ready(function() {
+        $('#memberId').val(userData.user.id);
+    })
+    function checkValue() {
+        if(document.editProfile.name.value == "") {
+		alert("이름을 입력하세요");
+	    }
+    }
+</script>
+<div id="profile" class="formBackground">
+    <h1>이름 변경</h1>
+    <form action="updateMember" method="POST" name="editProfile" onsubmit="checkValue();">
+        <input type="text" name="memberId" class="inputBox" style="display: none;" id="memberId">
+        <input type="text" name="type" class="inputBox" value="name" style="display: none;">
+        <input type="text" name="name" class="inputBox" id="name" placeholder="이름">
+        <input type="submit"  id="authBtn" class="submitBtn">
+    </form>
+</div>

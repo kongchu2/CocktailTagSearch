@@ -1,3 +1,5 @@
+userData = {signed:"0"};
+
 $(document).ready(function() {
     $("#menuContents").load("menuContents.html");
     getSessionData();
@@ -54,10 +56,11 @@ function getSessionData() {
     success: function(data) {
       if(data.signed == "0") {
         createSignIn();
-		createSignUp();
+		    createSignUp();
       } else {
-		createSignOut();
-		createMyPageLink();
+        userData = data;
+		    createSignOut();
+		    createMyPageLink();
         createSignName(data.user.name);
       }
     }

@@ -1,8 +1,6 @@
-var userData = {signed: "0"};
+$(document).ready(getUserData);
 
-$(document).ready(getSessionData);
-
-function getSessionData() {
+function getUserData() {
   $.ajax({
     type:"post",
 	url:"http://localhost:8090/CocktailTagSearch/FavoriteData",
@@ -37,4 +35,18 @@ function getSessionData() {
 	}
 	
   });
+}
+
+function deleteUser() {
+	if(confirm("탈퇴하시겠습니까? 취소할 수 없습니다.")) {
+		$.ajax({
+			type:"post",
+			url:"http://localhost:8090/CocktailTagSearch/deleteUser",
+			success: function(data) {
+				alert("탈퇴되었습니다.");
+				logout();
+				location.href = "index.html";
+			}
+		});
+	}
 }

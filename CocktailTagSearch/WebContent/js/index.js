@@ -240,11 +240,11 @@ function getFavoriteTags() {
     success: function(data) {
 	  if(data != null && data.tag != null) {
 		if(data.remove) {
-			$('#favoriteTagConetnts').empty();
+			$('#favoriteTagContents').empty();
 		}
-		$('#favoriteTagConetnts').css('visibility', 'visible');
+		$('#favoriteTagContents').css('visibility', 'visible');
 		$.each(data.tag, function(index, item) {
-			$('#favoriteTagConetnts').prepend($('<div/>', {
+			$('#favoriteTagContents').prepend($('<div/>', {
 		      class: "favoriteTags",
 			  desc: item.desc,
 		      text: item.name
@@ -255,7 +255,7 @@ function getFavoriteTags() {
 		  });
 	    }
 	  else {
-		$('#favoriteTagConetnts').css('visibility', 'hidden');
+		$('#favoriteTagContents').css('visibility', 'hidden');
 	  }
 	}
   });
