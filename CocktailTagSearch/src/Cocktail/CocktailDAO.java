@@ -3,6 +3,7 @@ package Cocktail;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -31,32 +32,7 @@ public class CocktailDAO {
 				
 			if(rs.next())
 			{
-				int id			= rs.getInt("COCKTAIL_ID");
-				String name 	= rs.getString("NAME");
-				String image 	= "image/" + rs.getString("IMAGE");
-				String desc 	= rs.getString("DESC").replace("\\n", "<br>");
-				String history 	= rs.getString("HISTORY_DESC").replace("\\n", "<br>");
-				String taste 	= rs.getString("TASTE_DESC").replace("\\n", "<br>");
-				String base		= rs.getString("BASE_ALCOHOL").replace("\\n", "<br>");
-				String build 	= rs.getString("BUILD_METHOD").replace("\\n", "<br>");
-				String glass	= rs.getString("COCKTAIL_GLASS").replace("\\n", "<br>");
-				
-				TagDAO dao = new TagDAO();
-				ArrayList<TagVO> tagList =  dao.getTagListByCocktailId(id);
-				
-				cocktail = new CocktailVO();
-				
-				cocktail.setId(id);
-				cocktail.setName(name);
-				cocktail.setImage(image);
-				cocktail.setDesc(desc);
-				cocktail.setHistory(history);
-				cocktail.setTaste(taste);
-				cocktail.setBase(base);
-				cocktail.setBuild(build);
-				cocktail.setGlass(glass);
-				cocktail.setTagList(tagList);
-				
+				cocktail = getCocktailByResultSet();
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -77,34 +53,8 @@ public class CocktailDAO {
 			rs = stmt.executeQuery();
 			
 			while(rs.next())
-			{
-				int id			= rs.getInt("COCKTAIL_ID");
-				String name 	= rs.getString("NAME");
-				String image 	= "image/" + rs.getString("IMAGE");
-				String desc 	= rs.getString("DESC").replace("\\n", "<br>");
-				String history 	= rs.getString("HISTORY_DESC").replace("\\n", "<br>");
-				String taste 	= rs.getString("TASTE_DESC").replace("\\n", "<br>");
-				String base		= rs.getString("BASE_ALCOHOL").replace("\\n", "<br>");
-				String build 	= rs.getString("BUILD_METHOD").replace("\\n", "<br>");
-				String glass	= rs.getString("COCKTAIL_GLASS").replace("\\n", "<br>");
-				
-				TagDAO dao = new TagDAO();
-				ArrayList<TagVO> tagList =  dao.getTagListByCocktailId(id);
-				
-				CocktailVO cocktail = new CocktailVO();
-				
-				cocktail.setId(id);
-				cocktail.setName(name);
-				cocktail.setImage(image);
-				cocktail.setDesc(desc);
-				cocktail.setHistory(history);
-				cocktail.setTaste(taste);
-				cocktail.setBase(base);
-				cocktail.setBuild(build);
-				cocktail.setGlass(glass);
-				cocktail.setTagList(tagList);
-				
-				cocktailList.add(cocktail);
+			{	
+				cocktailList.add(getCocktailByResultSet());
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -132,34 +82,7 @@ public class CocktailDAO {
 				ResultSet cocktail_rs = stmt.executeQuery();
 				if(cocktail_rs.next())
 				{
-					
-					int id			= cocktail_rs.getInt("COCKTAIL_ID");
-					String name 	= cocktail_rs.getString("NAME");
-					String image 	= "image/" + cocktail_rs.getString("IMAGE");
-					String desc 	= cocktail_rs.getString("DESC").replace("\\n", "<br>");
-					String history 	= cocktail_rs.getString("HISTORY_DESC").replace("\\n", "<br>");
-					String taste 	= cocktail_rs.getString("TASTE_DESC").replace("\\n", "<br>");
-					String base		= cocktail_rs.getString("BASE_ALCOHOL").replace("\\n", "<br>");
-					String build 	= cocktail_rs.getString("BUILD_METHOD").replace("\\n", "<br>");
-					String glass	= cocktail_rs.getString("COCKTAIL_GLASS").replace("\\n", "<br>");
-					
-					TagDAO dao = new TagDAO();
-					ArrayList<TagVO> tagList =  dao.getTagListByCocktailId(id);
-					
-					CocktailVO cocktail = new CocktailVO();
-					
-					cocktail.setId(id);
-					cocktail.setName(name);
-					cocktail.setImage(image);
-					cocktail.setDesc(desc);
-					cocktail.setHistory(history);
-					cocktail.setTaste(taste);
-					cocktail.setBase(base);
-					cocktail.setBuild(build);
-					cocktail.setGlass(glass);
-					cocktail.setTagList(tagList);
-					
-					cocktailList.add(cocktail);
+					cocktailList.add(getCocktailByResultSet());
 				}
 				cocktail_rs.close();
 			}
@@ -195,33 +118,7 @@ public class CocktailDAO {
 			stmt.setInt(1, tagList.size()-1);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
-				int id			= rs.getInt("COCKTAIL_ID");
-				String name 	= rs.getString("NAME");
-				String image 	= "image/" + rs.getString("IMAGE");
-				String desc 	= rs.getString("DESC").replace("\\n", "<br>");
-				String history 	= rs.getString("HISTORY_DESC").replace("\\n", "<br>");
-				String taste 	= rs.getString("TASTE_DESC").replace("\\n", "<br>");
-				String base		= rs.getString("BASE_ALCOHOL").replace("\\n", "<br>");
-				String build 	= rs.getString("BUILD_METHOD").replace("\\n", "<br>");
-				String glass	= rs.getString("COCKTAIL_GLASS").replace("\\n", "<br>");
-				
-				TagDAO dao = new TagDAO();
-				ArrayList<TagVO> temp_tagList =  dao.getTagListByCocktailId(id);
-				
-				CocktailVO cocktail = new CocktailVO();
-				
-				cocktail.setId(id);
-				cocktail.setName(name);
-				cocktail.setImage(image);
-				cocktail.setDesc(desc);
-				cocktail.setHistory(history);
-				cocktail.setTaste(taste);
-				cocktail.setBase(base);
-				cocktail.setBuild(build);
-				cocktail.setGlass(glass);
-				cocktail.setTagList(temp_tagList);
-				
-				cocktailList.add(cocktail);
+				cocktailList.add(getCocktailByResultSet());
 			}
 			
 		} catch(Exception e) {
@@ -368,5 +265,34 @@ public class CocktailDAO {
 			JDBCConnection.close(rs, stmt, conn);
 		}
 		return success;
+	}
+	private CocktailVO getCocktailByResultSet() throws SQLException {
+		CocktailVO cocktail = new CocktailVO();
+		
+		int id			= rs.getInt("COCKTAIL_ID");
+		String name 	= rs.getString("NAME");
+		String image 	= "image/" + rs.getString("IMAGE");
+		String desc 	= rs.getString("DESC");
+		String history 	= rs.getString("HISTORY_DESC");
+		String taste 	= rs.getString("TASTE_DESC");
+		String base		= rs.getString("BASE_ALCOHOL");
+		String build 	= rs.getString("BUILD_METHOD");
+		String glass	= rs.getString("COCKTAIL_GLASS");
+		
+		TagDAO dao = new TagDAO();
+		ArrayList<TagVO> tagList =  dao.getTagListByCocktailId(id);
+		
+		cocktail.setId(id);
+		cocktail.setName(name);
+		cocktail.setImage(image);
+		cocktail.setDesc(desc);
+		cocktail.setHistory(history);
+		cocktail.setTaste(taste);
+		cocktail.setBase(base);
+		cocktail.setBuild(build);
+		cocktail.setGlass(glass);
+		cocktail.setTagList(tagList);
+		
+		return cocktail;
 	}
 }
