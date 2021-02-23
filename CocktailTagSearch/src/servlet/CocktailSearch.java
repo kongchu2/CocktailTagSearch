@@ -78,7 +78,6 @@ public class CocktailSearch extends HttpServlet {
 					cocktailList.add(cocktail);
 			}
 		}
-		String json = null;
 		HashMap<String, Object> hashMap = null;
 		
 		JSONArray cocktailArray = new JSONArray();
@@ -102,16 +101,8 @@ public class CocktailSearch extends HttpServlet {
 			}
 			hashMap = null;
 		}
-		
-		if(cocktailArray.size() > 0) {
-			json = "{\"cocktails\":[";
-			for(int i=0; i<cocktailArray.size(); i++) {
-				if(i>0) json += ",";
-				json += cocktailArray.get(i);
-			}
-			json += "]}";
-		}
-		
+		JSONObject json = new JSONObject();
+		json.put("cocktails", cocktailArray);
 		out.print(json);
 		
 	}
