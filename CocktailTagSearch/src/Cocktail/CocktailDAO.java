@@ -183,6 +183,8 @@ public class CocktailDAO {
 			if(rs.next()) {
 				max = rs.getInt("max");
 			}
+			stmt.close();
+			rs.close();
 			ArrayList<Integer> cocktailIdList = new ArrayList<Integer>();
 			for(int i=0;i<=max;i++) {
 				sql = "SELECT TAG_ID FROM COCKTAIL_TAG WHERE COCKTAIL_ID=?";
@@ -202,6 +204,8 @@ public class CocktailDAO {
 						cocktailIdList.add(i);
 					}
 				}
+				stmt.close();
+				rs.close();
 			}
 			for(int cocktailId : cocktailIdList) {
 				sql = "SELECT * FROM COCKTAIL WHERE COCKTAIL_ID=?";

@@ -279,4 +279,3 @@ fabric.properties
 # Sonarlint plugin
 
 .idea/sonarlint
-*.jpg
