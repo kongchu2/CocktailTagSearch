@@ -1,3 +1,5 @@
+var func;
+
 $(document).ready(function() {
     $("#postContents").load("PasswordAuth.html");
 });
@@ -16,7 +18,7 @@ function auth() {
         success: function(data) {
             if(data === "1") {
                 $('#PasswordAuthContents').remove();
-                $("#postContents").load("editChoose.html");
+                func();
             } else {
                 alert("비밀번호가 틀렸습니다.");
             }

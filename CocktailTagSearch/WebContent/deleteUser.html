@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <title>회원 삭제</title>
+    <script>
+        function deleteUser() {
+            if(confirm("탈퇴하시겠습니까? 취소할 수 없습니다.")) {
+                $.ajax({
+                    type:"post",
+                    url:"http://localhost:8090/CocktailTagSearch/deleteUser",
+                    success: function(data) {
+                        alert("탈퇴되었습니다.");
+                        logout();
+                        location.href = "index.html";
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="contents">
+        <div id="menuContents">
+        </div>
+        <div id="postContents" style="width:40%;height:700px">
+        </div>
+    </div>
+    <script src="js/auth.js"></script>
+    <script>func = deleteUser</script>
+    <script src="js/loadMenu.js"></script>
+</body>
+</html>

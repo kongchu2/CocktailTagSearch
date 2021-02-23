@@ -311,7 +311,7 @@ function createCocktail(index, item) {
 	cocktail.children('.itemTagsBox').css('visibility', 'hidden');
 	cocktail.children('.itemTitle').css('visibility', 'hidden');
 	
-	var limit = 3;
+	var limit = 10;
 	if(index+1 > limit) {
 		$('.cocktailItems:nth-child('+(index+1)+')').css('display', 'none');
 	}
