@@ -1,4 +1,4 @@
-$(document).ready(getSessionData);
+$(document).ready(getLikeData);
 
 $('#likeimg').click(likePost);
 
@@ -19,20 +19,6 @@ function likePost() {
       });
 }
 
-function getSessionData() {
-    $.ajax({
-        type:"post",
-        url:"http://localhost:8090/CocktailTagSearch/SessionData",
-        success: function(data) {
-            if(data.signed == "0") {
-                userData = data;
-            } else {
-                userData = data;
-                getLikeData();
-            }
-        }
-    });
-}
 
 function getLikeData() {
     if(userData.signed == "0") {
