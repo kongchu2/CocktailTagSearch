@@ -1,4 +1,4 @@
-$(document).ready(getLikeData);
+DataLoadFunc.push(getLikeData);
 
 $('#likeimg').click(likePost);
 
@@ -18,7 +18,6 @@ function likePost() {
         }
       });
 }
-
 
 function getLikeData() {
     if(userData.signed == "0") {

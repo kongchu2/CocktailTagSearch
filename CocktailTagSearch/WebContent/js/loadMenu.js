@@ -1,5 +1,7 @@
 userData = {signed:"0"};
 
+var DataLoadFunc = [];
+
 $(document).ready(function() {
     $("#menuContents").load("menuContents.html");
     getSessionData();
@@ -62,6 +64,9 @@ function getSessionData() {
 		    createSignOut();
 		    createMyPageLink();
         createSignName(data.user.name);
+        for(var i=0;i<DataLoadFunc.length;i++) {
+          DataLoadFunc[i]();
+        }
       }
     }
   });
