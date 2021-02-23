@@ -1,7 +1,10 @@
 package Cocktail;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import Tag.TagDAO;
 import Tag.TagVO;
@@ -243,5 +246,143 @@ public class CocktailDAO {
 			JDBCConnection.close(rs, stmt, conn);
 		}
 		return cocktailList;
+	}
+	public int InsertCocktail(CocktailVO cocktail) {
+		int success = 0;
+		try {
+			conn = JDBCConnection.getConnection();
+			
+			ArrayList<CocktailVO> cl = getCocktailList();
+			int maxId = 0;
+			for(CocktailVO c : cl) {
+				if(c.getId() > maxId) {
+					maxId = c.getId();
+				}
+			}
+			
+			String sql = "INSERT INTO COCKTAIL"
+					   + "(\"COCKTAIL_ID\", \"NAME\", \"IMAGE\", \"DESC\", \"HISTORY_DESC\", \"TASTE_DESC\", \"BASE_ALCOHOL\", \"BUILD_METHOD\", \"COCKTAIL_GLASS\") " 
+					   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setInt(1, ++maxId);
+			stmt.setString(2, cocktail.getName());
+			stmt.setString(3, cocktail.getImage());
+			stmt.setString(4, cocktail.getDesc());
+			stmt.setString(5, cocktail.getHistory());
+			stmt.setString(6, cocktail.getTaste());
+			stmt.setString(7, cocktail.getBase());
+			stmt.setString(8, cocktail.getBuild());
+			stmt.setString(9, cocktail.getGlass());
+			
+			success = stmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, stmt, conn);
+		}
+		return success;
+	}
+	/*
+	public int InsertCocktailList(ArrayList<CocktailVO> cocktailList) {
+		int success = 0;
+		try {
+			conn = JDBCConnection.getConnection();
+			
+			ArrayList<CocktailVO> cl = getCocktailList();
+			int maxId = 0;
+			for(CocktailVO c : cl) {
+				if(c.getId() > maxId) {
+					maxId = c.getId();
+				}
+			}
+			
+			String sql = "INSERT INTO COCKTAIL"
+					+ "(\"COCKTAIL_ID\", \"NAME\", \"IMAGE\", \"DESC\", \"HISTORY_DESC\", \"TASTE_DESC\", \"BASE_ALCOHOL\", \"BUILD_METHOD\", \"COCKTAIL_GLASS\") " + 
+					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			stmt = conn.prepareStatement(sql);
+			
+			Iterator<CocktailVO> it = cocktailList.iterator();
+			while(it.hasNext()){
+				CocktailVO cocktail = it.next();
+				stmt.setInt(1, ++maxId);
+				stmt.setString(2, cocktail.getName());
+				stmt.setString(3, cocktail.getImage());
+				stmt.setString(4, cocktail.getDesc());
+				stmt.setString(5, cocktail.getHistory());
+				stmt.setString(6, cocktail.getTaste());
+				stmt.setString(7, cocktail.getBase());
+				stmt.setString(8, cocktail.getBuild());
+				stmt.setString(9, cocktail.getGlass());
+				stmt.addBatch();                      
+			}  
+			int[] numUpdates = stmt.executeBatch();
+			  for (int i=0; i < numUpdates.length; i++) {
+			    if (numUpdates[i] == -2)
+			      System.out.println("Execution " + i + 
+			        ": unknown number of rows updated");
+			    else
+			      System.out.println("Execution " + i + 
+			        "successful: " + numUpdates[i] + " rows updated");
+			}
+			
+			success = cocktailList.size();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, stmt, conn);
+		}
+		return success;
+	}
+	*/
+	public int UpdateCocktail(CocktailVO cocktail, int cocktail_id) {
+		int success = 0;
+		try {
+			conn = JDBCConnection.getConnection();
+			
+			CocktailVO before_cocktail = getCocktail(cocktail_id);
+			
+			String sql = "UPDATE COCKTAIL SET "
+					   + "NAME=?, IMAGE=?, DESC=?, HISTORY_DESC=?, TASTE_DESC=?, BASE_ALCOHOL=?, BUILD_METHOD=?, GLCOCKTAIL_GLASSASS=? WHERE COCKTAIL_ID = "+cocktail_id;
+			
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, cocktail.getName()    != null ? cocktail.getName()    : before_cocktail.getName());
+			stmt.setString(2, cocktail.getImage()   != null ? cocktail.getImage()   : before_cocktail.getImage());
+			stmt.setString(3, cocktail.getDesc()    != null ? cocktail.getDesc()    : before_cocktail.getDesc());
+			stmt.setString(4, cocktail.getHistory() != null ? cocktail.getHistory() : before_cocktail.getHistory());
+			stmt.setString(5, cocktail.getTaste()   != null ? cocktail.getTaste()   : before_cocktail.getTaste());
+			stmt.setString(6, cocktail.getBase()    != null ? cocktail.getBase()    : before_cocktail.getBase());
+			stmt.setString(7, cocktail.getBuild()   != null ? cocktail.getBuild()   : before_cocktail.getBuild());
+			stmt.setString(8, cocktail.getGlass()   != null ? cocktail.getGlass()   : before_cocktail.getGlass());
+			
+			success = stmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, stmt, conn);
+		}
+		return success;
+	}
+	public int DeleteCocktail(int cocktail_id) {
+		int success = 0;
+		try {
+			conn = JDBCConnection.getConnection();
+			
+			String sql = "DELETE FROM COCKTAIL WHERE = "+cocktail_id;
+			
+			stmt = conn.prepareStatement(sql);
+			
+			success = stmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, stmt, conn);
+		}
+		return success;
 	}
 }

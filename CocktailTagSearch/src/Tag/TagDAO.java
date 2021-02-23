@@ -3,12 +3,15 @@ package Tag;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import Cocktail.CocktailVO;
 import basic.JDBCConnection;
 
 public class TagDAO {
 	private Connection conn = null;
 	private Statement stmt = null;
+	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 	public TagVO getTag(int id) {
 		
@@ -94,5 +97,80 @@ public class TagDAO {
 			JDBCConnection.close(rs, stmt, conn); 
 		}
 		return tagList;
+	}
+	public int InsertCocktail(TagVO tag) {
+		int success = 0;
+		try {
+			conn = JDBCConnection.getConnection();
+			
+			ArrayList<TagVO> tl = getTagList();
+			int maxId = 0;
+			for(TagVO t : tl) {
+				if(t.getId() > maxId) {
+					maxId = t.getId();
+				}
+			}
+			
+			String sql = "INSERT INTO TAG"
+					   + "(\"TAG_ID\", \"TAG_NAME\", \"DESC\", \"CATEGORY\") " 
+					   + "VALUES (?, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, ++maxId);
+			pstmt.setString(2, tag.getName());
+			pstmt.setString(3, tag.getDesc());
+			pstmt.setString(4, tag.getCategory());
+			
+			success = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, pstmt, conn);
+		}
+		return success;
+	}
+	public int UpdateCocktail(TagVO tag, int tag_id) {
+		int success = 0;
+		try {
+			conn = JDBCConnection.getConnection();
+			
+			TagVO before_tag = getTag(tag_id);
+			
+			String sql = "UPDATE TAG SET "
+					   + "TAG_NAME=?, DESC=?, CATEGORY=? WHERE TAG_ID = "+tag_id;
+			
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, tag.getName()       != null ? tag.getName()       : before_tag.getName());
+			pstmt.setString(2, tag.getDesc()       != null ? tag.getDesc()       : before_tag.getDesc());
+			pstmt.setString(3, tag.getCategory()   != null ? tag.getCategory()   : before_tag.getCategory());
+			
+			success = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, pstmt, conn);
+		}
+		return success;
+	}
+	public int DeleteCocktail(int tag_id) {
+		int success = 0;
+		try {
+			conn = JDBCConnection.getConnection();
+			
+			String sql = "DELETE FROM COCKTAIL WHERE = "+tag_id;
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			success = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, pstmt, conn);
+		}
+		return success;
 	}
 }

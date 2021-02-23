@@ -1,8 +1,8 @@
 package FavoriteCocktail;
 
 public class FavoriteCocktailVO {
-	private int member_id;
-	private int cocktail_id;
+	private int member_id = 0;
+	private int cocktail_id = 0;
 	public int getMember_id() {
 		return member_id;
 	}

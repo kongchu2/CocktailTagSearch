@@ -1,8 +1,8 @@
 package FavoriteTags;
 
 public class FavoriteTagsVO {
-	private int member_id;
-	private int tag_id;
+	private int member_id = 0;
+	private int tag_id = 0;
 	public int getMember_id() {
 		return member_id;
 	}

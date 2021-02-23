@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import Tag.TagVO;
 
 public class CocktailVO {
-	private int id;
-	private String name;
-	private String image;
-	private String desc;
-	private String history;
-	private String taste;
-	private String base;
-	private String build;
-	private String glass;
+	private int id = 0;
+	private String name = null;
+	private String image = null;
+	private String desc = null;
+	private String history = null;
+	private String taste = null;
+	private String base = null;
+	private String build = null;
+	private String glass = null;
 	private ArrayList<TagVO> tagList;
 	public int getId() {
 		return id;

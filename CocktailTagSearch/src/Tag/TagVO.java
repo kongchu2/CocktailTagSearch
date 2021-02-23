@@ -2,10 +2,10 @@ package Tag;
 
 
 public class TagVO {
-	private int id;
-	private String name;
-	private String desc;
-	private String category;
+	private int id = 0;
+	private String name = null;
+	private String desc = null;
+	private String category = null;
 	public int getId() {
 		return id;
 	}
