@@ -50,21 +50,23 @@ public class CocktailSearch extends HttpServlet {
 		
 		CocktailDAO dao = new CocktailDAO();
 		ArrayList<CocktailVO> cocktailList = null;
-
-		if(tagIdList.size() == 0)
-			cocktailList = dao.getCocktailList();
-		else {
-			cocktailList = dao.getCocktailListByTagList(tagIdList);
-		}
-		HashMap<String, Object> hashMap = null;
 		
+		if(tagIdList.size() == 0) {
+			if(searchStr.equals(""))
+				cocktailList = dao.getCocktailList();
+			else
+				cocktailList = dao.getSearchedCocktailList(searchStr);
+		} else {
+			if(searchStr.equals(""))
+				cocktailList = dao.getCocktailListByTagList(tagIdList);
+			else
+				cocktailList = dao.getSearchedCocktailListByTagList(searchStr, tagIdList);
+		}
 		JSONArray cocktailArray = new JSONArray();
+		
 		for(CocktailVO cocktail : cocktailList) {
-			if(cocktail.getName().contains(searchStr)) {
-				JSONObject cocktailJson = new JSONObject(cocktail.toHashMap());
-				cocktailArray.add(cocktailJson);
-			}
-			hashMap = null;
+			JSONObject cocktailJson = new JSONObject(cocktail.toHashMap());
+			cocktailArray.add(cocktailJson);
 		}
 		JSONObject json = new JSONObject();
 		json.put("cocktails", cocktailArray);

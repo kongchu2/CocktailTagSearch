@@ -20,7 +20,8 @@ public class TagDAO {
 		try {			
 			conn = JDBCConnection.getConnection(); 
 			
-			String sql = "SELECT * FROM TAG WHERE TAG_ID="+id;
+			int limit = 5;
+			String sql = "SELECT * FROM (SELECT * FROM TAG WHERE TAG_ID="+id+") WHERE  ROWNUM <= "+limit;
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			
@@ -44,7 +45,8 @@ public class TagDAO {
 			conn = JDBCConnection.getConnection();
 			
 			stmt = conn.createStatement();
-			String sql = "SELECT * FROM TAG";
+			int limit = 5;
+			String sql = "SELECT * FROM TAG WHERE ROWNUM <= "+limit;
 			rs = stmt.executeQuery(sql);
 			
 			while(rs.next()) {
@@ -58,6 +60,95 @@ public class TagDAO {
 		
 		return tagList;
 		
+	}
+	public ArrayList<TagVO> getSearchedTagList(String searchWord) {
+
+		ArrayList<TagVO> tagList = new ArrayList<TagVO>();
+		
+		try {
+			conn = JDBCConnection.getConnection();
+
+			// limit
+			int limit = 5;
+			String sql = "SELECT * FROM (SELECT * FROM TAG WHERE TAG_NAME LIKE'%"+ searchWord +"%') WHERE ROWNUM <= "+limit;
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next())
+			{
+				tagList.add(new TagVO(rs.getInt("TAG_ID"), rs.getString("TAG_NAME"), rs.getString("DESC"), rs.getString("CATEGORY")));
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, pstmt, conn);
+		}
+		return tagList;
+	}
+	public ArrayList<TagVO> getSearchedTagListWithoutTagIdList(String searchWord, ArrayList<Integer> tagIdList) {
+
+		ArrayList<TagVO> tagList = new ArrayList<TagVO>();
+		
+		try {
+			conn = JDBCConnection.getConnection();
+
+			// limit
+			int limit = 5;
+			String sql = "SELECT * FROM (SELECT * FROM TAG WHERE TAG_NAME LIKE'%"+ searchWord +"%' AND TAG_ID NOT IN(!)) WHERE ROWNUM <= "+limit;
+			
+			String subQueryWhere = "";
+			for(int tagId : tagIdList) {
+				subQueryWhere += tagId + ", ";
+			}
+			subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length()-2);
+			sql = sql.replace("!", subQueryWhere);
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next())
+			{	
+				tagList.add(new TagVO(rs.getInt("TAG_ID"), rs.getString("TAG_NAME"), rs.getString("DESC"), rs.getString("CATEGORY")));
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, pstmt, conn);
+		}
+		return tagList;
+	}
+	public ArrayList<TagVO> getTagListWithoutTagIdList(ArrayList<Integer> tagIdList) {
+		
+		ArrayList<TagVO> tagList = new ArrayList<TagVO>();
+		
+		try {
+			conn = JDBCConnection.getConnection();
+			
+			// limit
+			int limit = 5;
+			String sql = "SELECT * FROM (SELECT * FROM TAG WHERE TAG_ID NOT IN(!)) WHERE ROWNUM <= "+limit;
+			
+			String subQueryWhere = "";
+			for(int tagId : tagIdList) {
+				subQueryWhere += tagId + ", ";
+			}
+			subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length()-2);
+			sql = sql.replace("!", subQueryWhere);
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next())
+			{	
+				tagList.add(new TagVO(rs.getInt("TAG_ID"), rs.getString("TAG_NAME"), rs.getString("DESC"), rs.getString("CATEGORY")));
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, pstmt, conn);
+		}
+		return tagList;
 	}
 	public ArrayList<TagVO> getTagListByCocktailId(int cocktailId) {
 		
@@ -89,7 +180,7 @@ public class TagDAO {
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally {
-			JDBCConnection.close(rs, stmt, conn); 
+			JDBCConnection.close(rs, pstmt, conn); 
 		}
 		return tagList;
 	}

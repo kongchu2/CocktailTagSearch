@@ -140,24 +140,26 @@ function getAutocompleteTags() {
 	      tags: JSON.stringify(selectTagList)
 		},
 		success:function(data) {
-			if(data === "")
-			  return;
-      $("#autocompleteTagsContents").html("");
-      autocompleteTagList = [];
-      $.each(data.tags, function(index, item) {
-        createTag(index, item);
-        autocompleteTagList.push({name:item.name, id:item.id});
-      });
-
-	    
-	autocompleteTag = document.querySelectorAll(".autocompleteTags");
-			$.each(autocompleteTag, function(index, item) {
-        item.addEventListener("mouseover", showComplete);
-	      item.addEventListener("mouseout", hideComplete);
-        item.addEventListener("mousedown", addTag);
-        item.addEventListener("mousedown", function() { search.value = ""; });
-      });
-	  }   
+		  if(data === "") 
+			  return;	
+	      $("#autocompleteTagsContents").html("");
+	      autocompleteTagList = [];
+	      $.each(data.tags, function(index, item) {
+	        createTag(index, item);
+	        autocompleteTagList.push({name:item.name, id:item.id});
+	      });
+	  
+		  autocompleteTag = document.querySelectorAll(".autocompleteTags");
+	      $.each(autocompleteTag, function(index, item) {
+	        item.addEventListener("mouseover", showComplete);
+		    item.addEventListener("mouseout", hideComplete);
+	        item.addEventListener("mousedown", addTag);
+	        item.addEventListener("mousedown", function() { search.value = ""; });
+	      });
+	    },
+   		error:function(error) {
+	 	  $('#autocompleteTagsContents').empty();
+		}
   });
 }
 

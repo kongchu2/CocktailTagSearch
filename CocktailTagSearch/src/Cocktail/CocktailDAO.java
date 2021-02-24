@@ -47,8 +47,34 @@ public class CocktailDAO {
 		
 		try {
 			conn = JDBCConnection.getConnection();
+
+			// limit
+			int limit = 10;
+			String sql = "SELECT * FROM COCKTAIL WHERE ROWNUM <= "+limit;
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
 			
-			String sql = "SELECT * FROM COCKTAIL";
+			while(rs.next())
+			{	
+				cocktailList.add(getCocktailByResultSet());
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, stmt, conn);
+		}
+		return cocktailList;
+	}
+	public ArrayList<CocktailVO> getSearchedCocktailList(String searchWord) {
+
+		ArrayList<CocktailVO> cocktailList = new ArrayList<CocktailVO>();
+		
+		try {
+			conn = JDBCConnection.getConnection();
+
+			// limit
+			int limit = 10;
+			String sql = "SELECT * FROM (SELECT * FROM COCKTAIL WHERE NAME LIKE'%"+ searchWord +"%') WHERE ROWNUM <= "+limit;
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
 			
@@ -70,13 +96,15 @@ public class CocktailDAO {
 		try {
 			conn = JDBCConnection.getConnection();
 			
-			String sql = "SELECT COCKTAIL_ID FROM COCKTAIL_TAG WHERE TAG_ID=?";
+			String sql = "SELECT COCKTAIL_ID FROM COCKTAIL_TAG WHERE TAG_ID=? ";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, tagId);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
 				int cocktail_id = rs.getInt("COCKTAIL_ID");
-				sql = "SELECT * FROM COCKTAIL WHERE COCKTAIL_ID=?";
+				// limit
+				int limit = 5;
+				sql = "SELECT * FROM (SELECT * FROM COCKTAIL WHERE COCKTAIL_ID=?) WHERE ROWNUM <= "+limit;
 				stmt = conn.prepareStatement(sql);
 				stmt.setInt(1, cocktail_id);
 				ResultSet cocktail_rs = stmt.executeQuery();
@@ -114,6 +142,12 @@ public class CocktailDAO {
 			}
 			subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length()-2);
 			sql = sql.replace("!", subQueryWhere);
+			
+			// limit
+			int limit = 5;
+			sql = "SELECT * FROM (" + sql;
+			sql += ") WHERE ROWNUM <= " + limit;
+			
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, tagList.size()-1);
 			rs = stmt.executeQuery();
@@ -128,6 +162,48 @@ public class CocktailDAO {
 		}
 		return cocktailList;
 	}
+	public ArrayList<CocktailVO> getSearchedCocktailListByTagList(String searchWord, ArrayList<Integer> tagList) {
+ArrayList<CocktailVO> cocktailList = new ArrayList<CocktailVO>();
+		
+		try {
+			conn = JDBCConnection.getConnection();
+			
+			String sql = "SELECT * "
+					+ "FROM COCKTAIL "
+					+ "WHERE COCKTAIL_ID IN "
+					+ "(SELECT COCKTAIL_ID "
+					+ "FROM (SELECT * FROM COCKTAIL_TAG WHERE !) "
+					+ "GROUP BY COCKTAIL_ID "
+					+ "HAVING COUNT(*) > ?) AND NAME LIKE'%"+ searchWord +"%'";
+			
+			String subQueryWhere = "";
+			
+			for(int tagId : tagList) {
+				subQueryWhere += " TAG_ID=\'"+tagId+"\' OR";
+			}
+			subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length()-2);
+			sql = sql.replace("!", subQueryWhere);
+			
+			// limit
+			int limit = 5;
+			sql = "SELECT * FROM (" + sql;
+			sql += ") WHERE ROWNUM <= " + limit;
+			
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, tagList.size()-1);
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				cocktailList.add(getCocktailByResultSet());
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, stmt, conn);
+		}
+		return cocktailList;
+	}
+	
 	public int InsertCocktail(CocktailVO cocktail) {
 		int success = 0;
 		try {

@@ -30,7 +30,7 @@ public class TagSearch extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		
-		String searchStr = request.getParameter("search");
+		String searchStr = request.getParameter("search").trim();
 		String tagStr = request.getParameter("tags");
 		
 		JSONArray tagArray = null;
@@ -42,19 +42,26 @@ public class TagSearch extends HttpServlet {
 		}
 		
 		ArrayList<Integer> tagIdList = new ArrayList<Integer>();
-		
+				
 		for(int i=0;i<tagArray.size();i++) {
-			Object tag = tagArray.get(i);
-			if(tag instanceof JSONObject) {
-				Object tagIdObject = ((JSONObject) tag).get("id");
-				if(tagIdObject instanceof java.lang.Long) {
-					tagIdList.add(((Long)tagIdObject).intValue());
-				}
-			}
+			int tagId = ((Long)((JSONObject)tagArray.get(i)).get("id")).intValue();
+			tagIdList.add(tagId);
 		}
 		
 		TagDAO tag_dao = new TagDAO();
-		ArrayList<TagVO> tagList = tag_dao.getTagList();
+		
+		ArrayList<TagVO> tagList = null;
+		if(tagIdList.size() == 0) {
+			if(searchStr.equals("")) 
+				tagList = tag_dao.getTagList();
+			else
+				tagList = tag_dao.getSearchedTagList(searchStr);
+		} else {
+			if(searchStr.equals("")) 
+				tagList = tag_dao.getTagListWithoutTagIdList(tagIdList);
+			else
+				tagList = tag_dao.getSearchedTagListWithoutTagIdList(searchStr, tagIdList);
+		}
 		
 		JSONObject json = null;
 		JSONArray tags = new JSONArray();
@@ -63,20 +70,16 @@ public class TagSearch extends HttpServlet {
 
 		HashMap<String, Object> hashMap = null;
 		JSONObject tagJson = null;
-		int tagCount = 0;
+		
 		for(TagVO tag : tagList) {
-			if(tag.getName().contains(searchStr) && !tagIdList.contains(tag.getId())) {
-				tagCount++;
-				hashMap = new HashMap<String, Object>();
-				
-				hashMap.put("id", tag.getId());
-				hashMap.put("name", tag.getName());
-				
-				tagJson = new JSONObject(hashMap);
-				tags.add(tagJson);
-				isExist = true;
-			}
-			hashMap = null;
+			hashMap = new HashMap<String, Object>();
+			
+			hashMap.put("id", tag.getId());
+			hashMap.put("name", tag.getName());
+			
+			tagJson = new JSONObject(hashMap);
+			tags.add(tagJson);
+			isExist = true;
 		}
 		hashMap = new HashMap<String, Object>();
 		hashMap.put("tags", tags);
