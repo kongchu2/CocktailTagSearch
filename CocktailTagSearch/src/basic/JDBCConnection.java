@@ -5,14 +5,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 public class JDBCConnection {
 	public static Connection getConnection() throws ClassNotFoundException, SQLException{
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
 		String user = "kongchu2";
 		String password = "5233";
 		
-		Class.forName("oracle.jdbc.driver.OracleDriver");
-		Connection conn = DriverManager.getConnection(url, user, password);
+		DataSource ds = null;
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource)ctx.lookup("java:comp/env/jdbc/Oracle11g");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		Connection conn = ds.getConnection();
 		
 		return conn;
 	}
