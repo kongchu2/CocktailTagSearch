@@ -14,7 +14,6 @@ var remove_continuous_pressing = false;
 
 $(document).ready(loadData);
 
-search.addEventListener("keyup", showNotFound);
 search.addEventListener("keydown", hideComplete);
 search.addEventListener("input", _.debounce(getAutocompleteTags, 300));
 search.addEventListener('input',  _.debounce(getCocktailItems, 300));
@@ -29,10 +28,10 @@ search.addEventListener("focusout", function() {
 
 // 모든 칵테일이 표시가 안될 때 Not Found 표시
 function showNotFound() {
-  if($('.cocktailItems').length < 0) {
-    document.querySelector(".cocktailNotFound").style.display = "flex";
+  if($('.cocktailItems').length == 0) {
+    $('.cocktailNotFound').css('display', 'flex');
   } else {
-    document.querySelector(".cocktailNotFound").style.display = "none";
+    $('.cocktailNotFound').css('display', 'none');
   }
 }
 
@@ -103,13 +102,9 @@ function addTag() {
 
   this.parentNode.removeChild(this);
 
-  setTimeout(function() {  
-    search.value = "";
-	getFavoriteTags();
-	getAutocompleteTags();
-	getCocktailItems();
-    showNotFound();
-  }, 0.001);
+  setTimeout(function() { 
+	loadData();
+  }, 0);
   
   add_continuous_pressing = true;
   setTimeout(function() { add_continuous_pressing = false; }, 1000);
@@ -128,10 +123,7 @@ function removeTag() {
     })
     this.parentNode.removeChild(this);
 	
-	getFavoriteTags();
-	getAutocompleteTags();
-	getCocktailItems();
-    showNotFound();	
+	loadData();
 
   remove_continuous_pressing = true;
   setTimeout(function() { remove_continuous_pressing = false; }, 1000);
@@ -163,6 +155,7 @@ function getAutocompleteTags() {
         item.addEventListener("mouseover", showComplete);
 	      item.addEventListener("mouseout", hideComplete);
         item.addEventListener("mousedown", addTag);
+        item.addEventListener("mousedown", function() { search.value = ""; });
       });
 	  }   
   });

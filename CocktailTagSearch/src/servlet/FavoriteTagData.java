@@ -120,7 +120,6 @@ public class FavoriteTagData extends HttpServlet {
 							tagList.add(tagDAO.getTag(favoriteTag.getTag_id()));
 						}
 					}
-					System.out.println(tagList);
 					json.put("remove", true);
 				}
 			}
