@@ -18,7 +18,6 @@ import org.json.simple.parser.ParseException;
 
 import Cocktail.CocktailDAO;
 import Cocktail.CocktailVO;
-import Tag.TagVO;
 
 @WebServlet("/CocktailSearch")
 public class CocktailSearch extends HttpServlet {

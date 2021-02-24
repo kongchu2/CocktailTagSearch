@@ -1,6 +1,8 @@
-package servlet;
+	package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +19,7 @@ public class Login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
 		
 		String id = request.getParameter("id");
 		String pw = request.getParameter("pw");
@@ -32,10 +35,10 @@ public class Login extends HttpServlet {
 			session.setAttribute("userId", member.getMember_id());
 			session.setAttribute("userLogin_id", member.getLogin_id());
 			session.setAttribute("userName", member.getName());
-			response.sendRedirect("index.html");
+			out.print("right");
 		} else {
 			session.invalidate();
-			response.sendRedirect("login.html");
+			out.print("wrong");
 		}
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
