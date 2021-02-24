@@ -16,8 +16,8 @@ $(document).ready(loadData);
 
 search.addEventListener("keyup", showNotFound);
 search.addEventListener("keydown", hideComplete);
-search.addEventListener("input", getAutocompleteTags);
-search.addEventListener('input', getCocktailItems);
+search.addEventListener("input", _.debounce(getAutocompleteTags, 300));
+search.addEventListener('input',  _.debounce(getCocktailItems, 300));
 
 search.addEventListener("focus", function() {
   autocomplete.style.display = "block";
