@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +18,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import FavoriteTags.FavoriteTagsDAO;
-import FavoriteTags.FavoriteTagsVO;
 import Member.MemberDAO;
 import Member.MemberVO;
 import Tag.TagDAO;
@@ -47,43 +47,11 @@ public class FavoriteTagData extends HttpServlet {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-
-			
-		ArrayList<String> loveNameList = new ArrayList<String>();
-		if (loveArray != null) { 
-		   for (int i=0; i<loveArray.size(); i++){ 
-			   loveNameList.add((String)loveArray.get(i));
-		   } 
-		} 
-		
-		ArrayList<String> tagNameList = new ArrayList<String>();
-		
-		for(int i=0;i<tagArray.size();i++) {
-			Object tag = tagArray.get(i);
-			if(tag instanceof JSONObject) {
-				Object tagNameObject = ((JSONObject) tag).get("name");
-				if(tagNameObject instanceof java.lang.String) {
-					tagNameList.add(((String)tagNameObject));
-				}
-			}
-		}
-		
-		loveNameList.addAll(tagNameList);
-		ArrayList<String> nameList = loveNameList;
 		
 		JSONObject json = new JSONObject();
 
 		HttpSession session = request.getSession(false);
 		
-		MemberDAO memberDAO = null;
-		MemberVO memberVO = null;
-		
-		FavoriteTagsDAO favoriteTagsDAO = null;
-		TagDAO tagDAO = null;
-		
-		ArrayList<FavoriteTagsVO> favoriteTagList= null;
-		ArrayList<TagVO> tagList = null;
-
 		boolean flag = true;
 		String login_id = null;
 		if(session != null) {
@@ -94,34 +62,36 @@ public class FavoriteTagData extends HttpServlet {
 		}
 		
 		if(flag) {
-			memberDAO = new MemberDAO();
-			memberVO = memberDAO.getMember(login_id);
+			MemberDAO memberDAO = new MemberDAO();
+			MemberVO memberVO = memberDAO.getMember(login_id);
 
-			favoriteTagsDAO = new FavoriteTagsDAO();
-			favoriteTagList = favoriteTagsDAO.getFavoriteTagListByMember_id(memberVO.getMember_id());
+			FavoriteTagsDAO favoriteTagsDAO = new FavoriteTagsDAO();
+			int member_id = memberVO.getMember_id();
 			
-	       	tagDAO = new TagDAO();
-			tagList = new ArrayList<TagVO>();
+			TagDAO tagDAO = new TagDAO();
+			ArrayList<TagVO> tagList = new ArrayList<TagVO>();
 			
-			if(loveStr.equals("[]") && tagStr.equals("[]")) {
-				for(FavoriteTagsVO favoriteTag : favoriteTagList) {
-		       		tagList.add(tagDAO.getTag(favoriteTag.getTag_id()));
-		       	}
-				json.put("remove", false);
+			ArrayList<Integer> loveIdList = new ArrayList<Integer>();
+			
+			for(int i=0;i<loveArray.size();i++) {
+				int loveId = ((Long)((JSONObject)loveArray.get(i)).get("id")).intValue();
+				loveIdList.add(loveId);
+			}
+
+			ArrayList<Integer> tagIdList = new ArrayList<Integer>();
+			for(int i=0;i<tagArray.size();i++) {
+				int tagId = ((Long)((JSONObject)tagArray.get(i)).get("id")).intValue();
+				tagIdList.add(tagId);
+			}
+			Collections.sort(tagIdList);
+			
+			ArrayList<Integer> restTagIdList = favoriteTagsDAO.getFavoriteTagIdListByMember_id(member_id);
+			restTagIdList.removeAll(loveIdList);
+			
+			if(tagIdList.size() == 0) {
+				tagList = tagDAO.getTagListByTagIdList(favoriteTagsDAO.getFavoriteTagIdListByMember_id(member_id));
 			} else {
-				for(FavoriteTagsVO favoriteTag : favoriteTagList) {
-					if(!nameList.contains(tagDAO.getTag(favoriteTag.getTag_id()).getName())) {
-						tagList.add(tagDAO.getTag(favoriteTag.getTag_id()));
-					}
-				}
-				if(tagList.isEmpty()) {
-					for(FavoriteTagsVO favoriteTag : favoriteTagList) {
-						if(!tagNameList.contains(tagDAO.getTag(favoriteTag.getTag_id()).getName())) {
-							tagList.add(tagDAO.getTag(favoriteTag.getTag_id()));
-						}
-					}
-					json.put("remove", true);
-				}
+				tagList = tagDAO.getTagListByTagIdListWithoutTagIdList(favoriteTagsDAO.getFavoriteTagIdListByMember_id(member_id), tagIdList);
 			}
 	       	JSONArray array = new JSONArray();
 			JSONObject tagJson = null;

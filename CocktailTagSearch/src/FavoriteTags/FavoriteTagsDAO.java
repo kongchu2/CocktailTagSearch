@@ -43,6 +43,29 @@ public class FavoriteTagsDAO {
 		}
 		return favoriteTagList;
 	}
+	public ArrayList<Integer> getFavoriteTagIdListByMember_id(int member_id) {
+		ArrayList<Integer> tagIdList = new ArrayList<Integer>();
+		
+		try {
+			conn = JDBCConnection.getConnection();
+			
+			String sql = "SELECT TAG_ID FROM FAVORITE_TAGS WHERE MEMBER_ID="+member_id;
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			
+			while(rs.next())
+			{
+				int tagId = rs.getInt("TAG_ID");
+				
+				tagIdList.add(tagId);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, stmt, conn);
+		}
+		return tagIdList;
+	}
 	public ArrayList<FavoriteTagsVO> getFavoriteTagListByMember_id(int member_id) {
 
 		ArrayList<FavoriteTagsVO> favoriteTagList = new ArrayList<FavoriteTagsVO>();

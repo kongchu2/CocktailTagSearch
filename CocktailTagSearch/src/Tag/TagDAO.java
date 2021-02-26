@@ -1,12 +1,16 @@
 package Tag;
 
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Iterator;
 
-import Cocktail.CocktailVO;
+import FavoriteCocktail.FavoriteCocktailVO;
+import FavoriteTags.FavoriteTagsVO;
 import basic.JDBCConnection;
+
 
 public class TagDAO {
 	private Connection conn = null;
@@ -60,6 +64,99 @@ public class TagDAO {
 		
 		return tagList;
 		
+	}
+	public ArrayList<TagVO> getTagListByTagIdList(ArrayList<Integer> tagIdList) {
+		
+		ArrayList<TagVO> tagList = new ArrayList<TagVO>();
+		
+		try {
+			conn = JDBCConnection.getConnection();
+			
+			stmt = conn.createStatement();
+			int limit = 5;
+			String sql = "SELECT * FROM TAG WHERE TAG_ID IN(!)";
+			
+			String subQueryWhere = "";
+			for(int tagId : tagIdList) {
+				subQueryWhere += tagId + ", ";
+			}
+			subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length()-2);
+			sql = sql.replace("!", subQueryWhere);
+			
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				tagList.add(new TagVO(rs.getInt("TAG_ID"), rs.getString("TAG_NAME"), rs.getString("DESC"), rs.getString("CATEGORY")));
+			}
+		} catch(Exception e) {
+			e.printStackTrace();		
+		} finally {
+			JDBCConnection.close(rs, stmt, conn);
+		}
+		
+		return tagList;
+		
+	}
+	public ArrayList<TagVO> getTagListByTagIdListWithoutTagIdList(ArrayList<Integer> tagIdList, ArrayList<Integer> withoutTagIdList) {
+		
+		ArrayList<TagVO> tagList = new ArrayList<TagVO>();
+		
+		try {
+			conn = JDBCConnection.getConnection();
+			
+			stmt = conn.createStatement();
+			int limit = 5;
+			String sql = "SELECT * FROM TAG WHERE TAG_ID IN(1!) AND TAG_ID NOT IN(2!)";
+			
+			String subQueryWhere1 = "";
+			for(int tagId : tagIdList) {
+				subQueryWhere1 += tagId + ", ";
+			}
+			subQueryWhere1 = subQueryWhere1.substring(0, subQueryWhere1.length()-2);
+			sql = sql.replace("1!", subQueryWhere1);
+			
+			String subQueryWhere2 = "";
+			for(int tagId : withoutTagIdList) {
+				subQueryWhere2 += tagId + ", ";
+			}
+			subQueryWhere2 = subQueryWhere2.substring(0, subQueryWhere2.length()-2);
+			sql = sql.replace("2!", subQueryWhere2);
+			
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				tagList.add(new TagVO(rs.getInt("TAG_ID"), rs.getString("TAG_NAME"), rs.getString("DESC"), rs.getString("CATEGORY")));
+			}
+		} catch(Exception e) {
+			e.printStackTrace();		
+		} finally {
+			JDBCConnection.close(rs, stmt, conn);
+		}
+		
+		return tagList;
+		
+	}
+	public TagVO getSearchedTagJustOne(String searchWord) {
+		
+		TagVO tag = null;
+		
+		try {
+			conn = JDBCConnection.getConnection();
+			
+			String sql = "SELECT * FROM TAG WHERE TAG_NAME LIKE'%"+ searchWord +"%'";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next())
+			{
+				tag = new TagVO(rs.getInt("TAG_ID"), rs.getString("TAG_NAME"), rs.getString("DESC"), rs.getString("CATEGORY"));
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, pstmt, conn);
+		}
+		return tag;
 	}
 	public ArrayList<TagVO> getSearchedTagList(String searchWord) {
 

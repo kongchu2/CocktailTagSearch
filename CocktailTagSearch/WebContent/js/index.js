@@ -93,21 +93,14 @@ function addTag() {
 
   input.appendChild(tag);
 
-  for(var i=0;i<autocompleteTagList.length;i++) {
-    if(value === autocompleteTagList[i].name) {
-      selectTagList.push(autocompleteTagList[i]);
-      break;
-    }
-  }
-
   this.parentNode.removeChild(this);
 
   setTimeout(function() { 
-	loadData();
+	findMathingTag(value, loadData);	
   }, 0);
   
   add_continuous_pressing = true;
-  setTimeout(function() { add_continuous_pressing = false; }, 1000);
+  setTimeout(function() { add_continuous_pressing = false; }, 200);
 }
 
 function removeTag() {
@@ -126,8 +119,27 @@ function removeTag() {
 	loadData();
 
   remove_continuous_pressing = true;
-  setTimeout(function() { remove_continuous_pressing = false; }, 1000);
+  setTimeout(function() { remove_continuous_pressing = false; }, 200);
 
+}
+
+function findMathingTag(tagName, callback) {
+  $.ajax({
+		type:"post",
+		url:"http://localhost:8090/CocktailTagSearch/MatchingTag",
+		dataType:"json",
+		data: {
+		  name: tagName
+		},
+		success:function(data) {
+		  if(data === "")
+			return;
+		  selectTagList.push({name: data.tags.name, id: data.tags.id});
+		  if(callback)
+			callback();
+		  
+		}
+  });
 }
 
 function getAutocompleteTags() {
@@ -144,10 +156,7 @@ function getAutocompleteTags() {
 			  return;	
 	      $("#autocompleteTagsContents").html("");
 	      autocompleteTagList = [];
-	      $.each(data.tags, function(index, item) {
-	        createTag(index, item);
-	        autocompleteTagList.push({name:item.name, id:item.id});
-	      });
+	      $.each(data.tags, createTag);
 	  
 		  autocompleteTag = document.querySelectorAll(".autocompleteTags");
 	      $.each(autocompleteTag, function(index, item) {
@@ -160,36 +169,6 @@ function getAutocompleteTags() {
    		error:function(error) {
 	 	  $('#autocompleteTagsContents').empty();
 		}
-  });
-}
-
-function getAllTags() {
-  $.ajax({
-		type:"post",
-		url:"http://localhost:8090/CocktailTagSearch/TagSearch",
-		dataType:"json",
-		data: {
-		  search: $("#searchText").val(),
-	      tags: JSON.stringify(selectTagList)
-		},
-		success:function(data) {
-			if(data === "")
-			  return;
-      $("#autocompleteTagsContents").html("");
-      autocompleteTagList = [];
-      $.each(data.tags, function(index, item) {
-        createTag(index, item);
-        autocompleteTagList.push({name:item.name, id:item.id});
-      });
-
-	    
-	autocompleteTag = document.querySelectorAll(".autocompleteTags");
-			$.each(autocompleteTag, function(index, item) {
-        item.addEventListener("mouseover", showComplete);
-	      item.addEventListener("mouseout", hideComplete);
-        item.addEventListener("mousedown", addTag);
-      });
-	  }   
   });
 }
 
@@ -218,7 +197,7 @@ function getCocktailItems() {
 function getFavoriteTags() {
 	var favoriteTags = [];
 	$.each($('.favoriteTags'), function(index, item) {
-		favoriteTags.push(item.textContent);
+		favoriteTags.push({id: parseInt($(this).attr('tag_id'))});
 	});
 	
 	$.ajax({
@@ -234,15 +213,14 @@ function getFavoriteTags() {
     },
     success: function(data) {
 	  if(data != null && data.tag != null) {
-		if(data.remove) {
-			$('#favoriteTagContents').empty();
-		}
+		$('#favoriteTagContents').empty();
 		$('#favoriteTagContents').css('visibility', 'visible');
 		$.each(data.tag, function(index, item) {
-			$('#favoriteTagContents').prepend($('<div/>', {
+			$('#favoriteTagContents').append($('<div/>', {
 		      class: "favoriteTags",
 			  desc: item.desc,
-		      text: item.name
+		      text: item.name,
+			  tag_id: item.id
 		    }));
 		  });
 		  $('.favoriteTags').each(function(index, item) {
