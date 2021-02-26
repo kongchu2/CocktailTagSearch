@@ -39,9 +39,9 @@ function getLikeData() {
 function setLikeIcon(isLiked) {
     var path = "";
     if(isLiked) {
-        path = "image/filledHeart.png";
+        path = "image/icon/filledHeart.png";
     } else {
-        path = "image/notFilledHeart.png";
+        path = "image/icon/notFilledHeart.png";
     }
     $('#likeimg').attr('src', path);
 }

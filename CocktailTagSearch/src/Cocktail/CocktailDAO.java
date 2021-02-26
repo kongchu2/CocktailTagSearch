@@ -347,7 +347,7 @@ public class CocktailDAO {
 		
 		int id			= rs.getInt("COCKTAIL_ID");
 		String name 	= rs.getString("NAME");
-		String image 	= "image/" + rs.getString("IMAGE");
+		String image 	= "image/cocktail/" + rs.getString("IMAGE");
 		String desc 	= rs.getString("DESC");
 		String history 	= rs.getString("HISTORY_DESC");
 		String taste 	= rs.getString("TASTE_DESC");
@@ -376,7 +376,7 @@ public class CocktailDAO {
 		
 		int id			= rs.getInt("COCKTAIL_ID");
 		String name 	= rs.getString("NAME");
-		String image 	= "image/" + rs.getString("IMAGE");
+		String image 	= "image/cocktail/" + rs.getString("IMAGE");
 		String desc 	= rs.getString("DESC");
 		
 		TagDAO dao = new TagDAO();

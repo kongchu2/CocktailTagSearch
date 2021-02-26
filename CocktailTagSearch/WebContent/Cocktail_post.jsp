@@ -34,7 +34,7 @@ request.setCharacterEncoding("UTF-8");
             <div id="postTitleContents">
                 <div class="postTitle"><%=cocktail.getName()%></div>
             </div>
-            <img src="image/notFilledHeart.png" id="likeimg">
+            <img src="image/icon/notFilledHeart.png" id="likeimg">
             <div id="cocktailImageContents">
                 <img src=<%=cocktail.getImage()%> alt="칵테일사진" class="cocktailImages">
             </div>
