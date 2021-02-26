@@ -50,13 +50,13 @@ public class CocktailDAO {
 
 			// limit
 			int limit = 10;
-			String sql = "SELECT * FROM COCKTAIL WHERE ROWNUM <= "+limit;
+			String sql = "SELECT ROWNUM, cocktail.* FROM (SELECT COCKTAIL_ID, NAME, IMAGE, \"DESC\" FROM COCKTAIL) cocktail WHERE ROWNUM <= "+limit;
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
 			
 			while(rs.next())
 			{	
-				cocktailList.add(getCocktailByResultSet());
+				cocktailList.add(getCocktailByResultSetNeedToSearch());
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -74,13 +74,13 @@ public class CocktailDAO {
 
 			// limit
 			int limit = 10;
-			String sql = "SELECT * FROM (SELECT * FROM COCKTAIL WHERE NAME LIKE'%"+ searchWord +"%') WHERE ROWNUM <= "+limit;
+			String sql = "SELECT ROWNUM, cocktail.* FROM (SELECT COCKTAIL_ID, NAME, IMAGE, \"DESC\" FROM COCKTAIL WHERE NAME LIKE'%"+ searchWord +"%') cocktail WHERE ROWNUM <= "+limit;
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
 			
 			while(rs.next())
 			{	
-				cocktailList.add(getCocktailByResultSet());
+				cocktailList.add(getCocktailByResultSetNeedToSearch());
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -104,13 +104,13 @@ public class CocktailDAO {
 				int cocktail_id = rs.getInt("COCKTAIL_ID");
 				// limit
 				int limit = 5;
-				sql = "SELECT * FROM (SELECT * FROM COCKTAIL WHERE COCKTAIL_ID=?) WHERE ROWNUM <= "+limit;
+				sql = "SELECT ROWNUM, cocktail.* FROM (SELECT COCKTAIL_ID, NAME, IMAGE, \"DESC\" FROM (SELECT COCKTAIL_ID, NAME, IMAGE, DESC FROM COCKTAIL WHERE COCKTAIL_ID=?)) cocktail WHERE ROWNUM <= "+limit;
 				stmt = conn.prepareStatement(sql);
 				stmt.setInt(1, cocktail_id);
 				ResultSet cocktail_rs = stmt.executeQuery();
 				if(cocktail_rs.next())
 				{
-					cocktailList.add(getCocktailByResultSet());
+					cocktailList.add(getCocktailByResultSetNeedToSearch());
 				}
 				cocktail_rs.close();
 			}
@@ -127,7 +127,7 @@ public class CocktailDAO {
 		try {
 			conn = JDBCConnection.getConnection();
 			
-			String sql = "SELECT * "
+			String sql = "SELECT COCKTAIL_ID, NAME, IMAGE, \"DESC\" "
 					+ "FROM COCKTAIL "
 					+ "WHERE COCKTAIL_ID IN "
 					+ "(SELECT COCKTAIL_ID "
@@ -145,14 +145,14 @@ public class CocktailDAO {
 			
 			// limit
 			int limit = 5;
-			sql = "SELECT * FROM (" + sql;
-			sql += ") WHERE ROWNUM <= " + limit;
+			sql = "SELECT ROWNUM, cocktail.* FROM (" + sql;
+			sql += ") cocktail WHERE ROWNUM <= " + limit;
 			
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, tagList.size()-1);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
-				cocktailList.add(getCocktailByResultSet());
+				cocktailList.add(getCocktailByResultSetNeedToSearch());
 			}
 			
 		} catch(Exception e) {
@@ -163,12 +163,12 @@ public class CocktailDAO {
 		return cocktailList;
 	}
 	public ArrayList<CocktailVO> getSearchedCocktailListByTagList(String searchWord, ArrayList<Integer> tagList) {
-ArrayList<CocktailVO> cocktailList = new ArrayList<CocktailVO>();
+		ArrayList<CocktailVO> cocktailList = new ArrayList<CocktailVO>();
 		
 		try {
 			conn = JDBCConnection.getConnection();
 			
-			String sql = "SELECT * "
+			String sql = "SELECT COCKTAIL_ID, NAME, IMAGE, \"DESC\" "
 					+ "FROM COCKTAIL "
 					+ "WHERE COCKTAIL_ID IN "
 					+ "(SELECT COCKTAIL_ID "
@@ -186,14 +186,14 @@ ArrayList<CocktailVO> cocktailList = new ArrayList<CocktailVO>();
 			
 			// limit
 			int limit = 5;
-			sql = "SELECT * FROM (" + sql;
-			sql += ") WHERE ROWNUM <= " + limit;
+			sql = "SELECT ROWNUM, cocktail.* FROM (" + sql;
+			sql += ") cocktail WHERE ROWNUM <= " + limit;
 			
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, tagList.size()-1);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
-				cocktailList.add(getCocktailByResultSet());
+				cocktailList.add(getCocktailByResultSetNeedToSearch());
 			}
 			
 		} catch(Exception e) {
@@ -367,6 +367,25 @@ ArrayList<CocktailVO> cocktailList = new ArrayList<CocktailVO>();
 		cocktail.setBase(base);
 		cocktail.setBuild(build);
 		cocktail.setGlass(glass);
+		cocktail.setTagList(tagList);
+		
+		return cocktail;
+	}
+	private CocktailVO getCocktailByResultSetNeedToSearch() throws SQLException {
+		CocktailVO cocktail = new CocktailVO();
+		
+		int id			= rs.getInt("COCKTAIL_ID");
+		String name 	= rs.getString("NAME");
+		String image 	= "image/" + rs.getString("IMAGE");
+		String desc 	= rs.getString("DESC");
+		
+		TagDAO dao = new TagDAO();
+		ArrayList<TagVO> tagList =  dao.getTagListByCocktailId(id);
+		
+		cocktail.setId(id);
+		cocktail.setName(name);
+		cocktail.setImage(image);
+		cocktail.setDesc(desc);
 		cocktail.setTagList(tagList);
 		
 		return cocktail;

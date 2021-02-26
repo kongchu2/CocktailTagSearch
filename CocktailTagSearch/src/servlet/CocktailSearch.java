@@ -65,7 +65,7 @@ public class CocktailSearch extends HttpServlet {
 		JSONArray cocktailArray = new JSONArray();
 		
 		for(CocktailVO cocktail : cocktailList) {
-			JSONObject cocktailJson = new JSONObject(cocktail.toHashMap());
+			JSONObject cocktailJson = new JSONObject(cocktail.toHashMapNeedToSearch());
 			cocktailArray.add(cocktailJson);
 		}
 		JSONObject json = new JSONObject();

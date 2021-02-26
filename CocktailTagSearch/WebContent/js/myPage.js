@@ -13,7 +13,7 @@ function getUserData() {
 	      $.each(data.cocktail, function(index, item) {
 	        var cocktail = $('<div/>');
 	        cocktail.addClass('myPageCocktails');
-		    cocktail.attr('desc', item.name);
+		    cocktail.attr('desc', item.desc);
 		    cocktail.text(item.name);
 		    cocktail.on('click', function() {
 	          var url = "Cocktail_post.jsp?id="+item.id;
@@ -21,6 +21,7 @@ function getUserData() {
 		    });
 	          $('#myPageCocktailContents').append(cocktail);
           });
+
           $.each(data.tag, function(index, item) {
 	        $('#myPageTagContents').append($('<div/>', {
               class: "myPageTags",

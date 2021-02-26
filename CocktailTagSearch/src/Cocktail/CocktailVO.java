@@ -98,6 +98,21 @@ public class CocktailVO {
 		hashMap.put("tags", tempTagArray);
 		return hashMap;
 	}
+	public HashMap<String, Object> toHashMapNeedToSearch() {
+		HashMap<String ,Object> hashMap = new HashMap<String, Object>();
+		hashMap.put("id", getId());
+		hashMap.put("name", getName());
+		hashMap.put("image", getImage());
+		hashMap.put("desc", getDesc());
+		JSONArray tempTagArray = new JSONArray();
+		for(TagVO tag : getTagList()) {
+			HashMap<String, Object> tempHashMap = tag.toHashMap();
+			JSONObject tagJson = new JSONObject(tempHashMap);
+			tempTagArray.add(tagJson);
+		}
+		hashMap.put("tags", tempTagArray);
+		return hashMap;
+	}
 	@Override
 	public String toString() {
 		return "CocktailVO [id=" + id + ", name=" + name + ", image=" + image + ", desc=" + desc + ", history="

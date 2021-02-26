@@ -92,13 +92,7 @@ public class FavoriteData extends HttpServlet {
 	       		
 	       		cocktailJson.put("id", cocktail.getId());
 	       		cocktailJson.put("name", cocktail.getName());
-	       		cocktailJson.put("image", cocktail.getImage());
 	       		cocktailJson.put("desc", cocktail.getDesc());
-	       		cocktailJson.put("history", cocktail.getHistory());
-	       		cocktailJson.put("taste", cocktail.getTaste());
-	       		cocktailJson.put("base", cocktail.getBase());
-	       		cocktailJson.put("build", cocktail.getBuild());
-	       		cocktailJson.put("glass", cocktail.getGlass());
 	       		
 	       		cocktailArray.add(cocktailJson);
 	       	}
