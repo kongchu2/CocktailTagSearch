@@ -82,7 +82,8 @@ footer::after {
   display: flex;
   flex: none;
   flex-wrap: wrap;
-  align-content: flex-start;
+  align-content: center;
+  justify-content: center;
 
   position: relative;
 
@@ -92,6 +93,19 @@ footer::after {
 
   height: auto;
   width: 850px;
+}
+#cocktailItemContents {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-content: flex-start;
+
+  position: relative;
+  
+  clear: both;
+
+  height: 100%;
+  width: 100%;
 }
 #favoriteTagContents, 
 #favoriteCocktailContents {
@@ -393,6 +407,8 @@ footer::after {
   
   width: 160px;
   height: 160px;
+  
+  z-index: 10;
 }
 .cocktailImages {
   left: 0;
@@ -579,6 +595,23 @@ footer::after {
   cursor: pointer;
   
   border-radius: 8px;
+}
+.myPageSelectRemove {
+  background-color: #F7F7F7;
+  border-radius: 10px;
+  border: 0.2px solid black;
+  
+  text-align: center;
+  
+  cursor: pointer;
+  
+  padding: 2px 0;
+  
+  margin: 20px auto;
+  margin-bottom: -30px;
+  margin-right: 55px;
+  
+  width: 120px;
 }
 .myPageName {
   font-size: 20pt;

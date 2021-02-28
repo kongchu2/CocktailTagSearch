@@ -26,6 +26,22 @@ search.addEventListener("focusout", function() {
   autocomplete.style.display = "none";
 });
 
+var autocompleteTagsContents = $('#autocompleteTagsContents');
+autocompleteTagsContents.on('mouseover', showComplete);
+autocompleteTagsContents.on('mouseout', hideComplete);
+autocompleteTagsContents.on('mousedown', addTag);
+autocompleteTagsContents.on('mousedown', function() { search.value = ""; });
+
+var searchTagsContents = $('#searchTagsContents');
+searchTagsContents.on('click', removeTag);
+
+var cocktailItemContents = $('#cocktailItemContents');
+cocktailItemContents.on('mouseover', styleAppendOver);
+cocktailItemContents.on('mouseout', styleAppendOut);
+
+var favoriteTagContents = $('#favoriteTagContents');
+favoriteTagContents.on('mousedown', addTag);
+
 // 모든 칵테일이 표시가 안될 때 Not Found 표시
 function showNotFound() {
   if($('.cocktailItems').length == 0) {
@@ -36,7 +52,8 @@ function showNotFound() {
 }
 
 // 자동완성 미리보기 감추기
-function hideComplete() {
+function hideComplete(e) {
+  if(e.target === e.currentTarget) return;
   if(search.style.color == "gray") {
     search.value = save_search_sentence;
     search.style.color = "black";
@@ -44,21 +61,27 @@ function hideComplete() {
 }
 
 // 자동완성 미리보기 표시하기
-function showComplete() {
+function showComplete(e) {
+  if(e.target === e.currentTarget) return;
   save_search_sentence = search.value;
-  search.value = this.textContent;
+  search.value = e.target.textContent;
   search.style.color = "gray";
 }
 
-// 자동완성 창 숨기기
-function hideAutocomplete() {
-  autocomplete.style.display = "none";
-}
-
 // 칵테일의 제목 및 태그 숨기기
-function styleAppendOver() {
-    const tag = this.querySelectorAll(".itemTags");
-    const title = this.querySelector(".itemTitle");
+function styleAppendOver(e) {
+  if(e.target === e.currentTarget) return;
+  var target;
+  if(e.target.className !== "cocktailItems"){
+	target = e.target.parentNode;
+	if(target.className === "itemTagsBox")
+		target = target.parentNode;
+  }
+  else
+	target = e.target;	
+
+    const tag = target.querySelectorAll(".itemTags");
+    const title = target.querySelector(".itemTitle");
 
     for(var j=0; j<tag.length; j++) {
         tag[j].style.visibility = "visible";
@@ -67,9 +90,19 @@ function styleAppendOver() {
 }
 
 // 칵테일의 제목 및 태그 표시하기
-function styleAppendOut() {
-    const tag = this.querySelectorAll(".itemTags");
-    const title = this.querySelector(".itemTitle");
+function styleAppendOut(e) {
+  if(e.target === e.currentTarget) return;
+  var target;
+  if(e.target.className !== "cocktailItems"){
+	target = e.target.parentNode;
+	if(target.className === "itemTagsBox")
+		target = target.parentNode;
+  }
+  else
+	target = e.target;	
+
+    const tag = target.querySelectorAll(".itemTags");
+    const title = target.querySelector(".itemTitle");
 
     for(var j=0; j<tag.length; j++) {
         tag[j].style.visibility = "hidden";
@@ -77,23 +110,21 @@ function styleAppendOut() {
     title.style.visibility = "hidden";
 }
 
-function addTag() {
-  if(add_continuous_pressing) {
-	return;
-  }
+function addTag(e) {
+  if(e.target === e.currentTarget) return;
+  if(add_continuous_pressing) return;
 
   var value, input;
   var tag = document.createElement("div");
   tag.setAttribute("class", "searchTags"); 
-  tag.addEventListener("click", removeTag);
 
-  value = this.textContent.toUpperCase();
+  value = e.target.textContent.toUpperCase();
   tag.innerText = value;
   input = document.getElementById("searchTagsContents");
 
   input.appendChild(tag);
 
-  this.parentNode.removeChild(this);
+  e.target.remove();
 
   setTimeout(function() { 
 	findMathingTag(value, loadData);	
@@ -103,18 +134,18 @@ function addTag() {
   setTimeout(function() { add_continuous_pressing = false; }, 200);
 }
 
-function removeTag() {
-  if(remove_continuous_pressing) {
-	return;
-  }
-  var thisName = this.textContent;
+function removeTag(e) {
+  if(e.target === e.currentTarget) return;
+  if(remove_continuous_pressing) return;
+
+  var thisName = e.target.textContent;
     $.each(selectTagList, function(index, item) {
       if(item.name === thisName) {
         selectTagList.splice(index, 1);
 		return false;
       }
     })
-    this.parentNode.removeChild(this);
+    e.target.remove();
 	
 	loadData();
 
@@ -157,14 +188,6 @@ function getAutocompleteTags() {
 	      $("#autocompleteTagsContents").html("");
 	      autocompleteTagList = [];
 	      $.each(data.tags, createTag);
-	  
-		  autocompleteTag = document.querySelectorAll(".autocompleteTags");
-	      $.each(autocompleteTag, function(index, item) {
-	        item.addEventListener("mouseover", showComplete);
-		    item.addEventListener("mouseout", hideComplete);
-	        item.addEventListener("mousedown", addTag);
-	        item.addEventListener("mousedown", function() { search.value = ""; });
-	      });
 	    },
    		error:function(error) {
 	 	  $('#autocompleteTagsContents').empty();
@@ -184,11 +207,7 @@ function getCocktailItems() {
     success:function(data) {
       $('.cocktailItems').remove();
 	    if(data != null) {
-	    $.each(data.cocktails, createCocktail);
-		  $('.cocktailItems').each(function(index, item) {
-            item.addEventListener("mouseover", styleAppendOver);
-            item.addEventListener("mouseout", styleAppendOut);
-          });
+	      $.each(data.cocktails, createCocktail); 
 	    }
 	  }
   });
@@ -223,9 +242,7 @@ function getFavoriteTags() {
 			  tag_id: item.id
 		    }));
 		  });
-		  $('.favoriteTags').each(function(index, item) {
-            item.addEventListener("mousedown", addTag);
-		  });
+		  
 	    }
 	  else {
 		$('#favoriteTagContents').css('visibility', 'hidden');
@@ -245,10 +262,6 @@ function createTag(index, item) {
       class: "autocompleteTags",
       text: item.name
     }));
-	var limit = 5;
-	if(index+1 > limit) {
-		$('.autocompleteTags:nth-child('+(index+1)+')').css('display', 'none');
-	}
 }
 
 function createCocktail(index, item) {
@@ -284,10 +297,5 @@ function createCocktail(index, item) {
 	cocktail.children('.itemTagsBox').css('visibility', 'hidden');
 	cocktail.children('.itemTitle').css('visibility', 'hidden');
 	
-	var limit = 10;
-	if(index+1 > limit) {
-		$('.cocktailItems:nth-child('+(index+1)+')').css('display', 'none');
-	}
-	
-    $('#cocktailContents').append(cocktail);
+    $('#cocktailItemContents').append(cocktail);
 }
