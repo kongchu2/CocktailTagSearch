@@ -329,7 +329,7 @@ public class CocktailDAO {
 		try {
 			conn = JDBCConnection.getConnection();
 			
-			String sql = "DELETE FROM COCKTAIL WHERE = "+cocktail_id;
+			String sql = "DELETE FROM COCKTAIL WHERE COCKTAIL_ID="+cocktail_id;
 			
 			stmt = conn.prepareStatement(sql);
 			

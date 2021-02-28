@@ -21,6 +21,7 @@
 		newMember.setLogin_id(login_id);
 		newMember.setName(name);
 		newMember.setPassword(pw);
+		newMember.setPermission('0');
 		int cnt = dao.addMember(newMember);
 		if(cnt > 0) {
 			out.print("<script>alert(\"성공\");</script>");

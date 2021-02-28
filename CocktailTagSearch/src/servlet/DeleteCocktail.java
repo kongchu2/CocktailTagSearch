@@ -10,34 +10,40 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Member.MemberDAO;
+import org.json.simple.JSONObject;
 
+import Cocktail.CocktailDAO;
 
-@WebServlet("/PasswordAuth")
-public class PasswordAuth extends HttpServlet {
+@WebServlet("/DeleteCocktail")
+public class DeleteCocktail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+      
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
+		
+		int cocktailId = Integer.parseInt(request.getParameter("cocktailId"));
+		
 		PrintWriter out = response.getWriter();
 		
 		HttpSession session = request.getSession(false);
-		if(session == null) {
-			response.sendRedirect("login.html");
-			out.print("0");
-		} else {
-			String pw = request.getParameter("pw");
-			int memberId = (int) session.getAttribute("userId");
-			MemberDAO dao = new MemberDAO();
-			if(dao.authPassword(memberId, pw)) {
-				out.print("1");
+		JSONObject json = new JSONObject();
+		if((char)session.getAttribute("permission") == '1') {
+			CocktailDAO dao = new CocktailDAO();
+			if(dao.DeleteCocktail(cocktailId) > 0) {
+				json.put("isDeleted", "1");
 			} else {
-				out.print("0");
+				json.put("isDeleted", "0");
 			}
 		}
-	}
-
+		
+		out.print(json);
+		
+		
+}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

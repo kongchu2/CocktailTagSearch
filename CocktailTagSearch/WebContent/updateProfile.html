@@ -13,8 +13,14 @@
         <div id="postContents" style="width:40%;height:700px">
         </div>
     </div>
-    <script src="js/auth.js"></script>
-    <script>func = function() {$("#postContents").load("editChoose.html");}</script>
+    
+    <script>
+        $("#postContents").load("PasswordAuth.html", function() {
+            func = function() {
+                $("#postContents").load("editChoose.html");
+            }
+        });
+    </script>
     <script src="js/loadMenu.js"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 DataLoadFunc.push(getLikeData);
+DataLoadFunc.push(addDeleteBtn);
 
 $('#likeimg').click(likePost);
 
@@ -66,4 +67,35 @@ function likeTag(tagId) {
             }
         }
     });
+}
+
+function addDeleteBtn() {
+    if(userData.user.permission === 1) {
+        $('#postTitleContents').append("<div id='deleteBtn' onclick='deleteCocktail()'>칵테일 삭제하기</div>");
+    }
+}
+function deleteCocktail() {
+    if(userData.user.permission === 1 && confirm("정말 삭제하시겠습니까?")) {
+        $('#postContents').empty();
+        $('#postContents').load("PasswordAuth.html", function() {
+            func = function() {
+                $.ajax({
+                    type:"post",
+                    url:"http://localhost:8090/CocktailTagSearch/DeleteCocktail",
+                    data: {
+                        cocktailId: postId
+                    },
+                    success:function(data) {
+                        if(data.isDeleted === "1") {
+                            alert("삭제되었습니다.");
+                            location.href = "index.html";
+                        } else {
+                            alert("삭제에 실패했습니다.");
+                            location.reload();
+                        }
+                    }
+                });
+            } 
+        });
+    }
 }

@@ -28,8 +28,9 @@
         <div id="postContents" style="width:40%;height:700px">
         </div>
     </div>
-    <script src="js/auth.js"></script>
-    <script>func = deleteUser</script>
+    <script>
+        $("#postContents").load("PasswordAuth.html", function() {func = deleteUser;});
+    </script>
     <script src="js/loadMenu.js"></script>
 </body>
 </html>

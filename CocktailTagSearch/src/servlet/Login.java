@@ -35,6 +35,7 @@ public class Login extends HttpServlet {
 			session.setAttribute("userId", member.getMember_id());
 			session.setAttribute("userLogin_id", member.getLogin_id());
 			session.setAttribute("userName", member.getName());
+			session.setAttribute("permission", member.getPermission());
 			out.print("right");
 		} else {
 			session.invalidate();

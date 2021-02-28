@@ -237,7 +237,7 @@ footer::after {
   height: 60px;
   width: 300px;
 }
-#myPageEditProfile, #myPageDeleteProfile {
+#myPageEditProfile, #myPageDeleteProfile, #deleteBtn{
   padding: 7px 30px;
   background-color: #875A00;
   color: white;
@@ -530,6 +530,11 @@ footer::after {
   font-family: 'Nanum Pen Script';
 
   height: auto;
+  float:left;
+}
+#postTitleContents #deleteBtn {
+  float:left;
+  margin:15px;
 }
 .myPageTitle {
   padding: 10px;
