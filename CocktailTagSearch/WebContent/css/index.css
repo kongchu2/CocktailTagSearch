@@ -237,7 +237,7 @@ footer::after {
   height: 60px;
   width: 300px;
 }
-#myPageEditProfile, #myPageDeleteProfile, #deleteBtn{
+#myPageEditProfile, #myPageDeleteProfile, .postAdminBtn{
   padding: 7px 30px;
   background-color: #875A00;
   color: white;
@@ -532,7 +532,7 @@ footer::after {
   height: auto;
   float:left;
 }
-#postTitleContents #deleteBtn {
+#postTitleContents, .postAdminBtn{
   float:left;
   margin:15px;
 }
@@ -698,6 +698,7 @@ form{
   background-color: #d9a44a;
   font-size: large;
   font-weight: bold;
+  text-align: center;
 }
 #chooseEdit, #profile {
   margin:auto;
@@ -713,6 +714,9 @@ form{
   cursor: pointer;
   border-radius: 8px;
   margin-bottom: 30px;
+}
+.inline-block {
+  display:inline-block;
 }
 input::-ms-clear,
 input::-ms-reveal {

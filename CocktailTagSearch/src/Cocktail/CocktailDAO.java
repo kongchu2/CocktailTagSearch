@@ -296,13 +296,16 @@ public class CocktailDAO {
 	*/
 	public int UpdateCocktail(CocktailVO cocktail, int cocktail_id) {
 		int success = 0;
+		int delete = 0;
+		int insert = 0;
 		try {
-			conn = JDBCConnection.getConnection();
 			
 			CocktailVO before_cocktail = getCocktail(cocktail_id);
 			
-			String sql = "UPDATE COCKTAIL SET "
-					   + "NAME=?, IMAGE=?, DESC=?, HISTORY_DESC=?, TASTE_DESC=?, BASE_ALCOHOL=?, BUILD_METHOD=?, GLCOCKTAIL_GLASSASS=? WHERE COCKTAIL_ID = "+cocktail_id;
+			String sql = "UPDATE COCKTAIL "
+					   + "SET NAME=?, IMAGE=?, \"DESC\"=?, HISTORY_DESC=?, TASTE_DESC=?, BASE_ALCOHOL=?, BUILD_METHOD=?, COCKTAIL_GLASS=? WHERE COCKTAIL_ID = "+cocktail_id;
+			
+			conn = JDBCConnection.getConnection();
 			
 			stmt = conn.prepareStatement(sql);
 
@@ -316,6 +319,22 @@ public class CocktailDAO {
 			stmt.setString(8, cocktail.getGlass()   != null ? cocktail.getGlass()   : before_cocktail.getGlass());
 			
 			success = stmt.executeUpdate();
+			stmt.close();
+			
+			
+			sql = "DELETE FROM COCKTAIL_TAG WHERE COCKTAIL_ID=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, cocktail_id);
+			delete = stmt.executeUpdate();
+			
+			sql = "INSERT INTO COCKTAIL_TAG VALUES(?, ?)";
+			stmt = conn.prepareStatement(sql);
+			for(TagVO tag : cocktail.getTagList()) {
+				stmt.setInt(1, tag.getId());
+				stmt.setInt(2, cocktail_id);
+				insert += stmt.executeUpdate();
+			}
+			
 			
 		} catch(Exception e) {
 			e.printStackTrace();

@@ -1,5 +1,5 @@
 DataLoadFunc.push(getLikeData);
-DataLoadFunc.push(addDeleteBtn);
+DataLoadFunc.push(addAdminBtn);
 
 $('#likeimg').click(likePost);
 
@@ -69,9 +69,10 @@ function likeTag(tagId) {
     });
 }
 
-function addDeleteBtn() {
+function addAdminBtn() {
     if(userData.user.permission === 1) {
-        $('#postTitleContents').append("<div id='deleteBtn' onclick='deleteCocktail()'>칵테일 삭제하기</div>");
+        $('#postTitleContents').append("<div class='postAdminBtn' onclick='editCocktail()'>칵테일 수정하기</div>");
+        $('#postTitleContents').append("<div class='postAdminBtn' onclick='deleteCocktail()'>칵테일 삭제하기</div>");
     }
 }
 function deleteCocktail() {
@@ -99,3 +100,177 @@ function deleteCocktail() {
         });
     }
 }
+
+function editCocktail() {
+    if(userData.user.permission === 1) {
+        cocktail = {
+            id: postId,
+            name: $(".postTitle").text(),
+            desc: $(".description").text(),
+            history: $(".history").text(),
+            taste: $(".taste").text(),
+            base: $(".base").text(),
+            build: $(".build").text(),
+            glass: $(".glass").text()
+        }
+        tagList = []
+        $('.tagBlock').each(function(index, item) {
+            tag = {
+                name: $(item).text(),
+                id: $(item).attr("tagId")
+            }
+            tagList.push(tag);
+        });
+        $('#postContents').load("PasswordAuth.html", function() {
+            func = function() {
+                $("#postContents").empty();
+                editItemsDiv = $("<div/>");
+                editItemsDiv.attr("id", "editItems");
+                editItemsDiv.css("width", "100%");
+                editItemsDiv.css("margin", "20px");
+                for(let key in cocktail) {
+                    if(key === "id") {
+                        continue;
+                    }
+                    value = cocktail[key];
+
+                    label = $("<label/>");
+                    label.text(key);
+                    label.attr("for", key);
+
+                    input = $("<textarea/>");
+                    input.css("display", "block");
+                    input.css("width", "95%");
+                    input.attr("class", key);
+                    input.attr("placeholder", key);
+                    input.val(value.trim());
+
+                    $(input).on('input', adjustHeight);
+
+                    label.append(input);
+                    $(editItemsDiv).append(label);
+                }
+
+                taghtml = '<div id="tagEditContent" class="border"><div id="tagEditSearch" class="inline-block"><input type="text" id="tagSearch"><div id="editAutocompleteTagList"></div></div><div id="addedTagList" class="inline-block"></div></div>'
+
+                $(editItemsDiv).append(taghtml);
+
+                
+
+                $("#postContents").append(editItemsDiv);
+
+                $(tagList).each(function(index, item) {
+                    addedTag = $("<div/>");
+                    addedTag.attr("class", "addedTag");
+                    addedTag.attr("cocktailId", item.id);
+                    addedTag.text(item.name);
+                    deleteBtn = $("<span/>");
+                    deleteBtn.attr("class", "deleteBtn");
+                    deleteBtn.text("X");
+                    $(deleteBtn).on("click", function() {
+                        $(this).parent().remove();
+                    });
+                    addedTag.append(deleteBtn);
+                    $('#addedTagList').append(addedTag);
+                });
+
+                $('#tagSearch').on("input", function() {
+                    getTagIdList = function() {
+                        tagIdList = [];
+                        $('.addedTag').each(function(index, item) {
+                            tagIdList.push(
+                                {
+                                    name:$(item).text(),
+                                    id:parseInt($(item).attr("cocktailId"))
+                                }
+                            );
+                        });
+                        return tagIdList;
+                    };
+                    $.ajax({
+                        type:"post",
+                        url:"http://localhost:8090/CocktailTagSearch/TagSearch",
+                        dataType:"json",
+                        data: {
+                            search: $("#tagSearch").val(),
+                            tags: JSON.stringify(getTagIdList())
+                        },
+                        success:function(data) {
+                            $("#editAutocompleteTagList").html("");
+                            autocompleteTagList = [];
+                            $.each(data.tags, function(index, item) {
+                                autoTag = $("<div/>");
+                                autoTag.attr("class", "editAutocompleteTag");
+                                autoTag.attr("cocktailId", item.id);
+                                autoTag.text(item.name);
+                                $(autoTag).on("click", function() {
+                                    myId = $(this).attr("cocktailId");
+                                    myName = $(this).text();
+
+                                    addedTag = $("<div/>");
+                                    addedTag.attr("class", "addedTag");
+                                    addedTag.attr("cocktailId", myId);
+                                    addedTag.text(myName);
+
+                                    deleteBtn = $("<span/>");
+                                    deleteBtn.attr("class", "deleteBtn");
+                                    deleteBtn.text("X");
+
+                                    $(deleteBtn).on("click", function() {
+                                        $(this).parent().remove();
+                                    });
+
+                                    addedTag.append(deleteBtn);
+                                    $(this).remove();
+                                    $("#addedTagList").append(addedTag);
+                                });
+                                $("#editAutocompleteTagList").append(autoTag);
+                            });
+                        }
+                    });
+                });
+
+                submit = $("<div/>");
+                submit.attr("class", "submitBtn");
+                submit.css("margin", "auto");
+                submit.text("제출");
+                $(submit).on('click', function() {
+                    cocktail.name = $('textarea.name').val(),
+                    cocktail.desc = $('textarea.desc').val(),
+                    cocktail.history = $('textarea.history').val(),
+                    cocktail.taste = $('textarea.taste').val(),
+                    cocktail.base = $('textarea.base').val(),
+                    cocktail.build = $('textarea.build').val(),
+                    cocktail.glass = $('textarea.glass').val()
+                    addedTagList = [];
+                    $('.addedTag').each(function(index, item) {
+                        addedTagList.push({id:parseInt($(item).attr("cocktailId")), name:$(item).text().replace("X", "")});
+                    });
+                    $.ajax({
+                        type:"post",
+                        url:"http://localhost:8090/CocktailTagSearch/UpdateCocktail",
+                        data: {
+                            cocktail: JSON.stringify(cocktail),
+                            tag:JSON.stringify(addedTagList)
+                        },
+                        success:function(data) {
+                            if(data.isUpdated == "1") {
+                                alert("수정되었습니다.");
+                            } else {
+                                alert("수정에 실패하였습니다.");
+                            }
+                            location.reload();
+                        }
+                    });
+                });
+                $('#postContents').append(submit);
+            }
+        });
+    }
+}
+function adjustHeight() {
+    var textarea = $(this);
+    textarea.css('height', "auto");
+    var textEleHeight = textarea.prop('scrollHeight');
+    textarea.css('height', textEleHeight);
+  };
