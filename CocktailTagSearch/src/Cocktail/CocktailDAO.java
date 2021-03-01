@@ -294,7 +294,7 @@ public class CocktailDAO {
 		return success;
 	}
 	*/
-	public int UpdateCocktail(CocktailVO cocktail, int cocktail_id) {
+	public boolean UpdateCocktail(CocktailVO cocktail, int cocktail_id) {
 		int success = 0;
 		int delete = 0;
 		int insert = 0;
@@ -306,6 +306,7 @@ public class CocktailDAO {
 					   + "SET NAME=?, IMAGE=?, \"DESC\"=?, HISTORY_DESC=?, TASTE_DESC=?, BASE_ALCOHOL=?, BUILD_METHOD=?, COCKTAIL_GLASS=? WHERE COCKTAIL_ID = "+cocktail_id;
 			
 			conn = JDBCConnection.getConnection();
+			conn.setAutoCommit(false);
 			
 			stmt = conn.prepareStatement(sql);
 			
@@ -334,14 +335,20 @@ public class CocktailDAO {
 				stmt.setInt(2, cocktail_id);
 				insert += stmt.executeUpdate();
 			}
-			
+			conn.commit();
 			
 		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		} finally {
 			JDBCConnection.close(rs, stmt, conn);
 		}
-		return success;
+		return (success>0&&delete>0&&insert>0);
 	}
 	public int DeleteCocktail(int cocktail_id) {
 		int success = 0;

@@ -69,16 +69,15 @@ public class UpdateCocktail extends HttpServlet {
 		cocktail.setTagList(tag_dao.getTagListByTagIdList(tagIdList));
 		
 		CocktailDAO cocktail_dao = new CocktailDAO();
-		cocktail_dao.UpdateCocktail(cocktail,  ((Long)cocktailJSON.get("id")).intValue());
+		boolean isUpdated = cocktail_dao.UpdateCocktail(cocktail,  ((Long)cocktailJSON.get("id")).intValue());
 		
 		JSONObject json = new JSONObject();
-		json.put("isUpdated", "1");
+		json.put("isUpdated", isUpdated ? "1":"0");
 		out.print(json);
 		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
