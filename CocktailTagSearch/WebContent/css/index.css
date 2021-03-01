@@ -718,13 +718,11 @@ form{
   border-radius: 8px;
   margin-bottom: 30px;
 }
-<<<<<<< HEAD
 .selected {
   box-shadow: 2px 2px 2px 1px black inset;
-=======
+}
 .inline-block {
   display:inline-block;
->>>>>>> refs/remotes/origin/main
 }
 input::-ms-clear,
 input::-ms-reveal {
