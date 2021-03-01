@@ -613,6 +613,9 @@ footer::after {
   
   width: 120px;
 }
+.myPageSelectRemove::after {
+	content: attr(data-content);
+}
 .myPageName {
   font-size: 20pt;
   font-weight: 500;
@@ -624,7 +627,7 @@ footer::after {
   font-size: 12pt;
   font-family: Narrow, Narrow;
 }
-.myPageCocktails:not(:first-child), .myPageTags:not(:first-child) {
+.myPageCocktails, .myPageTags {
   padding: 4px 8px;
   margin: 0.5vh 0.2vh;
 
@@ -634,23 +637,23 @@ footer::after {
   
   border-radius: 40px;
 }
-.myPageCocktails:not(:first-child) {
+.myPageCocktails {
   background-color: rgba(153, 233, 240, 0.8);
 }
-.myPageTags:not(:first-child) {
+.myPageTags {
   display: inline-block;
   background-color: rgba(153, 233, 167, 0.8);
 }
-.myPageCocktails:first-child::before {
+.myPageCocktailTitle::after {
   content: "LOVE COCKTAIL";
 }
-.myPageTags:first-child::before {
+.myPageTagTitle::after {
   content: "LOVE TAG";
 }
-.myPageCocktails:first-child, .myPageTags:first-child {
+.myPageCocktailTitle, .myPageTagTitle {
   border-bottom: 1px solid black;
 }
-.myPageCocktails:not(:first-child), .myPageTags:not(:first-child) {
+.myPageCocktails, .myPageTags {
   padding: 4px 8px;
   margin: 0.5vh 0.4vh;
 }
@@ -708,6 +711,9 @@ form{
   cursor: pointer;
   border-radius: 8px;
   margin-bottom: 30px;
+}
+.selected {
+  box-shadow: 2px 2px 2px 1px black inset;
 }
 input::-ms-clear,
 input::-ms-reveal {

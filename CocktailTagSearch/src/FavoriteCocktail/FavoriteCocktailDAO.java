@@ -104,4 +104,39 @@ public class FavoriteCocktailDAO {
 		
 		return deleteCount;
 	}
+	public int deleteFavoriteCocktailByMember_idAndCocktail_idList(int member_id, ArrayList<Integer> cocktail_idList) {
+		int deleteCount = -1;
+		
+		try {
+			conn = JDBCConnection.getConnection();
+			conn.setAutoCommit(false);
+			
+			String sql = "DELETE FROM FAVORITE_COCKTAIL WHERE MEMBER_ID=? AND COCKTAIL_ID IN(!)";
+			
+			String subQueryWhere = "";
+			for(int cocktailId : cocktail_idList) {
+				subQueryWhere += cocktailId + ", ";
+			}
+			subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length()-2);
+			sql = sql.replace("!", subQueryWhere);
+			
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, member_id);
+			deleteCount = stmt.executeUpdate();
+			
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(stmt, conn);
+		}
+		
+		return deleteCount;
+	}
+	
 }

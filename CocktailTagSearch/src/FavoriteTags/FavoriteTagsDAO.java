@@ -125,4 +125,38 @@ public class FavoriteTagsDAO {
 		
 		return deleteCount;
 	}
+	public int deleteFavoriteTagsByMember_idAndTag_idList(int member_id, ArrayList<Integer> tag_idList) {
+		int deleteCount = -1;
+		
+		try {
+			conn = JDBCConnection.getConnection();
+			conn.setAutoCommit(false);
+			
+			String sql = "DELETE FROM FAVORITE_TAGS WHERE MEMBER_ID=? AND TAG_ID IN(!)";
+			
+			String subQueryWhere = "";
+			for(int tagId : tag_idList) {
+				subQueryWhere += tagId + ", ";
+			}
+			subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length()-2);
+			sql = sql.replace("!", subQueryWhere);
+			
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, member_id);
+			deleteCount = stmt.executeUpdate();
+			
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(stmt, conn);
+		}
+		
+		return deleteCount;
+	}
 }
