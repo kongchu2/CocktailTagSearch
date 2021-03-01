@@ -68,30 +68,31 @@ public class TagDAO {
 	public ArrayList<TagVO> getTagListByTagIdList(ArrayList<Integer> tagIdList) {
 		
 		ArrayList<TagVO> tagList = new ArrayList<TagVO>();
-		
-		try {
-			conn = JDBCConnection.getConnection();
-			
-			stmt = conn.createStatement();
-			int limit = 5;
-			String sql = "SELECT * FROM TAG WHERE TAG_ID IN(!)";
-			
-			String subQueryWhere = "";
-			for(int tagId : tagIdList) {
-				subQueryWhere += tagId + ", ";
+		if(tagIdList.size() > 0) {
+			try {
+				conn = JDBCConnection.getConnection();
+				
+				stmt = conn.createStatement();
+				int limit = 5;
+				String sql = "SELECT * FROM TAG WHERE TAG_ID IN(!)";
+				
+				String subQueryWhere = "";
+				for(int tagId : tagIdList) {
+					subQueryWhere += tagId + ", ";
+				}
+				subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length()-2);
+				sql = sql.replace("!", subQueryWhere);
+				
+				rs = stmt.executeQuery(sql);
+				
+				while(rs.next()) {
+					tagList.add(new TagVO(rs.getInt("TAG_ID"), rs.getString("TAG_NAME"), rs.getString("DESC"), rs.getString("CATEGORY")));
+				}
+			} catch(Exception e) {
+				e.printStackTrace();		
+			} finally {
+				JDBCConnection.close(rs, stmt, conn);
 			}
-			subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length()-2);
-			sql = sql.replace("!", subQueryWhere);
-			
-			rs = stmt.executeQuery(sql);
-			
-			while(rs.next()) {
-				tagList.add(new TagVO(rs.getInt("TAG_ID"), rs.getString("TAG_NAME"), rs.getString("DESC"), rs.getString("CATEGORY")));
-			}
-		} catch(Exception e) {
-			e.printStackTrace();		
-		} finally {
-			JDBCConnection.close(rs, stmt, conn);
 		}
 		
 		return tagList;

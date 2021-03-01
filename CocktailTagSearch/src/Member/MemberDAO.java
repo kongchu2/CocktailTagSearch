@@ -30,6 +30,7 @@ public class MemberDAO {
 				member.setLogin_id(rs.getString("LOGIN_ID"));
 				member.setName(rs.getString("NAME"));
 				member.setPassword(rs.getString("PASSWORD"));
+				member.setPermission(rs.getString("PERMISSIONS").charAt(0));
 			} 
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -52,6 +53,7 @@ public class MemberDAO {
 				member.setLogin_id(rs.getString("LOGIN_ID"));
 				member.setName(rs.getString("NAME"));
 				member.setPassword(rs.getString("PASSWORD"));
+				member.setPermission(rs.getString("PERMISSIONS").charAt(0));
 				
 				memberList.add(member);
 			} 
@@ -77,6 +79,7 @@ public class MemberDAO {
 				member.setLogin_id(rs.getString("LOGIN_ID"));
 				member.setName(rs.getString("NAME"));
 				member.setPassword(rs.getString("PASSWORD"));
+				member.setPermission(rs.getString("PERMISSIONS").charAt(0));
 			} 
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -90,13 +93,14 @@ public class MemberDAO {
 		try {
 			conn = JDBCConnection.getConnection();
 			conn.setAutoCommit(false);
-			String sql = "INSERT INTO MEMBER VALUES((SELECT nvl(max(MEMBER_ID), 0)+1 FROM MEMBER), ?, ?, ?, ?)";
+			String sql = "INSERT INTO MEMBER VALUES((SELECT nvl(max(MEMBER_ID), 0)+1 FROM MEMBER), ?, ?, ?, ?, ?)";
 			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, member.getLogin_id());
 			stmt.setString(2, member.getName());
 			stmt.setString(3, member.getPassword());
 			stmt.setString(4, "testsalt");
+			stmt.setString(5, Character.toString(member.getPermission()));
 			
 			cnt = stmt.executeUpdate();
 			
@@ -159,7 +163,7 @@ public class MemberDAO {
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, memberId);
 			stmt.setInt(2, cocktailId);
-			int count = stmt.executeUpdate();
+			stmt.executeUpdate();
 			conn.commit();
 		} catch (Exception e) {
 			try {
@@ -217,7 +221,7 @@ public class MemberDAO {
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, memberId);
 			stmt.setInt(2, tagId);
-			int count = stmt.executeUpdate();
+			stmt.executeUpdate();
 			conn.commit();
 		} catch (Exception e) {
 			try {

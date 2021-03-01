@@ -237,7 +237,7 @@ footer::after {
   height: 60px;
   width: 300px;
 }
-#myPageEditProfile, #myPageDeleteProfile {
+#myPageEditProfile, #myPageDeleteProfile, .postAdminBtn{
   padding: 7px 30px;
   background-color: #875A00;
   color: white;
@@ -530,6 +530,11 @@ footer::after {
   font-family: 'Nanum Pen Script';
 
   height: auto;
+  float:left;
+}
+#postTitleContents, .postAdminBtn{
+  float:left;
+  margin:15px;
 }
 .myPageTitle {
   padding: 10px;
@@ -696,6 +701,7 @@ form{
   background-color: #d9a44a;
   font-size: large;
   font-weight: bold;
+  text-align: center;
 }
 #chooseEdit, #profile {
   margin:auto;
@@ -712,8 +718,13 @@ form{
   border-radius: 8px;
   margin-bottom: 30px;
 }
+<<<<<<< HEAD
 .selected {
   box-shadow: 2px 2px 2px 1px black inset;
+=======
+.inline-block {
+  display:inline-block;
+>>>>>>> refs/remotes/origin/main
 }
 input::-ms-clear,
 input::-ms-reveal {

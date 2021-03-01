@@ -1,9 +1,5 @@
 var func;
 
-$(document).ready(function() {
-    $("#postContents").load("PasswordAuth.html");
-});
-
 function auth() {
     if($('#pw').val() === "") {
         alert("비밀번호가 비어 있습니다.");

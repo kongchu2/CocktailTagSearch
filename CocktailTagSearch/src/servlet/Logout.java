@@ -18,7 +18,6 @@ public class Logout extends HttpServlet {
 		} else {
 			session.invalidate();
 		}
-		System.out.println("logout");
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub

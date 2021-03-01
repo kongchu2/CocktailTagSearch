@@ -6,6 +6,7 @@ public class MemberVO {
 	private String login_id;
 	private String name;
 	private String password;
+	private char permission;
 	public int getMember_id() {
 		return member_id;
 	}
@@ -29,6 +30,12 @@ public class MemberVO {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public void setPermission(char permission) {
+		this.permission = permission;
+	}
+	public char getPermission() {
+		return permission;
 	}
 	@Override
 	public String toString() {
