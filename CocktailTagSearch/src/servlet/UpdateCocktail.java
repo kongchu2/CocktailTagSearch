@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -26,15 +27,13 @@ public class UpdateCocktail extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json;charset=UTF-8");
+		PrintWriter out = response.getWriter();
 		
 		String cocktailData = request.getParameter("cocktail");
 		String tagStr = request.getParameter("tag");
 		
 		JSONParser parser = new JSONParser();
 		JSONObject cocktailJSON = null;
-		
-		System.out.println(tagStr);
-		System.out.println(cocktailData);
 		
 		try {
 			cocktailJSON = (JSONObject)parser.parse(cocktailData);
@@ -71,6 +70,10 @@ public class UpdateCocktail extends HttpServlet {
 		
 		CocktailDAO cocktail_dao = new CocktailDAO();
 		cocktail_dao.UpdateCocktail(cocktail,  ((Long)cocktailJSON.get("id")).intValue());
+		
+		JSONObject json = new JSONObject();
+		json.put("isUpdated", "1");
+		out.print(json);
 		
 	}
 

@@ -308,9 +308,9 @@ public class CocktailDAO {
 			conn = JDBCConnection.getConnection();
 			
 			stmt = conn.prepareStatement(sql);
-
+			
 			stmt.setString(1, cocktail.getName()    != null ? cocktail.getName()    : before_cocktail.getName());
-			stmt.setString(2, cocktail.getImage()   != null ? cocktail.getImage()   : before_cocktail.getImage());
+			stmt.setString(2, (cocktail.getImage()   != null ? cocktail.getImage()   : before_cocktail.getImage()).replace("image/cocktail/", ""));
 			stmt.setString(3, cocktail.getDesc()    != null ? cocktail.getDesc()    : before_cocktail.getDesc());
 			stmt.setString(4, cocktail.getHistory() != null ? cocktail.getHistory() : before_cocktail.getHistory());
 			stmt.setString(5, cocktail.getTaste()   != null ? cocktail.getTaste()   : before_cocktail.getTaste());

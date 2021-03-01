@@ -244,7 +244,10 @@ function editCocktail() {
                     cocktail.glass = $('textarea.glass').val()
                     addedTagList = [];
                     $('.addedTag').each(function(index, item) {
-                        addedTagList.push({id:parseInt($(item).attr("cocktailId")), name:$(item).text().replace("X", "")});
+                        addedTagList.push(
+                            {id:parseInt($(item).attr("cocktailId")), 
+                            name:$(item).text().replace("X", "")}
+                        );
                     });
                     $.ajax({
                         type:"post",
