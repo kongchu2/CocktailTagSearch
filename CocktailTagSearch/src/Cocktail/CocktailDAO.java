@@ -348,7 +348,7 @@ public class CocktailDAO {
 		} finally {
 			JDBCConnection.close(rs, stmt, conn);
 		}
-		return (success>0&&delete>0&&insert>0);
+		return success>0;
 	}
 	public int DeleteCocktail(int cocktail_id) {
 		int success = 0;
