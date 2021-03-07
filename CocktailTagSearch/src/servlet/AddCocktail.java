@@ -26,10 +26,8 @@ import Cocktail.CocktailVO;
 @WebServlet("/AddCocktail")
 public class AddCocktail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String dir = "C:\\Users\\qwert\\Desktop";
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json;charset=UTF-8");
@@ -76,7 +74,6 @@ public class AddCocktail extends HttpServlet {
 		for (String cd : partHeader.split(";")) {
 			if (cd.trim().startsWith("filename")) {
 				String fileName = cd.substring(cd.indexOf("=") + 1).trim().replace("\"", "");
-				;
 				int index = fileName.lastIndexOf(File.separator);
 				return fileName.substring(index + 1);
 			}

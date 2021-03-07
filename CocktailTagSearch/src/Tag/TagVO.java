@@ -34,6 +34,9 @@ public class TagVO {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+	public TagVO() {
+		
+	}
 	public TagVO(int tag_id, String tag_name, String desc, String category) {
 		this.id = tag_id;
 		this.name = tag_name;
