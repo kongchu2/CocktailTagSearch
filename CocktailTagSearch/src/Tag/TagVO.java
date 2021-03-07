@@ -1,6 +1,9 @@
 package Tag;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import org.json.simple.JSONArray;
 
 public class TagVO {
 	private int id = 0;

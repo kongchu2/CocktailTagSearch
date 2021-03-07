@@ -237,7 +237,7 @@ footer::after {
   height: 60px;
   width: 300px;
 }
-#myPageEditProfile, #myPageDeleteProfile, .postAdminBtn{
+#myPageEditProfile, #myPageDeleteProfile, .postAdminBtn, .myPageAdminBtn{
   padding: 7px 30px;
   background-color: #875A00;
   color: white;
@@ -534,7 +534,6 @@ footer::after {
 }
 #postTitleContents, .postAdminBtn{
   float:left;
-  margin:15px;
 }
 .myPageTitle {
   padding: 10px;

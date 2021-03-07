@@ -46,6 +46,12 @@ request.setCharacterEncoding("UTF-8");
             float:right;
             margin-right:5px;
         }
+        .postAdminBtn {
+            margin: 15px;
+        }
+        a {
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>

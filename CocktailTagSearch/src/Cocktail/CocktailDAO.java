@@ -7,8 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import Cocktail_Tag.Cocktail_TagDAO;
 import Tag.TagDAO;
 import Tag.TagVO;
+import basic.Cocktail_TagVO;
 import basic.JDBCConnection;
 
 public class CocktailDAO {
@@ -204,33 +206,34 @@ public class CocktailDAO {
 		return cocktailList;
 	}
 	
-	public int InsertCocktail(CocktailVO cocktail) {
+	public int InsertCocktail(CocktailVO cocktail, ArrayList<Integer> tagIdList) {
 		int success = 0;
 		try {
 			conn = JDBCConnection.getConnection();
 			
-			ArrayList<CocktailVO> cl = getCocktailList();
-			int maxId = 0;
-			for(CocktailVO c : cl) {
-				if(c.getId() > maxId) {
-					maxId = c.getId();
-				}
-			}
-			
-			String sql = "INSERT INTO COCKTAIL"
-					   + "(\"COCKTAIL_ID\", \"NAME\", \"IMAGE\", \"DESC\", \"HISTORY_DESC\", \"TASTE_DESC\", \"BASE_ALCOHOL\", \"BUILD_METHOD\", \"COCKTAIL_GLASS\") " 
-					   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO COCKTAIL VALUES ((select max(cocktail_id)+1 from cocktail), ?, ?, ?, ?, ?, ?, ?, ?)";
 			stmt = conn.prepareStatement(sql);
 
-			stmt.setInt(1, ++maxId);
-			stmt.setString(2, cocktail.getName());
-			stmt.setString(3, cocktail.getImage());
-			stmt.setString(4, cocktail.getDesc());
-			stmt.setString(5, cocktail.getHistory());
-			stmt.setString(6, cocktail.getTaste());
-			stmt.setString(7, cocktail.getBase());
-			stmt.setString(8, cocktail.getBuild());
-			stmt.setString(9, cocktail.getGlass());
+			stmt.setString(1, cocktail.getName());
+			stmt.setString(2, cocktail.getImage());
+			stmt.setString(3, cocktail.getDesc());
+			stmt.setString(4, cocktail.getHistory());
+			stmt.setString(5, cocktail.getTaste());
+			stmt.setString(6, cocktail.getBase());
+			stmt.setString(7, cocktail.getBuild());
+			stmt.setString(8, cocktail.getGlass());
+			
+			Cocktail_TagDAO dao = new Cocktail_TagDAO();
+			ArrayList<Cocktail_TagVO> list = new ArrayList<Cocktail_TagVO>();
+			for(int tagId : tagIdList) {
+				Cocktail_TagVO vo = new Cocktail_TagVO();
+				vo.setCocktailId(cocktail.getId());
+				vo.setTagId(tagId);
+				list.add(vo);
+			}
+			
+			
+			dao.addTag_CocktailByList(list);
 			
 			success = stmt.executeUpdate();
 			

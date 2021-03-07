@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>칵테일 추가하기</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script>
+        function addCocktail() {
+            formData = new FormData($("#form")[0]);
+            tagIdList = [];
+            $('.addedTag').each(function(index, item) {
+                tagIdList.push($(item).attr("cocktailid"));
+            });
+            formData.append("tags", JSON.stringify(tagIdList));
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8090/CocktailTagSearch/AddCocktail',
+                processData: false,
+                contentType: false,
+                data:formData,
+                success: function(data) {
+                    if(data.isAdded == '1') {
+                        alert("추가되었습니다.");
+                        location.href = "index.html";
+                    } else {
+                        alert("실패하였습니다.");
+                    }
+                }
+            });
+        }
+    </script>
+    <style>
+        .border {
+            border: 1px solid black;
+        }
+        #content {
+            width:550px;
+        }
+        #search {
+            vertical-align: top;
+            width:200px;
+        }
+        input{
+            width:100%;
+            padding:0px;
+            border:none;
+        }
+        .editAutocompleteTag, .addedTag {
+            border: 1px solid black;
+        }
+        #addedTagList {
+            vertical-align: top;
+            width:300px;
+        }
+        .inline-block {
+            display: inline-block;
+        }
+        .deleteBtn {
+            float:right;
+            margin-right:5px;
+        }
+        .postAdminBtn {
+            margin: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="contents">
+        <div id="menuContents"></div>
+        <div id="postContents">
+            <div class="formBackground">
+                <form id="form"><!-- form데이터에 태그데이터를 추가하는 작업을 하십시오 -->
+                    <label for="name">name<textarea name="name" id="name" cols="30" rows="10"></textarea></label>
+                    <label for="image">image<input type="file" value="이미지 파일 선택" name="image"></label>
+                    <label for="desc">desc<textarea name="desc" id="desc" cols="30" rows="10"></textarea></label>
+                    <label for="history_desc">history_desc<textarea name="history_desc" id="history_desc" cols="30" rows="10"></textarea></label>
+                    <label for="taste">taste<textarea name="taste" id="taste" cols="30" rows="10"></textarea></label>
+                    <label for="base_alcohol">base_alcohol<textarea name="base_alcohol" id="base_alcohol" cols="30" rows="10"></textarea></label>
+                    <label for="build_method">build_method<textarea name="build_method" id="build_method" cols="30" rows="10"></textarea></label>
+                    <label for="cocktail_glass">cocktail_glass<textarea name="cocktail_glass" id="cocktail_glass" cols="30" rows="10"></textarea></label>
+                    <div id="tagEditContent" class="border">
+                        <div id="tagEditSearch" class="inline-block">
+                            <input type="text" id="tagSearch">
+                            <div id="editAutocompleteTagList"></div>
+                        </div>
+                        <div id="addedTagList" class="inline-block"></div>
+                    </div>
+                    <button onclick="addCocktail()">제출</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="js/loadMenu.js"></script>
+    <script>
+        $('#tagSearch').on("input", function() {
+            getTagIdList = function() {
+                tagIdList = [];
+                $('.addedTag').each(function(index, item) {
+                    tagIdList.push(
+                        {
+                            name:$(item).text(),
+                            id:parseInt($(item).attr("cocktailId"))
+                        }
+                    );
+                });
+                return tagIdList;
+            };
+            $.ajax({
+                type:"post",
+                url:"http://localhost:8090/CocktailTagSearch/TagSearch",
+                dataType:"json",
+                data: {
+                    search: $("#tagSearch").val(),
+                    tags: JSON.stringify(getTagIdList())
+                },
+                success:function(data) {
+                    $("#editAutocompleteTagList").html("");
+                    autocompleteTagList = [];
+                    $.each(data.tags, function(index, item) {
+                        autoTag = $("<div/>");
+                        autoTag.attr("class", "editAutocompleteTag");
+                        autoTag.attr("cocktailId", item.id);
+                        autoTag.text(item.name);
+                        $(autoTag).on("click", function() {
+                            myId = $(this).attr("cocktailId");
+                            myName = $(this).text();
+
+                            addedTag = $("<div/>");
+                            addedTag.attr("class", "addedTag");
+                            addedTag.attr("cocktailId", myId);
+                            addedTag.text(myName);
+
+                            deleteBtn = $("<span/>");
+                            deleteBtn.attr("class", "deleteBtn");
+                            deleteBtn.text("X");
+
+                            $(deleteBtn).on("click", function() {
+                                $(this).parent().remove();
+                            });
+
+                            addedTag.append(deleteBtn);
+                            $(this).remove();
+                            $("#addedTagList").append(addedTag);
+                        });
+                        $("#editAutocompleteTagList").append(autoTag);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
