@@ -1,6 +1,7 @@
 userData = {signed:"0"};
 
 var DataLoadFunc = [];
+var notSignedFunc = [];
 
 $(document).ready(function() {
     $("#menuContents").load("menuContents.html");
@@ -59,6 +60,9 @@ function getSessionData() {
       if(data.signed == "0") {
         createSignIn();
 		    createSignUp();
+        for(var i=0;i<notSignedFunc.length;i++) {
+          notSignedFunc[i]();
+        }
       } else {
         userData = data;
 		    createSignOut();

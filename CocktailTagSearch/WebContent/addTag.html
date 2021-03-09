@@ -12,9 +12,11 @@
                 window.location.href="index.html";
             }
         });
-        if(userData.signed == "0") {
-            window.location.href="index.html";
-        }
+        notSignedFunc.push(function () {
+            if(userData.signed == "0") {
+                window.location.href="index.html";
+            }
+        });
         function addTag() {
             formData = new FormData($("#form")[0]);
             $.ajax({
