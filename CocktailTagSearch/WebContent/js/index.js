@@ -16,8 +16,13 @@ var cocktailItemLength = 0;
 
 $(document).ready(loadData);
 
-search.addEventListener("keydown", hideComplete);
-search.addEventListener("input", _.debounce(getAutocompleteTags, 300));
+search.addEventListener('keydown', function() {
+	if(search.style.color == "gray") {
+    search.value = save_search_sentence;
+    search.style.color = "black";
+  }
+});
+search.addEventListener('input', _.debounce(getAutocompleteTags, 300));
 search.addEventListener('input',  _.debounce(getCocktailItems, 300));
 search.addEventListener('input',  _.debounce(function(){cocktailItemLength = 0}, 300));
 
@@ -31,6 +36,8 @@ search.addEventListener("focusout", function() {
 
   search.parentNode.style["box-shadow"] = "0px 8px 20px rgb(0 0 0 / 6%)";
 });
+
+$('.cancelIcon').on('click', function() { search.value = ""; })
 
 var autocompleteTagsBox = $('.autocompleteTagsBox');
 autocompleteTagsBox.on('mouseover', showComplete);
