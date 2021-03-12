@@ -207,7 +207,7 @@ function getCocktailItems() {
 		url:"http://localhost:8090/CocktailTagSearch/CocktailSearch",
     dataType:"json",
 		data: {
-		  search: $("#searchText").val(),
+		  search: $(".searchText").val(),
 	      tags: JSON.stringify(selectTagList),
       	  length: cocktailItemLength
 		},

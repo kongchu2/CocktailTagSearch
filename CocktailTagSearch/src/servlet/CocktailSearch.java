@@ -54,14 +54,14 @@ public class CocktailSearch extends HttpServlet {
 		
 		if(tagIdList.size() == 0) {
 			if(searchStr.equals(""))
-				cocktailList = dao.getCocktailList(cocktailLength);
+				cocktailList = dao.getCocktailList();
 			else
-				cocktailList = dao.getSearchedCocktailList(searchStr, cocktailLength);
+				cocktailList = dao.getSearchedCocktailList(searchStr);
 		} else {
 			if(searchStr.equals(""))
-				cocktailList = dao.getCocktailListByTagList(tagIdList, cocktailLength);
+				cocktailList = dao.getCocktailListByTagList(tagIdList);
 			else
-				cocktailList = dao.getSearchedCocktailListByTagList(searchStr, tagIdList, cocktailLength);
+				cocktailList = dao.getSearchedCocktailListByTagList(searchStr, tagIdList);
 		}
 		JSONArray cocktailArray = new JSONArray();
 		
