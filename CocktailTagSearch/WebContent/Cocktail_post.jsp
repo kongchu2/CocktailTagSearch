@@ -16,6 +16,46 @@ request.setCharacterEncoding("UTF-8");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>포스트</title>
     <link rel="stylesheet" href="css/index.css">
+<<<<<<< HEAD
+=======
+    <style>
+        .border {
+            border: 1px solid black;
+        }
+        #content {
+            width:550px;
+        }
+        #search {
+            vertical-align: top;
+            width:200px;
+        }
+        input{
+            width:100%;
+            padding:0px;
+            border:none;
+        }
+        .editAutocompleteTag, .addedTag {
+            border: 1px solid black;
+        }
+        #addedTagList {
+            vertical-align: top;
+            width:300px;
+        }
+        .inline-block {
+            display: inline-block;
+        }
+        .deleteBtn {
+            float:right;
+            margin-right:5px;
+        }
+        .postAdminBtn {
+            margin: 15px;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
+>>>>>>> refs/remotes/origin/main
 </head>
 <body>
 	<%

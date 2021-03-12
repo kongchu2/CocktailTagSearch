@@ -4,6 +4,7 @@ package Tag;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -283,32 +284,32 @@ public class TagDAO {
 		}
 		return tagList;
 	}
-	public int InsertCocktail(TagVO tag) {
+	public int InsertTag(TagVO tag) {
 		int success = 0;
 		try {
 			conn = JDBCConnection.getConnection();
 			
 			ArrayList<TagVO> tl = getTagList();
-			int maxId = 0;
-			for(TagVO t : tl) {
-				if(t.getId() > maxId) {
-					maxId = t.getId();
-				}
-			}
 			
 			String sql = "INSERT INTO TAG"
 					   + "(\"TAG_ID\", \"TAG_NAME\", \"DESC\", \"CATEGORY\") " 
-					   + "VALUES (?, ?, ?, ?)";
+					   + "VALUES ((select max(tag_id) from tag), ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setInt(1, ++maxId);
-			pstmt.setString(2, tag.getName());
-			pstmt.setString(3, tag.getDesc());
-			pstmt.setString(4, tag.getCategory());
+			pstmt.setString(1, tag.getName());
+			pstmt.setString(2, tag.getDesc());
+			pstmt.setString(3, tag.getCategory());
 			
 			success = pstmt.executeUpdate();
 			
+			conn.commit();
 		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		} finally {
 			JDBCConnection.close(rs, pstmt, conn);

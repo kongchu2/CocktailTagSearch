@@ -4,6 +4,7 @@ $(document).ready(getUserData);
 $(document).ready(function() {
   $('.myPageSelectRemove').attr('data-content', '선택 삭제하기');
 });
+DataLoadFunc.push(addAdminBtn);
 
 function getUserData() {
   $.ajax({
@@ -116,4 +117,11 @@ function selectToggle(e) {
   if(e.target === e.currentTarget) return;
   if(target.hasClass('myPageFavoriteTitle')) return;
   target.toggleClass('selected');
+}
+
+function addAdminBtn() {
+	if(userData.user.permission === 1) {
+		$('#myPageContents').append("<a href='addCocktail.html'><div class='myPageAdminBtn'>칵테일 추가하기</div></a>");
+		$('#myPageContents').append("<a href='addTag.html'><div class='myPageAdminBtn'>태그 추가하기</div></a>");
+	}
 }

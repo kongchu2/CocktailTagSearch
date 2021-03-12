@@ -12,11 +12,14 @@ var save_search_sentence = "";
 var add_continuous_pressing = false;
 var remove_continuous_pressing = false;
 
+var cocktailItemLength = 0;
+
 $(document).ready(loadData);
 
 search.addEventListener("keydown", hideComplete);
 search.addEventListener("input", _.debounce(getAutocompleteTags, 300));
 search.addEventListener('input',  _.debounce(getCocktailItems, 300));
+search.addEventListener('input',  _.debounce(function(){cocktailItemLength = 0}, 300));
 
 search.addEventListener("focus", function() {
   autocomplete.style.display = "flex";
@@ -204,11 +207,14 @@ function getCocktailItems() {
 		url:"http://localhost:8090/CocktailTagSearch/CocktailSearch",
     dataType:"json",
 		data: {
-		  search: $(".searchText").val(),
-	      tags: JSON.stringify(selectTagList)
+		  search: $("#searchText").val(),
+	      tags: JSON.stringify(selectTagList),
+      	  length: cocktailItemLength
 		},
     success:function(data) {
-      $('.cocktailItems').remove();
+      if(cocktailItemLength == 0) {
+        $('.cocktailItems').remove();
+      }
 	    if(data != null) {
 	      $.each(data.cocktails, createCocktail); 
 	    }		
@@ -311,4 +317,8 @@ function createManySpaceCocktail() {
   createSpaceCocktail();
   createSpaceCocktail();
   createSpaceCocktail();
+}
+function getMoreCocktail() {
+  cocktailItemLength = $('.cocktailItems').length;
+  getCocktailItems()
 }

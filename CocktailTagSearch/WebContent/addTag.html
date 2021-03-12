@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>태그 추가하기</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="js/loadMenu.js"></script>
+    <script>
+        DataLoadFunc.push(function () {
+            if(userData.user.permission !== 1) {
+                window.location.href="index.html";
+            }
+        });
+        notSignedFunc.push(function () {
+            if(userData.signed == "0") {
+                window.location.href="index.html";
+            }
+        });
+        function addTag() {
+            formData = new FormData($("#form")[0]);
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8090/CocktailTagSearch/AddTag',
+                data:formData,
+                success: function(data) {
+                    if(data.isAdded == '1') {
+                        alert("추가되었습니다.");
+                        location.href="index.html";
+                    } else {
+                        alert("실패하였습니다.");
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="contents">
+        <div id="menuContents"></div>
+        <div id="postContents">
+            <div class="formBackground">
+                <form>
+                    <label for="name">name<input type="text" name="name"></label>
+                    <label for="desc">desc<input type="text" name="desc"></label>
+                    <label for="category">category<input type="text" name="category"></label>
+                    <button onclick="addTag()">제출</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

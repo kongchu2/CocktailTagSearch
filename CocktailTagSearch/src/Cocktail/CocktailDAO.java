@@ -7,8 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import Cocktail_Tag.Cocktail_TagDAO;
 import Tag.TagDAO;
 import Tag.TagVO;
+import basic.Cocktail_TagVO;
 import basic.JDBCConnection;
 
 public class CocktailDAO {
@@ -41,21 +43,25 @@ public class CocktailDAO {
 		}
 		return cocktail;
 	}
-	public ArrayList<CocktailVO> getCocktailList() {
+	public ArrayList<CocktailVO> getCocktailList(int cocktailLength) {
 		
 		ArrayList<CocktailVO> cocktailList = new ArrayList<CocktailVO>();
 		
 		try {
 			conn = JDBCConnection.getConnection();
-
+			
 			// limit
 			int limit = 100;
 			String sql = "SELECT ROWNUM, cocktail.* FROM (SELECT COCKTAIL_ID, NAME, IMAGE, \"DESC\" FROM COCKTAIL) cocktail WHERE ROWNUM <= "+limit;
+			//String sql = "SELECT ROWNUM, cocktail.* FROM (SELECT COCKTAIL_ID, NAME, IMAGE, \"DESC\" FROM COCKTAIL) cocktail WHERE ? < COCKTAIL_ID AND COCKTAIL_ID <= ?";
+
 			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, cocktailLength);
+			stmt.setInt(2, cocktailLength+10);
 			rs = stmt.executeQuery();
 			
 			while(rs.next())
-			{	
+			{	 
 				cocktailList.add(getCocktailByResultSetNeedToSearch());
 			}
 		} catch(Exception e) {
@@ -65,17 +71,17 @@ public class CocktailDAO {
 		}
 		return cocktailList;
 	}
-	public ArrayList<CocktailVO> getSearchedCocktailList(String searchWord) {
+	public ArrayList<CocktailVO> getSearchedCocktailList(String searchWord, int cocktailLength) {
 
 		ArrayList<CocktailVO> cocktailList = new ArrayList<CocktailVO>();
 		
 		try {
 			conn = JDBCConnection.getConnection();
 
-			// limit
-			int limit = 10;
-			String sql = "SELECT ROWNUM, cocktail.* FROM (SELECT COCKTAIL_ID, NAME, IMAGE, \"DESC\" FROM COCKTAIL WHERE NAME LIKE'%"+ searchWord +"%') cocktail WHERE ROWNUM <= "+limit;
+			String sql = "SELECT ROWNUM, cocktail.* FROM (SELECT COCKTAIL_ID, NAME, IMAGE, \"DESC\" FROM COCKTAIL WHERE NAME LIKE'%"+ searchWord +"%') cocktail WHERE ? < COCKTAIL_ID AND COCKTAIL_ID <= ?";
 			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, cocktailLength);
+			stmt.setInt(2, cocktailLength+10);
 			rs = stmt.executeQuery();
 			
 			while(rs.next())
@@ -121,7 +127,7 @@ public class CocktailDAO {
 		}
 		return cocktailList;
 	}
-	public ArrayList<CocktailVO> getCocktailListByTagList(ArrayList<Integer> tagList) {
+	public ArrayList<CocktailVO> getCocktailListByTagList(ArrayList<Integer> tagList, int cocktailLength) {
 		ArrayList<CocktailVO> cocktailList = new ArrayList<CocktailVO>();
 		
 		try {
@@ -143,13 +149,13 @@ public class CocktailDAO {
 			subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length()-2);
 			sql = sql.replace("!", subQueryWhere);
 			
-			// limit
-			int limit = 5;
 			sql = "SELECT ROWNUM, cocktail.* FROM (" + sql;
-			sql += ") cocktail WHERE ROWNUM <= " + limit;
+			sql += ") cocktail WHERE ? < COCKTAIL_ID AND COCKTAIL_ID <= ?";
 			
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, tagList.size()-1);
+			stmt.setInt(2, cocktailLength);
+			stmt.setInt(3, cocktailLength+10);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
 				cocktailList.add(getCocktailByResultSetNeedToSearch());
@@ -162,7 +168,7 @@ public class CocktailDAO {
 		}
 		return cocktailList;
 	}
-	public ArrayList<CocktailVO> getSearchedCocktailListByTagList(String searchWord, ArrayList<Integer> tagList) {
+	public ArrayList<CocktailVO> getSearchedCocktailListByTagList(String searchWord, ArrayList<Integer> tagList, int cocktailLength) {
 		ArrayList<CocktailVO> cocktailList = new ArrayList<CocktailVO>();
 		
 		try {
@@ -184,13 +190,13 @@ public class CocktailDAO {
 			subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length()-2);
 			sql = sql.replace("!", subQueryWhere);
 			
-			// limit
-			int limit = 5;
 			sql = "SELECT ROWNUM, cocktail.* FROM (" + sql;
-			sql += ") cocktail WHERE ROWNUM <= " + limit;
+			sql += ") cocktail WHERE ? < COCKTAIL_ID AND COCKTAIL_ID <= ?";
 			
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, tagList.size()-1);
+			stmt.setInt(2, cocktailLength);
+			stmt.setInt(3, cocktailLength+10);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
 				cocktailList.add(getCocktailByResultSetNeedToSearch());
@@ -204,33 +210,34 @@ public class CocktailDAO {
 		return cocktailList;
 	}
 	
-	public int InsertCocktail(CocktailVO cocktail) {
+	public int InsertCocktail(CocktailVO cocktail, ArrayList<Integer> tagIdList) {
 		int success = 0;
 		try {
 			conn = JDBCConnection.getConnection();
 			
-			ArrayList<CocktailVO> cl = getCocktailList();
-			int maxId = 0;
-			for(CocktailVO c : cl) {
-				if(c.getId() > maxId) {
-					maxId = c.getId();
-				}
-			}
-			
-			String sql = "INSERT INTO COCKTAIL"
-					   + "(\"COCKTAIL_ID\", \"NAME\", \"IMAGE\", \"DESC\", \"HISTORY_DESC\", \"TASTE_DESC\", \"BASE_ALCOHOL\", \"BUILD_METHOD\", \"COCKTAIL_GLASS\") " 
-					   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO COCKTAIL VALUES ((select max(cocktail_id)+1 from cocktail), ?, ?, ?, ?, ?, ?, ?, ?)";
 			stmt = conn.prepareStatement(sql);
 
-			stmt.setInt(1, ++maxId);
-			stmt.setString(2, cocktail.getName());
-			stmt.setString(3, cocktail.getImage());
-			stmt.setString(4, cocktail.getDesc());
-			stmt.setString(5, cocktail.getHistory());
-			stmt.setString(6, cocktail.getTaste());
-			stmt.setString(7, cocktail.getBase());
-			stmt.setString(8, cocktail.getBuild());
-			stmt.setString(9, cocktail.getGlass());
+			stmt.setString(1, cocktail.getName());
+			stmt.setString(2, cocktail.getImage());
+			stmt.setString(3, cocktail.getDesc());
+			stmt.setString(4, cocktail.getHistory());
+			stmt.setString(5, cocktail.getTaste());
+			stmt.setString(6, cocktail.getBase());
+			stmt.setString(7, cocktail.getBuild());
+			stmt.setString(8, cocktail.getGlass());
+			
+			Cocktail_TagDAO dao = new Cocktail_TagDAO();
+			ArrayList<Cocktail_TagVO> list = new ArrayList<Cocktail_TagVO>();
+			for(int tagId : tagIdList) {
+				Cocktail_TagVO vo = new Cocktail_TagVO();
+				vo.setCocktailId(cocktail.getId());
+				vo.setTagId(tagId);
+				list.add(vo);
+			}
+			
+			
+			dao.addTag_CocktailByList(list);
 			
 			success = stmt.executeUpdate();
 			
@@ -348,7 +355,7 @@ public class CocktailDAO {
 		} finally {
 			JDBCConnection.close(rs, stmt, conn);
 		}
-		return (success>0&&delete>0&&insert>0);
+		return success>0;
 	}
 	public int DeleteCocktail(int cocktail_id) {
 		int success = 0;

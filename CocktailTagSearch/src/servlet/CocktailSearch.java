@@ -32,6 +32,7 @@ public class CocktailSearch extends HttpServlet {
 		
 		String searchStr = request.getParameter("search").trim();
 		String tagStr = request.getParameter("tags");
+		int cocktailLength = Integer.parseInt(request.getParameter("length"));
 		
 		JSONArray tagArray = null;
 		try {
@@ -53,14 +54,14 @@ public class CocktailSearch extends HttpServlet {
 		
 		if(tagIdList.size() == 0) {
 			if(searchStr.equals(""))
-				cocktailList = dao.getCocktailList();
+				cocktailList = dao.getCocktailList(cocktailLength);
 			else
-				cocktailList = dao.getSearchedCocktailList(searchStr);
+				cocktailList = dao.getSearchedCocktailList(searchStr, cocktailLength);
 		} else {
 			if(searchStr.equals(""))
-				cocktailList = dao.getCocktailListByTagList(tagIdList);
+				cocktailList = dao.getCocktailListByTagList(tagIdList, cocktailLength);
 			else
-				cocktailList = dao.getSearchedCocktailListByTagList(searchStr, tagIdList);
+				cocktailList = dao.getSearchedCocktailListByTagList(searchStr, tagIdList, cocktailLength);
 		}
 		JSONArray cocktailArray = new JSONArray();
 		

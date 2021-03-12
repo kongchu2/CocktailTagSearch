@@ -155,8 +155,6 @@ function editCocktail() {
 
                 $(editItemsDiv).append(taghtml);
 
-                
-
                 $("#postContents").append(editItemsDiv);
 
                 $(tagList).each(function(index, item) {
@@ -234,7 +232,7 @@ function editCocktail() {
                 submit.attr("class", "submitBtn");
                 submit.css("margin", "auto");
                 submit.text("제출");
-                $(submit).on('click', function() {
+                $(submit).on('click', function() {//change 된 것만 보내기
                     cocktail.name = $('textarea.name').val(),
                     cocktail.desc = $('textarea.desc').val(),
                     cocktail.history = $('textarea.history').val(),
@@ -276,4 +274,4 @@ function adjustHeight() {
     textarea.css('height', "auto");
     var textEleHeight = textarea.prop('scrollHeight');
     textarea.css('height', textEleHeight);
-  };
+}
