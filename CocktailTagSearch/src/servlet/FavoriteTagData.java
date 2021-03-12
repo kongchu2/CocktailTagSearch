@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -97,12 +98,14 @@ public class FavoriteTagData extends HttpServlet {
 			JSONObject tagJson = null;
 			
 			for(TagVO tag : tagList) {
-				tagJson = new JSONObject();
+				HashMap<String, Object> hashMap = new HashMap<String, Object>();
 				
-				tagJson.put("id", tag.getId());
-				tagJson.put("name", tag.getName());
-				tagJson.put("desc", tag.getDesc());
-				tagJson.put("category", tag.getCategory());
+				hashMap.put("id", tag.getId());
+				hashMap.put("name", tag.getName());
+				hashMap.put("desc", tag.getDesc());
+				hashMap.put("category", tag.getCategory());
+				
+				tagJson = new JSONObject(hashMap);
 			
 				array.add(tagJson);
 			}

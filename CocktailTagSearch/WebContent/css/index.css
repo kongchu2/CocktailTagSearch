@@ -1,15 +1,23 @@
 * {
   margin: 0;
-  padding: 0;
+  padding: 0;    
+  font-size: 100%;
+  vertical-align: baseline;
+  border: 0;
+  background: transparent;
 }
 body {
-  background-color: #ffebc1;
+  background-color: rgb(255, 255, 255);
 
   overflow-x: hidden;
 }
 main {
-	display: flex;
-	flex: none;
+  position: relative;
+  
+  margin: 0 auto;
+  margin-top: -50px;
+  
+  z-index: 4000;
 }
 footer {
   background-color: ivory;
@@ -27,46 +35,52 @@ footer::after {
   content: "당근은 맛있다.";
 }
 #contents {
-  background-color: #ffebc1;
+  flex: 1 0 auto;
+  
+  background-color: rgb(255, 255, 255);
   width: 100%;
   height: auto;
-
-  position: relative;
-
-  padding: 10% 0;
-
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  flex-direction: column;
+  
+  margin: auto;
+  margin-top: 70px;
 }
 #menuContents {
-  background-color: #ffdb9e;
+  background-color: rgb(255, 255, 255);
   height: 70px;
   width: 100%;
 
-  position: fixed;
-
-  box-shadow: 0px 0px 4px black;
+  position: absolute;
 
   top: 0;
 
   z-index: 1000;
 }
 #title {
-  margin:10px;
+  margin: 0 20px;
+
+  height: 70px;
 
   font-weight:600;
   font-size: xx-large;
   color:black;
 
   float:left;
+  font-family: honney, Helvetica, Arial, sans-serif;
+}
+.mainTitle::after {
+  content: "Cocktail Tags";
+}
+.mainTitle {
+  height: 70px;
   
+  display: table-cell; 
+  vertical-align: middle;
 }
 #sign {
-  margin: 8px 10px;
-  padding: 5px;
+  height: 100%;
+  width: auto;
+  
+  margin: auto 10px;
   
   display: flex;
   justify-content: center;
@@ -76,99 +90,127 @@ footer::after {
   right:0;
 }
 #cocktailContents {
-  background-color: #ffdda8;
-  padding: 5px;
-  padding-top: 45px;
-  display: flex;
-  flex: none;
-  flex-wrap: wrap;
-  align-content: center;
-  justify-content: center;
-
-  position: relative;
-
-  box-shadow: 0px 0px 4px black;
+  flex: 1;
   
-  clear: both;
-
-  height: auto;
-  width: 850px;
+  background-color: rgb(255, 255, 255);
+  
+  width: 100%;
+  
+  position: relative;
+  
 }
 #cocktailItemContents {
-  display: flex;
-  flex: none;
-  flex-wrap: wrap;
-  align-content: flex-start;
+  margin: 0 auto;
 
+  display: flex;
+  
   position: relative;
   
-  clear: both;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  
+  box-sizing: border-box;
 
   height: 100%;
-  width: 100%;
+  width: 90%;
 }
-#favoriteTagContents, 
-#favoriteCocktailContents {
+#favoriteTagContents {
   position: relative;
   
-  visibility: hidden;
-	
-  background-color: #ffdda8;
-	
+  margin-top: -50px;
+  margin-bottom: 100px;
+  
+  max-width: 500px;
+  width: 100%;
+  
   height: auto;
-  margin: 0 20px;
-  margin-bottom: 40px;
-	
-  padding: 5px;
-	
-  box-shadow: 0px 0px 4px black;
-	
-  width: 200px;
 
-  top: 40px;
+  display: flex;
+  align-items: center;
 }
-#favoriteCocktailContents {
-	visibility: hidden;
+.favoriteTagsBox {
+  animation: fadein 1s;
+  
+  margin: 10px auto;
+  padding: 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+#post-wrap {
+  padding: 0 20px;
+  padding-top: 15px;
+  padding-bottom: 40px;
+  margin: 0 auto;
+  
+  margin-top: 40px;
 }
 #postContents {
-  background-color: #ffdda8;
-  padding: 20px 5px;
-  padding-top: 10px;
-  margin-top: 40px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: space-between;
-
   position: relative;
 
-  box-shadow: 0px 0px 4px black;
+  margin: 0 auto;
 
-  height: auto;
-  width: 60%;
+  box-shadow: 0px 10px 16px gray;
+
+  max-height: auto;
+  max-width: 1000px;
+  height: 100%;
+  width: 100%;
+  
+  padding-bottom: 40px;
 }
 #postTitleContents {
   margin: 3px;
-  margin-top: 0;
+  margin-top: 5px;
+  margin-left: 20px;
+  margin-bottom: 26px;
+  margin-right: 280px;
+
+  padding: 5px;
+  padding-top: 20px;
 
   position: relative;
 
-  border-bottom: 1.2px solid black;
+  border-bottom: 2px solid black;
 
-  height: auto;
+  height: 52px;
   width: 80%;
 }
+#postAdminBtnContents {
+  position: absolute;
+  left: 46%;
+  top: 50px;
+  display: flex;
+  flex-direction: row;
+  
+  max-width: 400px;
+  width: 100%;
+}
+@media screen and (max-width: 800px) {
+	#postAdminBtnContents {
+		flex-direction: column;
+		line-height: 1.4em;
+		top: 26px;
+	}
+}
 #postTagContents {
-  float: right;
-  background-color: #ddfc00;
-
-  padding: 0.5vh;
-
-  border-radius: 10px;
-
   position: relative;
-
-  width: 20%;
-  height: 56vh;
+  
+  font-family: Axilia;
+  
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  
+  margin: 20px;
+  padding: 0 20px;
+}
+#postTagContents::before {
+  content: "tags: ";
+  margin-right: 20px;
 }
 #cocktailMenuContents {
   background-color: #ffdb9e;
@@ -187,10 +229,23 @@ footer::after {
 #cocktailImageContents {
   position: relative;
 
-  margin: 2% 5%;
-
-  height: 55vh;
+  border-radius: 8px;
+  
+  margin: 20px auto;
+  padding: 0 20px;
 }
+.post-image-container {
+  animation: fadein 1s;
+  
+  margin: 0 auto;
+  
+  max-width: 500px;
+  max-height: 500px;
+  
+  width: 100%;
+  height: 100%;
+}
+/*
 @media (max-width: 800px) {
   #cocktailImageContents {
     position: relative;
@@ -200,15 +255,21 @@ footer::after {
     height: 35vh;
   }
 }
+*/
 .explanation {
   margin: 0 5%;
 }
 #explanationContents {
   position: relative;
-  width: 66%;
-
-  margin: 2% 5%;
-  margin-bottom: 4%;
+  margin: 0 auto;
+  margin-top: 80px;
+  
+  padding: 0 20px;
+  
+  font-family: ELAND_Choice_M;
+  
+  max-width: 800px;
+  width: 80%;
 }
 #myPageContents {
   background-color: #ffdda8;
@@ -237,15 +298,14 @@ footer::after {
   height: 60px;
   width: 300px;
 }
-#myPageEditProfile, #myPageDeleteProfile, .postAdminBtn{
-  padding: 7px 30px;
-  background-color: #875A00;
-  color: white;
-  text-decoration: none;
-  margin:auto;
-  margin-top:20px;
-  border-radius: 8px;
-  width:130px;
+#myPageEditProfile, #myPageDeleteProfile {
+  cursor: pointer;
+}
+.postAdminBtn {
+  cursor: pointer;
+  font-family: ELAND_Choice_M;
+  
+  margin: 0 20px;
 }
 #myPageProfileContents {
   margin-top: 30px;
@@ -297,29 +357,66 @@ footer::after {
   
   text-align: center;
 }
-#search {
+#searchContents {
+  width: 100%;
+  position: relative;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  z-index: 3000;
+}
+.search-results-details {
+  text-align: center;
+  margin: 0 auto;
+	
+  width: 100%;
+  box-sizing: border-box;
+  
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+  
+  position: relative;
+  
+  flex-direction: column;
+  
+  z-index: 1;
+}
+.search-input-container {
+  padding: 0 20px;
+  
+  max-width: 600px;
+  width: 100%;
+  box-sizing: border-box;
+  
+  position: relative;
+  
+  transform: translateY(-50%);
+  
+  z-index: 2;
+}
+.search {
+  margin: 0 auto;
+	
   background-color: white;
-
+  
   display: flex;
   justify-content: space-around;
   align-items: center;
+  
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 0px 8px 20px rgb(0 0 0 / 6%);
 
-  position: relative;
-
-  border-radius: 20px;
-  box-shadow: 0px 0px 4px black;
-
-  min-width: 300px;
-  width: 600px;
-  height: 50px;
-  margin-top: 50px;
-  margin-bottom: 4px;
-  padding: 0px 20px;
+  width: 100%;
+  height: 60px;
+  
+  z-index: 2;
 }
-#searchContents {
-  position: relative;
-}
-#searchText {
+.searchText {
   display: block;
 
   border-style: none;
@@ -329,40 +426,89 @@ footer::after {
 
   outline: none;
 
-  width: 540px;
+  max-width: 540px;
+  width: 100%;
   height: 95%;
   margin: 0px 15px;
 }
+#searchHeaderContents {
+  background-color: rgb(197, 210, 244);
+	
+  min-height: 200px;
+  max-height: 360px;
+  width: 100%;
+  position: relative;
+  padding-top: 12%;
+  overflow: hidden;
+}
+#searchHeaderContents img{
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  
+  display: block;
+  margin: 0 auto;
+	
+  object-fit: contain;
+	
+  max-height: 100%;
+  width: auto;
+}
 #searchTagsContents {
-  width: 600px;
+  max-width: 600px;
+  width: 100%;
+  
   height: auto;
 
-  margin: 0;
+  display: flex;
+  align-items: center;
+
   margin-bottom: 50px;
 }
+.searchTagsBox {
+  margin: 10px auto;
+  padding: 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 #autocompleteTagsContents {
-  width: 300px;
+  max-width: 560px;
+  width: 100%;
   height: auto;
 
-  box-shadow: 0px 0px 1px gray;
-  border-radius: 3px;
+  box-shadow: 0px 8px 20px rgb(0 0 0 / 6%);
+  border-radius: 10px;
 
-  padding: 15px 0;
-
-  left: 56px;
-  margin-top: -6px;
-  position: absolute;
-
-  z-index: 3000;
+  margin: 0 auto;
+  
+  padding-top: 60px;
+  margin-top: -90px;
+  
+  position: relative;
 
   display: none;
+  justify-content: center;
+  align-items: center;
 
   background-color: rgb(255, 255, 255);
+  z-index: 1;
 }
 #autocompleteTagsContents:hover {
+  display: flex;
+}
+.autocompleteTagsBox {
   display: block;
+  width: 100%;
+  margin: 15px 0;
 }
 .autocompleteTags {
+  font-family: "ELAND_Choice_M";
+  font-size: 12pt;
+	
   padding: 8px 20px;
   font-size: 10pt;
 }
@@ -370,26 +516,34 @@ footer::after {
   background-color: rgb(180, 180, 180);
 }
 .favoriteTags {
-  background-color: rgba(206, 0, 123, 0.8);
-  
+  background-color: rgb(177, 190, 224);
   position: relative;
   
-  padding: 4px 8px;
-  margin: 0.5vh 0.2vh;
-
-  display: inline-block;
+  display: block;
+  
+  padding: 8px 16px;
+  margin: 0.6vh 0.8vh;
+  
+  font-family: today;
+  font-size: 12pt;
 
   width: auto;
   
   cursor: pointer;
   
-  border-radius: 40px;
+  border-radius: 6px;
+  
+  transition: background-color 0.6s;
 }
 .favoriteTags:hover {
-  background-color: rgba(168, 0, 101, 0.8);
+  background-color: rgb(207, 220, 254);
 }
 .cocktailItems {
+  animation: fadein 1s;
   position: relative;
+  border-radius: 8px;
+
+  flex: 1 0 0;
 
   display: flex;
   justify-content: center;
@@ -397,24 +551,30 @@ footer::after {
 
   overflow: hidden;
 
-  margin: 5px;
-
-  background-color: black;
-
-  box-shadow: 0px 0px 0.2px 1px #262626;
+  margin: 20px;
 
   cursor: pointer;
   
-  width: 160px;
-  height: 160px;
+  max-height: auto;
+  max-width: 100%;
+  min-height: auto;
+  min-width: 220px;
+  
+  box-sizing: inherit;
   
   z-index: 10;
 }
 .cocktailImages {
-  left: 0;
   position: relative;
-  max-height: 100%;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  	
   max-width: 100%;
+  object-fit: cover;
+  
+  border-radius: 8px;
   
   z-index: 9;
 }
@@ -428,16 +588,21 @@ footer::after {
 .itemTitle {
   position: absolute;
   width: 100%;
-  height: 22px;
+  height: 43px;
   color: whitesmoke;
   text-align: center;
-  padding: 2px 0;
+  font-size: 15pt;
+  font-family: scout, "나눔고딕";
+  padding-top: 20px;
+  padding-bottom: 8px;
   bottom: 0px;
 
+  animation: fadein 1s;
+  
   background: -webkit-linear-gradient(
     bottom,
-    rgba(0, 0, 0, 0.8),
-    rgba(0, 0, 0, 0.3)
+    rgba(0, 0, 0, 0.6) 40%,
+    rgba(0, 0, 0, 0)
   );
   
   z-index: 2000;
@@ -448,27 +613,31 @@ footer::after {
   justify-content: flex-start;
   align-items: flex-end;
 
+  animation: fadein 1s;
+  
   flex-direction: column;
-  right: 0;
-  bottom: 26px;
+  right: 6px;
+  top: 6px;
   
   z-index: 2000;
 }
 .itemTags {
-  background-color: rgba(153, 233, 167, 0.8);
+  background-color: rgba(255, 255, 255, 0.8);
   
   position: relative;
   
-  padding: 4px 8px;
+  padding: 4px 16px;
   margin: 0.5vh 0.2vh;
 
+  font-family: today, "나눔고딕";
+  
   display: inline-block;
 
   width: auto;
   
   cursor: pointer;
   
-  border-radius: 40px;
+  border-radius: 8px;
 }
 .itemTags:nth-child(n + 4) {
   display: none;
@@ -508,18 +677,26 @@ footer::after {
   opacity: 1;
 }
 .searchTags {
-  background-color: rgba(153, 233, 167, 0.8);
+  background-color: rgb(198, 234, 244);
   
-  padding: 4px 8px;
+  padding:8px 16px;
   margin: 0.5vh 0.4vh;
 
-  display: inline-block;
+  display: block;
 
+  font-family: today;
+  font-size: 12pt;
+  
   cursor: pointer;
 
   width: auto;
 
-  border-radius: 40px;
+  border-radius: 6px;
+  
+  transition: background-color 0.6s;
+}
+.searchTags:hover {
+  background-color: rgb(218, 254, 254);
 }
 .postTitle {
   padding: 10px;
@@ -527,14 +704,10 @@ footer::after {
 
   font-size: 25pt;
   font-weight: border;
-  font-family: 'Nanum Pen Script';
+  font-family: BBTreeGB;
 
   height: auto;
   float:left;
-}
-#postTitleContents, .postAdminBtn{
-  float:left;
-  margin:15px;
 }
 .myPageTitle {
   padding: 10px;
@@ -547,52 +720,59 @@ footer::after {
   height: auto;
 }
 .tagBlock {
-  background-color: rgba(153, 233, 167, 0.8);
+  background-color: rgb(198, 234, 244);
   
-  padding: 4px 8px;
-  margin: 0.5vh 0.2vh;
-
   color: black;
+  text-decoration: none;
+  
+  padding:8px 16px;
+  margin: 0.5vh 0.4vh;
 
   display: inline-block;
 
+  font-family: today;
+  font-size: 12pt;
+  
+  cursor: pointer;
+
   width: auto;
 
-  cursor: pointer;
-  
-  border-radius: 40px;
+  border-radius: 6px;
 }
 .searchIcon {
   height: 60%;
+  margin-left: 20px;
 }
 .cancelIcon {
   cursor: pointer;
 
   height: 45%;
+  margin-right: 20px;
 }
 .sign_name {
-  padding: 7px 17px;
+  margin: auto 0;
   margin-left: 20px;
+  margin-right: 20px;
   
   color: #001122;
   font-weight: border;
+  font-family: today;
+  font-size: 14pt;
   
   display: flex;
   align-items: center;
   
-  border: 1.2px solid #AD7300;
-  
-  background-color: #F9A600;
   border-radius: 8px;
 }
 .sign_in, .sign_up, .sign_out, .myPageLink {
-  padding: 7px 30px;
+  padding: 7px 20px;
   margin: 0 5px;
   
-  background-color: #875A00;
-  
-  color: white;
+  color: black;
   text-decoration: none;
+  
+  font-family: Axilia;
+  font-size: 12pt;
   
   display: flex;
   align-items: center;
@@ -624,7 +804,7 @@ footer::after {
 .myPageName {
   font-size: 20pt;
   font-weight: 500;
-  font-family: 휴먼모음T, HY견고딕;
+  font-family: today;
   
   color: #240011;
 }
@@ -735,4 +915,40 @@ input::-webkit-search-cancel-button,
 input::-webkit-search-results-button,
 input::-webkit-search-results-decoration {
   display: none;
+}
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@font-face { 
+  font-family: honney;
+  src: url(./font/honney.ttf);
+}
+@font-face { 
+  font-family: scout;
+  src: url(./font/scout.ttf);
+}
+@font-face { 
+  font-family: today;
+  src: url(./font/today.ttf);
+}
+@font-face { 
+  font-family: Axilia;
+  src: url(./font/Axilia.otf);
+}
+@font-face {
+    font-family: 'BBTreeGB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_nine_@1.1/BBTreeGB.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ELAND_Choice_M';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Choice_M.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }

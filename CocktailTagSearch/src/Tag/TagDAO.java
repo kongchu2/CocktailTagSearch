@@ -50,7 +50,7 @@ public class TagDAO {
 			
 			stmt = conn.createStatement();
 			int limit = 5;
-			String sql = "SELECT * FROM TAG WHERE ROWNUM <= "+limit;
+			String sql = "SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE ROWNUM <= "+limit+" GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY";
 			rs = stmt.executeQuery(sql);
 			
 			while(rs.next()) {
@@ -74,7 +74,7 @@ public class TagDAO {
 				
 				stmt = conn.createStatement();
 				int limit = 5;
-				String sql = "SELECT * FROM TAG WHERE TAG_ID IN(!)";
+				String sql = "SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_ID IN(!) GROUP BY  TAG_ID, TAG_NAME, \"DESC\", CATEGORY ORDER BY TAG_ID";
 				
 				String subQueryWhere = "";
 				for(int tagId : tagIdList) {
@@ -107,7 +107,7 @@ public class TagDAO {
 			
 			stmt = conn.createStatement();
 			int limit = 5;
-			String sql = "SELECT * FROM TAG WHERE TAG_ID IN(1!) AND TAG_ID NOT IN(2!)";
+			String sql = "SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_ID IN(1!) AND TAG_ID NOT IN(2!) GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY";
 			
 			String subQueryWhere1 = "";
 			for(int tagId : tagIdList) {
@@ -144,7 +144,7 @@ public class TagDAO {
 		try {
 			conn = JDBCConnection.getConnection();
 			
-			String sql = "SELECT * FROM TAG WHERE TAG_NAME LIKE'%"+ searchWord +"%'";
+			String sql = "SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_NAME LIKE'%"+ searchWord +"%' GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -168,7 +168,7 @@ public class TagDAO {
 
 			// limit
 			int limit = 5;
-			String sql = "SELECT * FROM (SELECT * FROM TAG WHERE TAG_NAME LIKE'%"+ searchWord +"%') WHERE ROWNUM <= "+limit;
+			String sql = "SELECT ROWNUM, TAG.* FROM (SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_NAME LIKE'%"+ searchWord +"%' GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY) TAG WHERE ROWNUM <= "+limit;
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -192,7 +192,7 @@ public class TagDAO {
 
 			// limit
 			int limit = 5;
-			String sql = "SELECT * FROM (SELECT * FROM TAG WHERE TAG_NAME LIKE'%"+ searchWord +"%' AND TAG_ID NOT IN(!)) WHERE ROWNUM <= "+limit;
+			String sql = "SELECT ROWNUM, TAG.* FROM (SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_NAME LIKE'%"+ searchWord +"%' AND TAG_ID NOT IN(!) GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY) TAG WHERE ROWNUM <= "+limit;
 			
 			String subQueryWhere = "";
 			for(int tagId : tagIdList) {
@@ -224,7 +224,7 @@ public class TagDAO {
 			
 			// limit
 			int limit = 5;
-			String sql = "SELECT * FROM (SELECT * FROM TAG WHERE TAG_ID NOT IN(!)) WHERE ROWNUM <= "+limit;
+			String sql = "SELECT ROWNUM, TAG.* FROM (SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_ID NOT IN(!) GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY) TAG WHERE ROWNUM <= "+limit;
 			
 			String subQueryWhere = "";
 			for(int tagId : tagIdList) {
@@ -255,12 +255,13 @@ public class TagDAO {
 		try {
 			conn = JDBCConnection.getConnection();
 			
-			String sql = "SELECT * "
+			String sql = "SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY "
 					+ "FROM TAG "
 					+ "WHERE TAG_ID IN ("
 						+ "SELECT TAG_ID "
 						+ "FROM COCKTAIL_TAG "
-						+ "WHERE COCKTAIL_ID=?)";
+						+ "WHERE COCKTAIL_ID=?) "
+						+ "GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, cocktailId);
 			rs = pstmt.executeQuery();

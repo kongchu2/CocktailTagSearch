@@ -16,7 +16,7 @@ function createSignName(name) {
 function createSignUp() {
 	$('#sign').append($('<div/>', {
       class: "sign_up",
-	  text: "회원가입"
+	  text: "Sign up"
     }));
 	$('.sign_up').on("click", function() {
 		location.href = 'signup.jsp';
@@ -25,7 +25,7 @@ function createSignUp() {
 function createSignIn() {
 	$('#sign').append($('<div/>', {
       class: "sign_in",
-      text: "로그인"
+      text: "Sign in"
     }));
 	$('.sign_in').on("click", function() {
 		location.href = 'login.html';
@@ -35,7 +35,7 @@ function createSignIn() {
 function createSignOut() {
 	$('#sign').append($('<div/>', {
       class: "sign_out",
-	  text: "로그아웃"
+	  text: "Sign out"
     }));
 	$('.sign_out').on("click", function() {
 		location.href = 'javascript:logout()';
@@ -44,7 +44,7 @@ function createSignOut() {
 function createMyPageLink() {
 	$('#sign').append($('<div/>', {
       class: "myPageLink",
-	  text: "마이페이지"
+	  text: "MyPage"
     }));
 	$('.myPageLink').on("click", function() {
 		location.href = 'myPage.html';

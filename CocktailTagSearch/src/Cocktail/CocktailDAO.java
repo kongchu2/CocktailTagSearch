@@ -49,7 +49,7 @@ public class CocktailDAO {
 			conn = JDBCConnection.getConnection();
 
 			// limit
-			int limit = 10;
+			int limit = 100;
 			String sql = "SELECT ROWNUM, cocktail.* FROM (SELECT COCKTAIL_ID, NAME, IMAGE, \"DESC\" FROM COCKTAIL) cocktail WHERE ROWNUM <= "+limit;
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();

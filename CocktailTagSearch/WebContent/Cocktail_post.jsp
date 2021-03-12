@@ -16,37 +16,6 @@ request.setCharacterEncoding("UTF-8");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>포스트</title>
     <link rel="stylesheet" href="css/index.css">
-    <style>
-        .border {
-            border: 1px solid black;
-        }
-        #content {
-            width:550px;
-        }
-        #search {
-            vertical-align: top;
-            width:200px;
-        }
-        input{
-            width:100%;
-            padding:0px;
-            border:none;
-        }
-        .editAutocompleteTag, .addedTag {
-            border: 1px solid black;
-        }
-        #addedTagList {
-            vertical-align: top;
-            width:300px;
-        }
-        .inline-block {
-            display: inline-block;
-        }
-        .deleteBtn {
-            float:right;
-            margin-right:5px;
-        }
-    </style>
 </head>
 <body>
 	<%
@@ -61,13 +30,18 @@ request.setCharacterEncoding("UTF-8");
     <div id="contents">
         <div id="menuContents">
         </div>
+        <div id="post-wrap">
         <div id="postContents">
             <div id="postTitleContents">
                 <div class="postTitle"><%=cocktail.getName()%></div>
             </div>
+            <div id="postAdminBtnContents">
+            </div>
             <img src="image/icon/notFilledHeart.png" id="likeimg">
             <div id="cocktailImageContents">
-                <img src=<%=cocktail.getImage()%> alt="칵테일사진" class="cocktailImages">
+            	<div class = "post-image-container">
+            		<img src=<%=cocktail.getImage()%> alt="칵테일사진" class="cocktailImages">
+            	</div>           
             </div>
             <div id="explanationContents">
                 <div class="description">
@@ -115,8 +89,7 @@ request.setCharacterEncoding("UTF-8");
                 <div class="tagBlock glass">소주병</div> -->
             </div>
         </div>
-		<footer>
-        </footer>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script>var postId=<%=postId%></script>

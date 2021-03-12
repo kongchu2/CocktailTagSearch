@@ -71,8 +71,8 @@ function likeTag(tagId) {
 
 function addAdminBtn() {
     if(userData.user.permission === 1) {
-        $('#postTitleContents').append("<div class='postAdminBtn' onclick='editCocktail()'>칵테일 수정하기</div>");
-        $('#postTitleContents').append("<div class='postAdminBtn' onclick='deleteCocktail()'>칵테일 삭제하기</div>");
+        $('#postAdminBtnContents').append("<div class='postAdminBtn' onclick='editCocktail()'>칵테일 수정하기</div>");
+        $('#postAdminBtnContents').append("<div class='postAdminBtn' onclick='deleteCocktail()'>칵테일 삭제하기</div>");
     }
 }
 function deleteCocktail() {
