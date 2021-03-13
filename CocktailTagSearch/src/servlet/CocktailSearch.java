@@ -70,8 +70,12 @@ public class CocktailSearch extends HttpServlet {
 			cocktailArray.add(cocktailJson);
 		}
 		JSONObject json = new JSONObject();
-		json.put("cocktails", cocktailArray);
-		out.print(json);
+		if(cocktailArray.size() == 0) {
+			out.print(new Object());
+		} else {
+			json.put("cocktails", cocktailArray);
+			out.print(json);
+		}
 		
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

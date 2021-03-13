@@ -207,7 +207,7 @@ function getCocktailItems() {
 		url:"http://localhost:8090/CocktailTagSearch/CocktailSearch",
     dataType:"json",
 		data: {
-		  search: $("#searchText").val(),
+		  search: $(".searchText").val(),
 	      tags: JSON.stringify(selectTagList),
       	  length: cocktailItemLength
 		},
@@ -217,7 +217,7 @@ function getCocktailItems() {
       }
 	    if(data != null) {
 	      $.each(data.cocktails, createCocktail); 
-	    }		
+	    }
 	  createManySpaceCocktail();
 	}
   });
@@ -322,3 +322,12 @@ function getMoreCocktail() {
   cocktailItemLength = $('.cocktailItems').length;
   getCocktailItems()
 }
+
+var page = 1;
+
+$(window).scroll(function() {
+    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+      cocktailItemLength += 10;
+      getMoreCocktail();   
+    }
+});
