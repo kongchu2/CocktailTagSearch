@@ -17,9 +17,7 @@ var cocktailItemLength = 0;
 $(document).ready(loadData);
 
 search.addEventListener("keydown", hideComplete);
-search.addEventListener("input", _.debounce(getAutocompleteTags, 300));
-search.addEventListener('input',  _.debounce(getCocktailItems, 300));
-search.addEventListener('input',  _.debounce(function(){cocktailItemLength = 0}, 300));
+search.addEventListener("input", _.debounce(inputCallback, 300));
 
 search.addEventListener("focus", function() {
   autocomplete.style.display = "flex";
@@ -47,6 +45,12 @@ cocktailItemContents.on('mouseout', styleAppendOut);
 
 var favoriteTagsBox = $('.favoriteTagsBox');
 favoriteTagsBox.on('mousedown', addTag);
+
+function inputCallback() {
+  getAutocompleteTags();
+  $('.cocktailItems').remove();
+  getCocktailItems();
+}
 
 // 모든 칵테일이 표시가 안될 때 Not Found 표시
 function showNotFound() {
@@ -212,9 +216,6 @@ function getCocktailItems() {
       	  length: cocktailItemLength
 		},
     success:function(data) {
-      if(cocktailItemLength == 0) {
-        $('.cocktailItems').remove();
-      }
 	    if(data != null) {
 	      $.each(data.cocktails, createCocktail); 
 	    }
@@ -258,6 +259,7 @@ function getFavoriteTags() {
 
 function loadData() {
 	getAutocompleteTags();
+  $('.cocktailItems').remove();
 	getCocktailItems();
 	getFavoriteTags();
 }
