@@ -16,6 +16,11 @@ var cocktailItemLength = 0;
 
 $(document).ready(loadData);
 
+$(document).ready(function() {
+    $("#menuContents").load("menuContents.html");
+    getSessionData();
+});
+
 search.addEventListener('keydown', function() {
 	if(search.style.color == "gray") {
     search.value = save_search_sentence;

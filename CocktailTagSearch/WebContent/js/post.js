@@ -3,6 +3,11 @@ DataLoadFunc.push(addAdminBtn);
 
 $('#likeimg').click(likePost);
 
+$(document).ready(function() {
+    $("#menuContents").load("menuContents.html");
+    getSessionData();
+});
+
 function likePost() {
     if(userData.signed == "0") {
         return;

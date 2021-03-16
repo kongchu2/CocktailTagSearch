@@ -6,18 +6,39 @@
     <style type="text/css">
     </style>
     <link rel="stylesheet" href="css/index.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="./js/jquery.js"></script>
 </head>
 <body>
-   <div id="contents">
-    <div id="menuContents">
-    </div>
-		<div id="postContents" style="width:40%;height:700px">
-			<div class="formBackground">
-				<h1>로그인~</h1>
-					<input type="text" id="id" class="inputBox" name="id" placeholder="아이디를 입력하세요."><br>
-					<input type="password" id="pw" class="inputBox" name="pw" placeholder="비밀번호를 입력하세요."><br>
-					<input type="BUTTON" value="로그인" class="submitBtn" onclick="login()">
+   <div id="signin-wrap">
+   		<div id="signinBannerContents">
+   			<div id="title" class="signinBannerTitle">
+   				<p class="mainTitle" />
+   				<p class="subTitle" />
+   			</div>
+   			<div class="signin-banner-container">
+   				<div>
+   					<img src="./image/icon/signin_banner.png" />
+   				</div>
+   			</div>
+		</div>
+		<div id="signinContents">
+			<span class="signin-signup-linked"> Not a member? <a href="./signup.jsp">Sign up now</a> </span>
+			<div class="signin-inner-container">
+   				<div id="title"><p class="mainTitle" /></div>
+				<div class="signinTitle"> <h1>Sign in to Cocktail Tags</h1> </div>
+				<div class="signin-input">
+					<span>UserID</span>
+					<input type="text" id="id" class="inputBox" name="id">
+				</div>
+				<div class="signin-input">
+					<span>Password</span>
+					<input type="password" id="pw" class="inputBox" name="pw">
+				</div>
+				<div class="signin-button-inner-container">
+					<div class="signin-button">
+						<input type="BUTTON" value="Sign In" class="submitBtn" onclick="login()">
+					</div>
+				</div>
 			</div>
 		</div>
    </div>

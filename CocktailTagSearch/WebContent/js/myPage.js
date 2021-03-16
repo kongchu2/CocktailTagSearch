@@ -6,6 +6,11 @@ $(document).ready(function() {
 });
 DataLoadFunc.push(addAdminBtn);
 
+$(document).ready(function() {
+    $("#menuContents").load("menuContents.html");
+    getSessionData();
+});
+
 function getUserData() {
   $.ajax({
     type:"post",

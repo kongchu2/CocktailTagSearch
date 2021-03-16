@@ -4,6 +4,10 @@ DataLoadFunc.push(function() {
     }
 }); 
 
+$(document).ready(function() {
+    getSessionData();
+});
+
 function valueCheck() {
     inputs = [
         {value: $('#id').val(), name: "아이디"},

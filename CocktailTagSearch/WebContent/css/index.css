@@ -73,8 +73,29 @@ footer::after {
 .mainTitle {
   height: 70px;
   
+  cursor: pointer;
+  
   display: table-cell; 
   vertical-align: middle;
+}
+.subTitle::after {
+  content: "Discover the world's \A top Cocktail \A tag search site";
+  white-space: pre;
+}
+.subTitle {
+  font-family: ELAND_Choice_M;
+}
+.signinBannerTitle {
+  position: relative;
+  top: 34px;
+  left: 40px;
+}
+.signinBannerTitle > .mainTitle {
+	font-size: 24pt;
+}
+.signinBannerTitle > .subTitle {
+	line-height: 24pt;
+	font-size: 18pt;
 }
 #sign {
   height: 100%;
@@ -271,10 +292,21 @@ footer::after {
   max-width: 800px;
   width: 80%;
 }
+#myPage-wrap {
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  height: 100vh;
+  
+  margin: auto;
+  padding: 0;
+  
+  display: flex;
+  
+  overflow: hidden;
+}
 #myPageContents {
-  background-color: #ffdda8;
+  background-color: rgb(255, 255, 255);
   padding: 20px 5px;
-  margin-top: 40px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -284,7 +316,7 @@ footer::after {
   box-shadow: 0px 0px 4px black;
 
   height: auto;
-  width: 720px;
+  width: 100%;
 }
 #myPageTitleContents {
   padding: 5px;
@@ -356,6 +388,98 @@ footer::after {
   flex: none;	
   
   text-align: center;
+}
+#signin-wrap, #authentication-wrap {
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  height: 100vh;
+  
+  margin: auto;
+  padding: 0;
+  
+  display: flex;
+  
+  overflow: hidden;
+}
+#signinBannerContents {
+  max-width: 500px;
+  min-width: 500px;
+
+  background-color: rgb(209, 221, 229);
+
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+.signin-banner-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+	
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.signin-banner-container > div {
+  position: relative;
+  top: 180px;
+	
+  max-width: 500px;
+  min-width: 500px;
+  width: 100%;
+	
+  height: auto;
+}
+.signin-banner-container > div > img {
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+@media (max-height: 620px) {
+  #signinBannerContents {
+    max-width: 450px;
+    min-width: 450px;
+  }
+  .signin-banner-container > div {
+    max-width: 450px;
+    min-width: 450px;
+  }
+}
+@media (max-height: 575px) {
+  #signinBannerContents {
+  	display: none;  
+  }
+}
+@media (max-width: 1050px) {
+  #signinBannerContents {
+    max-width: 450px;
+    min-width: 450px;
+  }
+  .signin-banner-container > div {
+    max-width: 450px;
+    min-width: 450px;
+  }
+}
+@media (max-width: 960px) {
+  #signinBannerContents {
+    display: none;
+  }
+}
+#signinContents, #AuthenticationContents {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: column;	
 }
 #searchContents {
   width: 100%;
@@ -713,6 +837,7 @@ footer::after {
   padding: 10px;
 
   font-size: 25pt;
+  font-family: ELAND_Choice_M;
   font-weight: bolder;
 
   text-align: center;
@@ -861,27 +986,159 @@ footer::after {
 form{
   width:200px;
 }
+#signinContents {
+  margin: 0 20px;
+}
+.signin-signup-linked {
+  position: absolute;
+  
+  font-size: 12pt;
+  font-family: 'Haas Grot Text R Web';
+  
+  top: 20px;
+  right: 20px;
+}
+.signin-signup-linked > a {
+  text-decoration: none;
+  color: rgb(211, 175, 185);
+}
+.signin-inner-container, .Authentication-inner-container {
+  width: 100%;
+  display: flex;
+  
+  padding: 30px 60px;
+  
+  justify-content: center;
+  align-items: center;
+  
+  flex-direction: column;
+}
+.signin-inner-container > #title {
+  visibility: hidden;
+  font-size: 24pt;
+}
+@media (max-width: 960px) {
+  .signin-inner-container > #title {
+    visibility: visible;
+  }
+}
+@media (max-height: 575px) {
+  .signin-inner-container > #title {
+    visibility: visible;
+  }
+}
+.signin-inner-container > form {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  flex-direction: column;
+}
+.signinTitle, .AuthenticationTitle {
+  max-width: 460px;
+  width: 100%;
+  
+  margin: 60px 20px;
+  
+  text-align: left;
+}
+.signinTitle > h1 , .AuthenticationTitle > h1 {
+  font-size: 21pt;
+  font-family: today;
+}
+@media (max-height: 655px) {
+  .signinTitle {
+  	display: none;
+  }
+}
+@media (max-height: 580px) {
+  .signin-signup-linked {
+  	visibility: hidden;
+  }
+}
+@media (max-width: 600px) {
+  .signin-signup-linked {
+  	visibility: hidden;
+  }
+}
+@media (max-height: 520px) {
+  #signin-wrap {
+    overflow: visible;
+  }
+}
+.signin-input {
+  max-width: 460px;
+  width: 100%;
+  
+  height: auto;
+}
+.signin-input > span{
+  font-family: BBTreeGB;
+  font-weight: 300;
+}
+.signin-button-inner-container {
+  max-width: 460px;
+  width: 100%;
+  
+  text-align: left;
+  
+  height: auto;
+}
+.Authentication-button-inner-container {
+  max-width: 520px;
+  margin-left: 60px;
+  width: 100%;
+  
+  text-align: left;
+  
+  height: auto;
+}
+.signin-button, .Authentication-button{
+  margin-top: 30px;
+	
+  max-width: 220px;
+  width: 100%;
+  
+  height: auto;
+}
 .inputBox {
-    border: 2px solid #d9a44a;
-    border-radius: 15px;
-    height: 55px;
-    width: 200px;
-    margin-right: auto;
-    margin-bottom: 30px;
-    margin-left: auto;
-    text-align: center;
-    background-color: transparent;
-    font-size: medium;
+  background-color: rgb(232, 245, 255);
+  border-radius: 8px;
+  height: 45px;
+  width: 100%;
+  
+  margin: 10px 0;
+  
+  outline: none;
+  
+  transition: all 0.2s;
+}
+.inputBox:hover {
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 0 0 4px rgba(209, 221, 229, 0.5);
+}
+.inputBox:focus {
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 0 0 4px rgba(209, 221, 229, 0.5);
 }
 .submitBtn {
-  height:65px;
-  width:190px;
+  height:43px;
+  width: 100%;
+  
   border:none;
-  border-radius: 15px;
-  background-color: #d9a44a;
-  font-size: large;
-  font-weight: bold;
+  outline: none;
+  
+  border-radius: 8px;
+  background-color: rgb(174, 184, 191);
   text-align: center;
+  
+  transition: all 0.1s;
+}
+.submitBtn:hover {
+  background-color: rgb(144, 154, 171);
 }
 #chooseEdit, #profile {
   margin:auto;
@@ -935,6 +1192,10 @@ input::-webkit-search-results-decoration {
 @font-face { 
   font-family: today;
   src: url(./font/today.ttf);
+}
+@font-face { 
+  font-family: 'Haas Grot Text R Web';
+  src: url(./font/HaasGrotTextRWeb.ttf);
 }
 @font-face { 
   font-family: Axilia;

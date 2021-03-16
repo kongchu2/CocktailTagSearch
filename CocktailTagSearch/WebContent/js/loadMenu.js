@@ -3,9 +3,9 @@ userData = {signed:"0"};
 var DataLoadFunc = [];
 var notSignedFunc = [];
 
-$(document).ready(function() {
-    $("#menuContents").load("menuContents.html");
-    getSessionData();
+$('.mainTitle').on('click', function() {
+	var url = 'index.html';
+	$(location).attr('href',url);
 });
 
 function createSignName(name) {
