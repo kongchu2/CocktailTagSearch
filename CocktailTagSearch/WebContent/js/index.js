@@ -17,8 +17,7 @@ var cocktailItemLength = 0;
 $(document).ready(loadData);
 
 $(document).ready(function() {
-    $("#menuContents").load("menuContents.html");
-    getSessionData();
+    $("#menuContents").load("menuContents.html", function() {getSessionData();});
 });
 
 search.addEventListener('keydown', function() {
