@@ -51,9 +51,8 @@ public class CocktailDAO {
 			conn = JDBCConnection.getConnection();
 			
 			// limit
-			int limit = 100;
-			String sql = "SELECT ROWNUM, cocktail.* FROM (SELECT COCKTAIL_ID, NAME, IMAGE, \"DESC\" FROM COCKTAIL) cocktail WHERE ROWNUM <= "+limit;
-//			String sql = "SELECT ROWNUM, cocktail.* FROM (SELECT COCKTAIL_ID, NAME, IMAGE, \"DESC\" FROM COCKTAIL) cocktail WHERE ? < COCKTAIL_ID AND COCKTAIL_ID <= ?";
+			int limit = 10;
+			String sql = "SELECT ROWNUM, cocktail.* FROM (SELECT COCKTAIL_ID, NAME, IMAGE, \"DESC\" FROM COCKTAIL) cocktail WHERE ? < COCKTAIL_ID AND COCKTAIL_ID <= ?";
 
 			stmt = conn.prepareStatement(sql);
 //			stmt.setInt(1, cocktailLength);
