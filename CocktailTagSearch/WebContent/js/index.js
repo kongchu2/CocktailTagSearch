@@ -60,8 +60,7 @@ favoriteTagsBox.on('mousedown', addTag);
 
 function inputCallback() {
   getAutocompleteTags();
-  $('.cocktailItems').remove();
-  getCocktailItems();
+  $.when($('.cocktailItems').remove()).then(getCocktailItems());
 }
 
 // 모든 칵테일이 표시가 안될 때 Not Found 표시

@@ -75,10 +75,10 @@ public class CocktailDAO {
 		try {
 			conn = JDBCConnection.getConnection();
 
-			String sql = "SELECT ROWNUM, cocktail.* FROM (SELECT COCKTAIL_ID, NAME, IMAGE, \"DESC\" FROM COCKTAIL WHERE NAME LIKE'%"+ searchWord +"%') cocktail WHERE ? < COCKTAIL_ID AND COCKTAIL_ID <= ?";
+			String sql = "SELECT * FROM (SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE, \"DESC\" FROM COCKTAIL WHERE NAME LIKE'%"+ searchWord +"%' AND ROWNUM < ?) WHERE rnum > ?";
 			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, cocktailLength);
-			stmt.setInt(2, cocktailLength+10);
+			stmt.setInt(1, cocktailLength+10);
+			stmt.setInt(2, cocktailLength);
 			rs = stmt.executeQuery();
 			
 			while(rs.next())
@@ -130,13 +130,14 @@ public class CocktailDAO {
 		try {
 			conn = JDBCConnection.getConnection();
 			
-			String sql = "SELECT COCKTAIL_ID, NAME, IMAGE, \"DESC\" "
+			String sql = "SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE, \"DESC\" "
 					+ "FROM COCKTAIL "
 					+ "WHERE COCKTAIL_ID IN "
 					+ "(SELECT COCKTAIL_ID "
 					+ "FROM (SELECT * FROM COCKTAIL_TAG WHERE !) "
 					+ "GROUP BY COCKTAIL_ID "
-					+ "HAVING COUNT(*) > ?)";
+					+ "HAVING COUNT(*) > ?) "
+					+ "AND ROWNUM < ?";
 			
 			String subQueryWhere = "";
 			
@@ -146,13 +147,13 @@ public class CocktailDAO {
 			subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length()-2);
 			sql = sql.replace("!", subQueryWhere);
 			
-			sql = "SELECT ROWNUM, cocktail.* FROM (" + sql;
-			sql += ") cocktail WHERE ? < COCKTAIL_ID AND COCKTAIL_ID <= ?";
+			sql = "SELECT rnum, cocktail.* FROM (" + sql;
+			sql += ") cocktail WHERE rnum > ?";
 			
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, tagList.size()-1);
-			stmt.setInt(2, cocktailLength);
-			stmt.setInt(3, cocktailLength+10);
+			stmt.setInt(2, cocktailLength+10);
+			stmt.setInt(3, cocktailLength);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
 				cocktailList.add(getCocktailByResultSetNeedToSearch());
@@ -171,13 +172,14 @@ public class CocktailDAO {
 		try {
 			conn = JDBCConnection.getConnection();
 			
-			String sql = "SELECT COCKTAIL_ID, NAME, IMAGE, \"DESC\" "
+			String sql = "SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE, \"DESC\" "
 					+ "FROM COCKTAIL "
 					+ "WHERE COCKTAIL_ID IN "
 					+ "(SELECT COCKTAIL_ID "
 					+ "FROM (SELECT * FROM COCKTAIL_TAG WHERE !) "
 					+ "GROUP BY COCKTAIL_ID "
-					+ "HAVING COUNT(*) > ?) AND NAME LIKE'%"+ searchWord +"%'";
+					+ "HAVING COUNT(*) > ?) AND NAME LIKE'%"+ searchWord +"%' "
+					+ "AND ROWNUM < ?";
 			
 			String subQueryWhere = "";
 			
@@ -188,12 +190,12 @@ public class CocktailDAO {
 			sql = sql.replace("!", subQueryWhere);
 			
 			sql = "SELECT ROWNUM, cocktail.* FROM (" + sql;
-			sql += ") cocktail WHERE ? < COCKTAIL_ID AND COCKTAIL_ID <= ?";
+			sql += ") cocktail WHERE rnum > ?";
 			
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, tagList.size()-1);
-			stmt.setInt(2, cocktailLength);
-			stmt.setInt(3, cocktailLength+10);
+			stmt.setInt(2, cocktailLength+10);
+			stmt.setInt(3, cocktailLength);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
 				cocktailList.add(getCocktailByResultSetNeedToSearch());
