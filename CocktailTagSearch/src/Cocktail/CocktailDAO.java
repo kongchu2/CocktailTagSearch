@@ -92,6 +92,7 @@ public class CocktailDAO {
 		}
 		return cocktailList;
 	}
+	@Deprecated
 	public ArrayList<CocktailVO> getCocktailListByTag(int tagId) {
 		
 		ArrayList<CocktailVO> cocktailList = new ArrayList<CocktailVO>();

@@ -227,10 +227,10 @@ function getCocktailItems() {
       	  length: cocktailItemLength
 		},
     success:function(data) {
-	    if(data != null) {
+	    if(data != null && data.cocktails.length != 0) {
 	      $.each(data.cocktails, createCocktail); 
+        createManySpaceCocktail();
 	    }
-	  createManySpaceCocktail();
 	}
   });
 }
@@ -336,10 +336,8 @@ function getMoreCocktail() {
   getCocktailItems()
 }
 
-var page = 1;
-
 $(window).scroll(function() {
-    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+    if ($(document).height() <= ($(window).scrollTop() + $(window).height()) + 100) {
       cocktailItemLength += 10;
       getMoreCocktail();   
     }
