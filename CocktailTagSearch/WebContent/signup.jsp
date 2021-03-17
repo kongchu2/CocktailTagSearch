@@ -49,7 +49,7 @@
 			<span class="signin-signup-linked"> Already a member? <a href="./login.html">Sign in</a> </span>
 			<div class="signin-inner-container">
    				<div id="title"><p class="mainTitle" /></div>
-				<div class="signinTitle"> <h1>Sign in to Cocktail Tags</h1> </div>
+				<div class="signinTitle"> <h1>Sign up to Cocktail Tags</h1> </div>
 				<form method="post" action="signupCtrl.jsp" name="memberInfo" onsubmit="return checkValue();">
 					<div class="signin-input">
 						<span>UserID</span>

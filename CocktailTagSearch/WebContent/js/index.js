@@ -337,8 +337,8 @@ function getMoreCocktail() {
     getCocktailItems();
 }
 
-$(window).scroll(function()	{
+$(window).scroll( _.throttle(function()	{
     if ($(document).height() <= ($(window).scrollTop() + $(window).height()) + 20) {
       getMoreCocktail();   
     }
-});
+}, 200));
