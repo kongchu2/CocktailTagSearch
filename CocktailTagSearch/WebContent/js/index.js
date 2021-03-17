@@ -339,7 +339,6 @@ function getMoreCocktail() {
 
 $(window).scroll(function()	{
     if ($(document).height() <= ($(window).scrollTop() + $(window).height()) + 20) {
-	console.log(cocktailItemLength);
       getMoreCocktail();   
     }
 });
