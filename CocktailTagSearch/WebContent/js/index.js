@@ -227,9 +227,10 @@ function getCocktailItems() {
       	  length: cocktailItemLength
 		},
     success:function(data) {
-	    if(data != null && data.cocktails.length != 0) {
+	    if(data != null || data.cocktails.length != 0) {
+		  $('.spaceCocktailItems').remove();
 	      $.each(data.cocktails, createCocktail); 
-        createManySpaceCocktail();
+          createManySpaceCocktail();
 	    }
 	}
   });
@@ -319,7 +320,7 @@ function createCocktail(index, item) {
 }
 function createSpaceCocktail() {
     var cocktail = $('<div/>');
-    cocktail.addClass('cocktailItems');
+    cocktail.addClass('spaceCocktailItems');
 	cocktail.css('visibility', 'hidden');
 	
     $('#cocktailItemContents').append(cocktail);
@@ -332,13 +333,13 @@ function createManySpaceCocktail() {
   createSpaceCocktail();
 }
 function getMoreCocktail() {
-  cocktailItemLength = $('.cocktailItems').length;
-  getCocktailItems()
+    cocktailItemLength = $('.cocktailItems').length;
+    getCocktailItems();
 }
 
-$(window).scroll(function() {
-    if ($(document).height() <= ($(window).scrollTop() + $(window).height()) + 100) {
-      cocktailItemLength += 10;
+$(window).scroll(function()	{
+    if ($(document).height() <= ($(window).scrollTop() + $(window).height()) + 20) {
+	console.log(cocktailItemLength);
       getMoreCocktail();   
     }
 });

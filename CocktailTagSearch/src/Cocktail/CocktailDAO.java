@@ -50,7 +50,9 @@ public class CocktailDAO {
 		try {
 			conn = JDBCConnection.getConnection();
 			
-			String sql = "SELECT rnum, cocktail.* FROM (SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE, \"DESC\" FROM COCKTAIL WHERE ROWNUM < ?) cocktail WHERE rnum > ?";
+			String sql = "SELECT rnum, cocktail.* FROM (SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE, \"DESC\" "
+					+ "FROM COCKTAIL WHERE ROWNUM < ?) "
+					+ "cocktail WHERE rnum > ?";
 
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, cocktailLength+10);
