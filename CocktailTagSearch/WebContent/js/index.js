@@ -9,12 +9,14 @@ var selectTagList = [];
 
 var save_search_sentence = "";
 
+var dataLoaded = false;
+
 var add_continuous_pressing = false;
 var remove_continuous_pressing = false;
 
 var cocktailItemLength = 0;
 
-$(document).ready(loadData);
+$(document).ready(init);
 
 $(document).ready(function() {
     $("#menuContents").load("menuContents.html", function() {getSessionData();});
@@ -60,7 +62,9 @@ favoriteTagsBox.on('mousedown', addTag);
 
 function inputCallback() {
   getAutocompleteTags();
-  $.when($('.cocktailItems').remove()).then(getCocktailItems());
+  cocktailItemLength = 0;
+  $('.cocktailItems').remove();
+  getCocktailItems();
 }
 
 // 모든 칵테일이 표시가 안될 때 Not Found 표시
@@ -217,22 +221,24 @@ function getAutocompleteTags() {
 }
 
 function getCocktailItems() {
+  dataLoaded = false;
   $.ajax({
     type:"post",
 		url:"http://localhost:8090/CocktailTagSearch/CocktailSearch",
     dataType:"json",
 		data: {
 		  search: $(".searchText").val(),
-	      tags: JSON.stringify(selectTagList),
-      	  length: cocktailItemLength
+	    tags: JSON.stringify(selectTagList),
+      length: cocktailItemLength
 		},
     success:function(data) {
 	    if(data != null || data.cocktails.length != 0) {
-		  $('.spaceCocktailItems').remove();
-	      $.each(data.cocktails, createCocktail); 
-          createManySpaceCocktail();
+        $('.spaceCocktailItems').remove();
+        $.each(data.cocktails, createCocktail);
+        createManySpaceCocktail();
+        dataLoaded = true;
 	    }
-	}
+    }
   });
 }
 
@@ -269,11 +275,17 @@ function getFavoriteTags() {
   });
 }
 
+function init() {
+  loadData()
+  setInfiniteScrolling();
+}
+
 function loadData() {
 	getAutocompleteTags();
-  $('.cocktailItems').remove();
-	getCocktailItems();
-	getFavoriteTags();
+  cocktailItemLength = 0;
+  $('.cocktailItems').remove()
+  getFavoriteTags();
+  getCocktailItems();
 }
 
 function createTag(index, item) {
@@ -337,8 +349,10 @@ function getMoreCocktail() {
     getCocktailItems();
 }
 
-$(window).scroll( _.throttle(function()	{
-    if ($(document).height() <= ($(window).scrollTop() + $(window).height()) + 20) {
-      getMoreCocktail();   
+function setInfiniteScrolling() {
+  $(window).scroll( _.throttle(function()	{
+    if (dataLoaded && $(document).height() <= ($(window).scrollTop() + $(window).height()) + 20) {
+      getMoreCocktail();
     }
-}, 200));
+  }, 200));
+}

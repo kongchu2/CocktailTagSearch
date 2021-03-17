@@ -1,6 +1,5 @@
 package basic;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,10 +10,6 @@ import javax.sql.DataSource;
 
 public class JDBCConnection {
 	public static Connection getConnection() throws ClassNotFoundException, SQLException{
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String user = "kongchu2";
-		String password = "5233";
-		
 		DataSource ds = null;
 		try {
 			Context ctx = new InitialContext();
