@@ -7,7 +7,7 @@ function auth() {
     }
     $.ajax({
         type:"post",
-        url:"http://localhost:8090/CocktailTagSearch/PasswordAuth",
+        url:"/CocktailTagSearch/PasswordAuth",
         data: {
             pw: $('#pw').val()
         },

@@ -25,12 +25,7 @@ public class MemberDAO {
 			stmt.setString(1, login_id);
 			rs = stmt.executeQuery();
 			if(rs.next()) {
-				member = new MemberVO();
-				member.setMember_id(rs.getInt("MEMBER_ID"));
-				member.setLogin_id(rs.getString("LOGIN_ID"));
-				member.setName(rs.getString("NAME"));
-				member.setPassword(rs.getString("PASSWORD"));
-				member.setPermission(rs.getString("PERMISSIONS").charAt(0));
+				
 			} 
 		} catch(Exception e) {
 			e.printStackTrace();

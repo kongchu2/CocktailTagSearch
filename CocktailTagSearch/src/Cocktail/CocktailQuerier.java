@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import Cocktail_Tag.Cocktail_TagDAO;
-import Tag.TagDAO;
+import Tag.TagQuerier;
 import Tag.TagVO;
 import basic.Cocktail_TagVO;
 import basic.DAO;
 import basic.MapParser;
 
-public class CocktailDAO {
+public class CocktailQuerier {
 	private final int SCROLLING_LOAD_COUNT = 10;
 	private DAO dao = new DAO();
 
@@ -19,7 +19,7 @@ public class CocktailDAO {
 		String sql = "SELECT * FROM COCKTAIL WHERE COCKTAIL_ID=?";
 		HashMap<String, Object> map = dao.executeSQL(sql, cocktail_id).get(0);
 		CocktailVO cocktail = MapParser.convertHashMaptoCocktailVO(map);
-		TagDAO tagDao = new TagDAO();
+		TagQuerier tagDao = new TagQuerier();
 		cocktail.setTagList(tagDao.getTagListByCocktailId(cocktail_id));
 		return cocktail;
 	}
@@ -29,7 +29,7 @@ public class CocktailDAO {
 				+ "FROM COCKTAIL WHERE ROWNUM <= ?) " + "cocktail WHERE rnum > ?";
 		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql, cocktailLength + SCROLLING_LOAD_COUNT,cocktailLength);
 		ArrayList<CocktailVO> cocktailList = MapParser.convertHashMapListtoCocktailList(list);
-		TagDAO tagDao = new TagDAO();
+		TagQuerier tagDao = new TagQuerier();
 		for (CocktailVO cocktail : cocktailList)
 			cocktail.setTagList(tagDao.getTagListByCocktailId(cocktail.getId()));
 		return cocktailList;
@@ -41,7 +41,7 @@ public class CocktailDAO {
 		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql, cocktailLength + SCROLLING_LOAD_COUNT,
 				cocktailLength);
 		ArrayList<CocktailVO> cocktailList = MapParser.convertHashMapListtoCocktailList(list);
-		TagDAO tagDao = new TagDAO();
+		TagQuerier tagDao = new TagQuerier();
 		for (CocktailVO cocktail : cocktailList)
 			cocktail.setTagList(tagDao.getTagListByCocktailId(cocktail.getId()));
 		return cocktailList;
@@ -68,7 +68,7 @@ public class CocktailDAO {
 		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql, tagList.size() - 1,
 				cocktailLength + SCROLLING_LOAD_COUNT, cocktailLength);
 		ArrayList<CocktailVO> cocktailList = MapParser.convertHashMapListtoCocktailList(list);
-		TagDAO tagDao = new TagDAO();
+		TagQuerier tagDao = new TagQuerier();
 		for (CocktailVO cocktail : cocktailList)
 			cocktail.setTagList(tagDao.getTagListByCocktailId(cocktail.getId()));
 		return cocktailList;
@@ -92,7 +92,7 @@ public class CocktailDAO {
 		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql, tagList.size() - 1,
 				cocktailLength + SCROLLING_LOAD_COUNT, cocktailLength);
 		ArrayList<CocktailVO> cocktailList = MapParser.convertHashMapListtoCocktailList(list);
-		TagDAO tagDao = new TagDAO();
+		TagQuerier tagDao = new TagQuerier();
 		for (CocktailVO cocktail : cocktailList)
 			cocktail.setTagList(tagDao.getTagListByCocktailId(cocktail.getId()));
 		return cocktailList;

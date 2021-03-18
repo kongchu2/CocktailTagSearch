@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
-import Cocktail.CocktailDAO;
+import Cocktail.CocktailQuerier;
 
 @WebServlet("/DeleteCocktail")
 public class DeleteCocktail extends HttpServlet {
@@ -30,7 +30,7 @@ public class DeleteCocktail extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		JSONObject json = new JSONObject();
 		if((char)session.getAttribute("permission") == '1') {
-			CocktailDAO dao = new CocktailDAO();
+			CocktailQuerier dao = new CocktailQuerier();
 			if(dao.DeleteCocktail(cocktailId) > 0) {
 				json.put("isDeleted", "1");
 			} else {

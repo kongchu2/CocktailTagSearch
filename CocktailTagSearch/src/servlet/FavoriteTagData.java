@@ -21,7 +21,7 @@ import org.json.simple.parser.ParseException;
 import FavoriteTags.FavoriteTagsDAO;
 import Member.MemberDAO;
 import Member.MemberVO;
-import Tag.TagDAO;
+import Tag.TagQuerier;
 import Tag.TagVO;
 
 @WebServlet("/FavoriteTagData")
@@ -69,7 +69,7 @@ public class FavoriteTagData extends HttpServlet {
 			FavoriteTagsDAO favoriteTagsDAO = new FavoriteTagsDAO();
 			int member_id = memberVO.getMember_id();
 			
-			TagDAO tagDAO = new TagDAO();
+			TagQuerier tagDAO = new TagQuerier();
 			ArrayList<TagVO> tagList = new ArrayList<TagVO>();
 			
 			ArrayList<Integer> loveIdList = new ArrayList<Integer>();

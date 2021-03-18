@@ -15,9 +15,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import Cocktail.CocktailDAO;
+import Cocktail.CocktailQuerier;
 import Cocktail.CocktailVO;
-import Tag.TagDAO;
+import Tag.TagQuerier;
 
 
 @WebServlet("/UpdateCocktail")
@@ -65,10 +65,10 @@ public class UpdateCocktail extends HttpServlet {
 		cocktail.setBuild((String) cocktailJSON.get("build"));
 		cocktail.setGlass((String) cocktailJSON.get("glass"));
 		
-		TagDAO tag_dao = new TagDAO();
+		TagQuerier tag_dao = new TagQuerier();
 		cocktail.setTagList(tag_dao.getTagListByTagIdList(tagIdList));
 		
-		CocktailDAO cocktail_dao = new CocktailDAO();
+		CocktailQuerier cocktail_dao = new CocktailQuerier();
 		boolean isUpdated = cocktail_dao.UpdateCocktail(cocktail,  ((Long)cocktailJSON.get("id")).intValue());
 		
 		JSONObject json = new JSONObject();

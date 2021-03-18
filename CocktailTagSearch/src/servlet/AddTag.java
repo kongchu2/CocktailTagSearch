@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
-import Tag.TagDAO;
+import Tag.TagQuerier;
 import Tag.TagVO;
 
 
@@ -33,7 +33,7 @@ public class AddTag extends HttpServlet {
 		vo.setDesc(desc);
 		vo.setCategory(category);
 		
-		TagDAO dao = new TagDAO();
+		TagQuerier dao = new TagQuerier();
 		int count = dao.InsertTag(vo);
 		JSONObject json = new JSONObject();
 		json.put("isAdded", count>0 ? "1":"0");

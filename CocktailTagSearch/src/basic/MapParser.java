@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import Cocktail.CocktailVO;
+import Member.MemberVO;
 import Tag.TagVO;
 
 public class MapParser {
@@ -43,6 +44,23 @@ public class MapParser {
 		ArrayList<TagVO> resultList = new ArrayList<TagVO>();
 		for(HashMap<String, Object> map : list) {
 			TagVO vo = convertHashMaptoTagVO(map);
+			resultList.add(vo);
+		}
+		return resultList;
+	}
+	public static MemberVO convertHashMaptoMemberVO(HashMap<String, Object> map) {
+		MemberVO member = new MemberVO();
+		member.setMember_id(((BigDecimal)map.get("MEMBER_ID")).intValue());
+		member.setLogin_id((String)map.get("LOGIN_ID"));
+		member.setName((String)map.get("NAME"));
+		member.setPassword((String)map.get("PASSWORD"));
+		member.setPermission(((String)map.get("PERMISSIONS")).charAt(0));
+		return member;
+	}
+	public static ArrayList<MemberVO> convertHashMapListtoMemberList(ArrayList<HashMap<String, Object>> list) {
+		ArrayList<MemberVO> resultList = new ArrayList<MemberVO>();
+		for(HashMap<String, Object> map : list) {
+			MemberVO vo = convertHashMaptoMemberVO(map);
 			resultList.add(vo);
 		}
 		return resultList;

@@ -16,7 +16,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import Tag.TagDAO;
+import Tag.TagQuerier;
 import Tag.TagVO;
 
 @WebServlet("/MatchingTag")
@@ -31,7 +31,7 @@ public class MatchingTag extends HttpServlet {
 		
 		String nameStr = request.getParameter("name");
 		
-		TagDAO dao = new TagDAO();
+		TagQuerier dao = new TagQuerier();
 		
 		TagVO tag = dao.getSearchedTagJustOne(nameStr);
 

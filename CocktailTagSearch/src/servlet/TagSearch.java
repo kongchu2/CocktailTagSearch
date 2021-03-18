@@ -16,7 +16,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import Tag.TagDAO;
+import Tag.TagQuerier;
 import Tag.TagVO;
 
 @WebServlet("/TagSearch")
@@ -48,7 +48,7 @@ public class TagSearch extends HttpServlet {
 			tagIdList.add(tagId);
 		}
 		
-		TagDAO tag_dao = new TagDAO();
+		TagQuerier tag_dao = new TagQuerier();
 		
 		ArrayList<TagVO> tagList = null;
 		if(tagIdList.size() == 0) {

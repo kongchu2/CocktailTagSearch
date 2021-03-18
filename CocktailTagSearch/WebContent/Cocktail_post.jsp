@@ -1,9 +1,9 @@
 
 <%@page import="Tag.TagVO"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="Tag.TagDAO"%>
+<%@page import="Tag.TagQuerier"%>
 <%@page import="Cocktail.CocktailVO"%>
-<%@page import="Cocktail.CocktailDAO"%>
+<%@page import="Cocktail.CocktailQuerier"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" session = "false"%>
 <%
@@ -21,10 +21,10 @@ request.setCharacterEncoding("UTF-8");
 	<%
 	int postId = Integer.parseInt(request.getParameter("id"));
 			
-			CocktailDAO gc = new CocktailDAO();
+			Cocktail.CocktailQuerier gc = new Cocktail.CocktailQuerier();
 			CocktailVO cocktail = gc.getCocktail(postId);
 			
-			TagDAO dao = new TagDAO();
+			Tag.TagQuerier dao = new Tag.TagQuerier();
 			ArrayList<TagVO> tagList = dao.getTagListByCocktailId(postId);
 	%>
     <div id="contents">

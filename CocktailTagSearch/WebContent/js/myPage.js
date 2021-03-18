@@ -14,7 +14,7 @@ $(document).ready(function() {
 function getUserData() {
   $.ajax({
     type:"post",
-	url:"http://localhost:8090/CocktailTagSearch/FavoriteData",
+	url:"/CocktailTagSearch/FavoriteData",
 	dataType: "json",
     success: function(data) {
 	  if(data != null) {
@@ -103,7 +103,7 @@ function removeSelectedFavorite() {
 
   $.ajax({
     type:"post",
-	url:"http://localhost:8090/CocktailTagSearch/RemoveFavoriteData",
+	url:"/CocktailTagSearch/RemoveFavoriteData",
 	dataType: "json",
 	data: {
 		cocktail: JSON.stringify(removeCocktail),

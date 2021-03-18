@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import Cocktail.CocktailDAO;
+import Cocktail.CocktailQuerier;
 import Cocktail.CocktailVO;
 import FavoriteCocktail.FavoriteCocktailDAO;
 import FavoriteCocktail.FavoriteCocktailVO;
@@ -25,7 +25,7 @@ import FavoriteTags.FavoriteTagsDAO;
 import FavoriteTags.FavoriteTagsVO;
 import Member.MemberDAO;
 import Member.MemberVO;
-import Tag.TagDAO;
+import Tag.TagQuerier;
 import Tag.TagVO;
 
 @WebServlet("/FavoriteData")
@@ -46,9 +46,9 @@ public class FavoriteData extends HttpServlet {
 		FavoriteCocktailVO favoriteCocktailVO = null;
 		FavoriteTagsDAO favoriteTagsDAO = null;
 		FavoriteTagsVO favoriteTagsVO = null;
-		CocktailDAO cocktailDAO = null;
+		CocktailQuerier cocktailDAO = null;
 		CocktailVO cocktailVO = null;
-		TagDAO tagDAO = null;
+		TagQuerier tagDAO = null;
 		TagVO tagVO = null;
 		
 		ArrayList<FavoriteCocktailVO> favoriteCocktailList = null;
@@ -80,7 +80,7 @@ public class FavoriteData extends HttpServlet {
 			favoriteTagsDAO = new FavoriteTagsDAO();
 			favoriteTagList = favoriteTagsDAO.getFavoriteTagListByMember_id(memberVO.getMember_id());
 			
-			cocktailDAO = new CocktailDAO();
+			cocktailDAO = new CocktailQuerier();
 			cocktailList = new ArrayList<CocktailVO>();
 	       	for(FavoriteCocktailVO favoriteCocktail : favoriteCocktailList) {
 	       		cocktailList.add(cocktailDAO.getCocktail(favoriteCocktail.getCocktail_id()));
@@ -97,7 +97,7 @@ public class FavoriteData extends HttpServlet {
 	       		cocktailArray.add(cocktailJson);
 	       	}
 	       	
-	       	tagDAO = new TagDAO();
+	       	tagDAO = new TagQuerier();
 			tagList = new ArrayList<TagVO>();
 	       	for(FavoriteTagsVO favoriteTag : favoriteTagList) {
 	       		tagList.add(tagDAO.getTag(favoriteTag.getTag_id()));

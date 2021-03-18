@@ -16,7 +16,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import Cocktail.CocktailDAO;
+import Cocktail.CocktailQuerier;
 import Cocktail.CocktailVO;
 
 @WebServlet("/CocktailSearch")
@@ -49,7 +49,7 @@ public class CocktailSearch extends HttpServlet {
 			tagIdList.add(tagId);
 		}
 		
-		CocktailDAO dao = new CocktailDAO();
+		CocktailQuerier dao = new CocktailQuerier();
 		ArrayList<CocktailVO> cocktailList = null;
 		
 		if(tagIdList.size() == 0) {

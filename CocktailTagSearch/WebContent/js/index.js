@@ -182,7 +182,7 @@ function removeTag(e) {
 function findMathingTag(tagName, callback) {
   $.ajax({
 		type:"post",
-		url:"http://localhost:8090/CocktailTagSearch/MatchingTag",
+		url:"/CocktailTagSearch/MatchingTag",
 		dataType:"json",
 		data: {
 		  name: tagName
@@ -201,7 +201,7 @@ function findMathingTag(tagName, callback) {
 function getAutocompleteTags() {
   $.ajax({
 		type:"post",
-		url:"http://localhost:8090/CocktailTagSearch/TagSearch",
+		url:"/CocktailTagSearch/TagSearch",
 		dataType:"json",
 		data: {
 		  search: $(".searchText").val(),
@@ -224,7 +224,7 @@ function getCocktailItems() {
   dataLoaded = false;
   $.ajax({
     type:"post",
-		url:"http://localhost:8090/CocktailTagSearch/CocktailSearch",
+		url:"/CocktailTagSearch/CocktailSearch",
     dataType:"json",
 		data: {
 		  search: $(".searchText").val(),
@@ -250,7 +250,7 @@ function getFavoriteTags() {
 	
 	$.ajax({
     type:"post",
-	url:"http://localhost:8090/CocktailTagSearch/FavoriteTagData",
+	url:"/CocktailTagSearch/FavoriteTagData",
 	data: {
 		love: JSON.stringify(favoriteTags),
 	    tags: JSON.stringify(selectTagList)

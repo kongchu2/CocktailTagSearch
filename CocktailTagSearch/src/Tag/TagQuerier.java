@@ -6,7 +6,7 @@ import java.util.HashMap;
 import basic.DAO;
 import basic.MapParser;
 
-public class TagDAO {
+public class TagQuerier {
 	private final int LIMIT = 5;
 	DAO dao = new DAO();
 

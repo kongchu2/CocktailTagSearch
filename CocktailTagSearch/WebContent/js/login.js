@@ -26,7 +26,7 @@ function login() {
     if(valueCheck()) {
         $.ajax({
             type:"post",
-            url:"http://localhost:8090/CocktailTagSearch/Login",
+            url:"/CocktailTagSearch/Login",
             data: {
                 id: $('#id').val(),
                 pw: $('#pw').val()

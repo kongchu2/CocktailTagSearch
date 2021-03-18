@@ -20,7 +20,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import Cocktail.CocktailDAO;
+import Cocktail.CocktailQuerier;
 import Cocktail.CocktailVO;
 
 @WebServlet("/AddCocktail")
@@ -63,7 +63,7 @@ public class AddCocktail extends HttpServlet {
 		for(int i=0;i<tagJsonArray.size();i++) {
 			tagIdList.add(Integer.parseInt(tagJsonArray.get(i).toString()));
 		}		
-		CocktailDAO dao = new CocktailDAO();
+		CocktailQuerier dao = new CocktailQuerier();
 		int count = dao.InsertCocktail(cocktail, tagIdList);
 		JSONObject json = new JSONObject();
 		json.put("isAdded", count>0 ? "1":"0");
