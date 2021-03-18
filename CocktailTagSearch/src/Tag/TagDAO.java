@@ -1,274 +1,113 @@
 package Tag;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import FavoriteCocktail.FavoriteCocktailVO;
-import FavoriteTags.FavoriteTagsVO;
 import basic.DAO;
-import basic.JDBCConnection;
 import basic.MapParser;
 
 public class TagDAO {
-	private Connection conn = null;
-	private Statement stmt = null;
-	private PreparedStatement pstmt = null;
-	private ResultSet rs = null;
+	private final int LIMIT = 5;
 	DAO dao = new DAO();
-	MapParser parser = new MapParser();
 
 	public TagVO getTag(int id) {
-
-		TagVO tag = null;
-
-		try {
-			conn = JDBCConnection.getConnection();
-
-			int limit = 5;
-			String sql = "SELECT * FROM (SELECT * FROM TAG WHERE TAG_ID=" + id + ") WHERE  ROWNUM <= " + limit;
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-
-			if (rs.next()) {
-				tag = new TagVO(rs.getInt("TAG_ID"), rs.getString("TAG_NAME"), rs.getString("DESC"),
-						rs.getString("CATEGORY"));
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			JDBCConnection.close(rs, stmt, conn);
-		}
-
+		String sql = "SELECT * FROM (SELECT * FROM TAG WHERE TAG_ID=?) WHERE  ROWNUM <= ?";
+		HashMap<String, Object> map = dao.executeSQL(sql, id, LIMIT).get(0);
+		TagVO tag = MapParser.convertHashMaptoTagVO(map);
 		return tag;
 	}
 
 	public ArrayList<TagVO> getTagList() {
-
-		ArrayList<TagVO> tagList = new ArrayList<TagVO>();
-
-		try {
-			conn = JDBCConnection.getConnection();
-
-			stmt = conn.createStatement();
-			int limit = 5;
-			String sql = "SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE ROWNUM <= " + limit
-					+ " GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY";
-			rs = stmt.executeQuery(sql);
-
-			while (rs.next()) {
-				tagList.add(new TagVO(rs.getInt("TAG_ID"), rs.getString("TAG_NAME"), rs.getString("DESC"),
-						rs.getString("CATEGORY")));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			JDBCConnection.close(rs, stmt, conn);
-		}
-
+		String sql = "SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE ROWNUM <= ? "
+				+ " GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY";
+		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql, LIMIT);
+		ArrayList<TagVO> tagList = MapParser.convertHashMapListtoTagList(list);
 		return tagList;
-
 	}
 
 	public ArrayList<TagVO> getTagListByTagIdList(ArrayList<Integer> tagIdList) {
-
-		ArrayList<TagVO> tagList = new ArrayList<TagVO>();
-		if (tagIdList.size() > 0) {
-			try {
-				conn = JDBCConnection.getConnection();
-
-				stmt = conn.createStatement();
-				int limit = 5;
-				String sql = "SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_ID IN(!) GROUP BY  TAG_ID, TAG_NAME, \"DESC\", CATEGORY ORDER BY TAG_ID";
-
-				String subQueryWhere = "";
-				for (int tagId : tagIdList) {
-					subQueryWhere += tagId + ", ";
-				}
-				subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length() - 2);
-				sql = sql.replace("!", subQueryWhere);
-
-				rs = stmt.executeQuery(sql);
-
-				while (rs.next()) {
-					tagList.add(new TagVO(rs.getInt("TAG_ID"), rs.getString("TAG_NAME"), rs.getString("DESC"),
-							rs.getString("CATEGORY")));
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				JDBCConnection.close(rs, stmt, conn);
-			}
+		String sql = "SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_ID IN(!) GROUP BY  TAG_ID, TAG_NAME, \"DESC\", CATEGORY ORDER BY TAG_ID";
+		String subQueryWhere = "";
+		for (int tagId : tagIdList) {
+			subQueryWhere += tagId + ", ";
 		}
-
+		subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length() - 2);
+		sql = sql.replace("!", subQueryWhere);
+		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql);
+		ArrayList<TagVO> tagList = MapParser.convertHashMapListtoTagList(list);
 		return tagList;
 
 	}
 
 	public ArrayList<TagVO> getTagListByTagIdListWithoutTagIdList(ArrayList<Integer> tagIdList,
 			ArrayList<Integer> withoutTagIdList) {
+		String sql = "SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_ID IN(1!) AND TAG_ID NOT IN(2!) GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY";
 
-		ArrayList<TagVO> tagList = new ArrayList<TagVO>();
-
-		try {
-			conn = JDBCConnection.getConnection();
-
-			stmt = conn.createStatement();
-			int limit = 5;
-			String sql = "SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_ID IN(1!) AND TAG_ID NOT IN(2!) GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY";
-
-			String subQueryWhere1 = "";
-			for (int tagId : tagIdList) {
-				subQueryWhere1 += tagId + ", ";
-			}
-			subQueryWhere1 = subQueryWhere1.substring(0, subQueryWhere1.length() - 2);
-			sql = sql.replace("1!", subQueryWhere1);
-
-			String subQueryWhere2 = "";
-			for (int tagId : withoutTagIdList) {
-				subQueryWhere2 += tagId + ", ";
-			}
-			subQueryWhere2 = subQueryWhere2.substring(0, subQueryWhere2.length() - 2);
-			sql = sql.replace("2!", subQueryWhere2);
-
-			rs = stmt.executeQuery(sql);
-
-			while (rs.next()) {
-				tagList.add(new TagVO(rs.getInt("TAG_ID"), rs.getString("TAG_NAME"), rs.getString("DESC"),
-						rs.getString("CATEGORY")));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			JDBCConnection.close(rs, stmt, conn);
+		String subQueryWhere1 = "";
+		for (int tagId : tagIdList) {
+			subQueryWhere1 += tagId + ", ";
 		}
+		subQueryWhere1 = subQueryWhere1.substring(0, subQueryWhere1.length() - 2);
+		sql = sql.replace("1!", subQueryWhere1);
 
+		String subQueryWhere2 = "";
+		for (int tagId : withoutTagIdList) {
+			subQueryWhere2 += tagId + ", ";
+		}
+		subQueryWhere2 = subQueryWhere2.substring(0, subQueryWhere2.length() - 2);
+		sql = sql.replace("2!", subQueryWhere2);
+		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql);
+		ArrayList<TagVO> tagList = MapParser.convertHashMapListtoTagList(list);
 		return tagList;
 
 	}
 
 	public TagVO getSearchedTagJustOne(String searchWord) {
-
-		TagVO tag = null;
-
-		try {
-			conn = JDBCConnection.getConnection();
-
-			String sql = "SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_NAME LIKE'%" + searchWord
-					+ "%' GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY";
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				tag = new TagVO(rs.getInt("TAG_ID"), rs.getString("TAG_NAME"), rs.getString("DESC"),
-						rs.getString("CATEGORY"));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			JDBCConnection.close(rs, pstmt, conn);
-		}
+		String sql = "SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_NAME LIKE'%" + searchWord
+				+ "%' GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY";
+		HashMap<String, Object> map = dao.executeSQL(sql).get(0);
+		TagVO tag = MapParser.convertHashMaptoTagVO(map);
 		return tag;
 	}
 
 	public ArrayList<TagVO> getSearchedTagList(String searchWord) {
-
-		ArrayList<TagVO> tagList = new ArrayList<TagVO>();
-
-		try {
-			conn = JDBCConnection.getConnection();
-
-			// limit
-			int limit = 5;
-			String sql = "SELECT ROWNUM, TAG.* FROM (SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_NAME LIKE'%"
-					+ searchWord + "%' GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY) TAG WHERE ROWNUM <= " + limit;
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				tagList.add(new TagVO(rs.getInt("TAG_ID"), rs.getString("TAG_NAME"), rs.getString("DESC"),
-						rs.getString("CATEGORY")));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			JDBCConnection.close(rs, pstmt, conn);
-		}
+		String sql = "SELECT ROWNUM, TAG.* FROM (SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_NAME LIKE'%"
+				+ searchWord + "%' GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY) TAG WHERE ROWNUM <= ?";
+		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql, LIMIT);
+		ArrayList<TagVO> tagList = MapParser.convertHashMapListtoTagList(list);
 		return tagList;
 	}
 
 	public ArrayList<TagVO> getSearchedTagListWithoutTagIdList(String searchWord, ArrayList<Integer> tagIdList) {
+		String sql = "SELECT ROWNUM, TAG.* FROM (SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_NAME LIKE'%"
+				+ searchWord
+				+ "%' AND TAG_ID NOT IN(!) GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY) TAG WHERE ROWNUM <= " + LIMIT;
 
-		ArrayList<TagVO> tagList = new ArrayList<TagVO>();
-
-		try {
-			conn = JDBCConnection.getConnection();
-
-			// limit
-			int limit = 5;
-			String sql = "SELECT ROWNUM, TAG.* FROM (SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_NAME LIKE'%"
-					+ searchWord
-					+ "%' AND TAG_ID NOT IN(!) GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY) TAG WHERE ROWNUM <= "
-					+ limit;
-
-			String subQueryWhere = "";
-			for (int tagId : tagIdList) {
-				subQueryWhere += tagId + ", ";
-			}
-			subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length() - 2);
-			sql = sql.replace("!", subQueryWhere);
-
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				tagList.add(new TagVO(rs.getInt("TAG_ID"), rs.getString("TAG_NAME"), rs.getString("DESC"),
-						rs.getString("CATEGORY")));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			JDBCConnection.close(rs, pstmt, conn);
+		String subQueryWhere = "";
+		for (int tagId : tagIdList) {
+			subQueryWhere += tagId + ", ";
 		}
+		subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length() - 2);
+		sql = sql.replace("!", subQueryWhere);
+
+		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql);
+		ArrayList<TagVO> tagList = MapParser.convertHashMapListtoTagList(list);
 		return tagList;
 	}
 
 	public ArrayList<TagVO> getTagListWithoutTagIdList(ArrayList<Integer> tagIdList) {
+		String sql = "SELECT ROWNUM, TAG.* FROM (SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_ID NOT IN(!) GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY) TAG WHERE ROWNUM <= ?";
 
-		ArrayList<TagVO> tagList = new ArrayList<TagVO>();
-
-		try {
-			conn = JDBCConnection.getConnection();
-
-			// limit
-			int limit = 5;
-			String sql = "SELECT ROWNUM, TAG.* FROM (SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_ID NOT IN(!) GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY) TAG WHERE ROWNUM <= "
-					+ limit;
-
-			String subQueryWhere = "";
-			for (int tagId : tagIdList) {
-				subQueryWhere += tagId + ", ";
-			}
-			subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length() - 2);
-			sql = sql.replace("!", subQueryWhere);
-
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				tagList.add(new TagVO(rs.getInt("TAG_ID"), rs.getString("TAG_NAME"), rs.getString("DESC"),
-						rs.getString("CATEGORY")));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			JDBCConnection.close(rs, pstmt, conn);
+		String subQueryWhere = "";
+		for (int tagId : tagIdList) {
+			subQueryWhere += tagId + ", ";
 		}
+		subQueryWhere = subQueryWhere.substring(0, subQueryWhere.length() - 2);
+		sql = sql.replace("!", subQueryWhere);
+
+		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql, LIMIT);
+		ArrayList<TagVO> tagList = MapParser.convertHashMapListtoTagList(list);
+
 		return tagList;
 	}
 
@@ -283,77 +122,21 @@ public class TagDAO {
 
 	public int InsertTag(TagVO tag) {
 		int success = 0;
-		try {
-			conn = JDBCConnection.getConnection();
+		ArrayList<TagVO> tl = getTagList();
+		String sql = "INSERT INTO TAG" + "(\"TAG_ID\", \"TAG_NAME\", \"DESC\", \"CATEGORY\") "
+				+ "VALUES ((select max(tag_id) from tag), ?, ?, ?)";
+		success = dao.executeUpdateSQL(sql, tag.getName(), tag.getDesc(), tag.getCategory());
 
-			ArrayList<TagVO> tl = getTagList();
-
-			String sql = "INSERT INTO TAG" + "(\"TAG_ID\", \"TAG_NAME\", \"DESC\", \"CATEGORY\") "
-					+ "VALUES ((select max(tag_id) from tag), ?, ?, ?)";
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setString(1, tag.getName());
-			pstmt.setString(2, tag.getDesc());
-			pstmt.setString(3, tag.getCategory());
-
-			success = pstmt.executeUpdate();
-
-			conn.commit();
-		} catch (Exception e) {
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-		} finally {
-			JDBCConnection.close(rs, pstmt, conn);
-		}
 		return success;
 	}
 
 	public int UpdateCocktail(TagVO tag, int tag_id) {
 		int success = 0;
-		try {
-			conn = JDBCConnection.getConnection();
-
-			TagVO before_tag = getTag(tag_id);
-
-			String sql = "UPDATE TAG SET " + "TAG_NAME=?, DESC=?, CATEGORY=? WHERE TAG_ID = " + tag_id;
-
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setString(1, tag.getName() != null ? tag.getName() : before_tag.getName());
-			pstmt.setString(2, tag.getDesc() != null ? tag.getDesc() : before_tag.getDesc());
-			pstmt.setString(3, tag.getCategory() != null ? tag.getCategory() : before_tag.getCategory());
-
-			success = pstmt.executeUpdate();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			JDBCConnection.close(rs, pstmt, conn);
-		}
-		return success;
-	}
-
-	public int DeleteCocktail(int tag_id) {
-		int success = 0;
-		try {
-			conn = JDBCConnection.getConnection();
-
-			String sql = "DELETE FROM COCKTAIL WHERE = " + tag_id;
-
-			pstmt = conn.prepareStatement(sql);
-
-			success = pstmt.executeUpdate();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			JDBCConnection.close(rs, pstmt, conn);
-		}
+		TagVO before_tag = getTag(tag_id);
+		String sql = "UPDATE TAG SET " + "TAG_NAME=?, DESC=?, CATEGORY=? WHERE TAG_ID = " + tag_id;
+		success = dao.executeUpdateSQL(sql, tag.getName() != null ? tag.getName() : before_tag.getName(),
+				tag.getDesc() != null ? tag.getDesc() : before_tag.getDesc(),
+				tag.getCategory() != null ? tag.getCategory() : before_tag.getCategory());
 		return success;
 	}
 }

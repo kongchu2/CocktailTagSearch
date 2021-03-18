@@ -1,9 +1,6 @@
 package Cocktail;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,9 +9,7 @@ import Tag.TagDAO;
 import Tag.TagVO;
 import basic.Cocktail_TagVO;
 import basic.DAO;
-import basic.JDBCConnection;
 import basic.MapParser;
-import basic.ResultSetParser;
 
 public class CocktailDAO {
 	private final int SCROLLING_LOAD_COUNT = 10;
@@ -42,7 +37,7 @@ public class CocktailDAO {
 
 	public ArrayList<CocktailVO> getSearchedCocktailList(String searchWord, int cocktailLength) {
 		String sql = "SELECT * FROM (SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE, \"DESC\" FROM COCKTAIL WHERE NAME LIKE'%"
-				+ searchWord + "%' AND ROWNUM < ?) WHERE rnum > ?";
+				+ searchWord + "%' AND ROWNUM <= ?) WHERE rnum > ?";
 		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql, cocktailLength + SCROLLING_LOAD_COUNT,
 				cocktailLength);
 		ArrayList<CocktailVO> cocktailList = MapParser.convertHashMapListtoCocktailList(list);
@@ -60,7 +55,7 @@ public class CocktailDAO {
 	public ArrayList<CocktailVO> getCocktailListByTagList(ArrayList<Integer> tagList, int cocktailLength) {
 		String sql = "SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE, \"DESC\" " + "FROM COCKTAIL "
 				+ "WHERE COCKTAIL_ID IN " + "(SELECT COCKTAIL_ID " + "FROM (SELECT * FROM COCKTAIL_TAG WHERE !) "
-				+ "GROUP BY COCKTAIL_ID " + "HAVING COUNT(*) > ?) " + "AND ROWNUM < ?";
+				+ "GROUP BY COCKTAIL_ID " + "HAVING COUNT(*) > ?) " + "AND ROWNUM <= ?";
 		String subQueryWhere = "";
 		for (int tagId : tagList) {
 			subQueryWhere += " TAG_ID=\'" + tagId + "\' OR";
@@ -84,7 +79,7 @@ public class CocktailDAO {
 		String sql = "SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE, \"DESC\" " + "FROM COCKTAIL "
 				+ "WHERE COCKTAIL_ID IN " + "(SELECT COCKTAIL_ID " + "FROM (SELECT * FROM COCKTAIL_TAG WHERE !) "
 				+ "GROUP BY COCKTAIL_ID " + "HAVING COUNT(*) > ?) AND NAME LIKE'%" + searchWord + "%' "
-				+ "AND ROWNUM < ?";
+				+ "AND ROWNUM <= ?";
 		String subQueryWhere = "";
 		for (int tagId : tagList) {
 			subQueryWhere += " TAG_ID=\'" + tagId + "\' OR";
