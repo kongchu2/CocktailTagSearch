@@ -92,6 +92,7 @@ public class RemoveFavoriteData extends HttpServlet {
 				FTdao.deleteFavoriteTagsByMember_idAndTag_idList(member_id, tagIdList);
 		}
 		out.print(1);
+		out.close();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

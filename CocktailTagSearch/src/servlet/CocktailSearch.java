@@ -72,7 +72,7 @@ public class CocktailSearch extends HttpServlet {
 		JSONObject json = new JSONObject();
 		json.put("cocktails", cocktailArray);
 		out.print(json);
-		
+		out.close();
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);

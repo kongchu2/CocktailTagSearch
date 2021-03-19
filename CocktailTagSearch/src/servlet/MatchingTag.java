@@ -48,6 +48,7 @@ public class MatchingTag extends HttpServlet {
 		JSONObject json = new JSONObject(hashMap);
 
 		out.print(json);
+		out.close();
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);

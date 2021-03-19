@@ -32,6 +32,7 @@ public class AddPostLike extends HttpServlet {
 		json.put("isLiked", isLiked ? "1":"0");
 		
 		out.print(json);
+		out.close();
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub

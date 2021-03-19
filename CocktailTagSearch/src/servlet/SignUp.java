@@ -46,6 +46,7 @@ public class SignUp extends HttpServlet {
 			}
 			response.sendRedirect("index.html");
 		}
+		out.close();
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub

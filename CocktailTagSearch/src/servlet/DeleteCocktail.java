@@ -39,7 +39,7 @@ public class DeleteCocktail extends HttpServlet {
 		}
 		
 		out.print(json);
-		
+		out.close();
 		
 }
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

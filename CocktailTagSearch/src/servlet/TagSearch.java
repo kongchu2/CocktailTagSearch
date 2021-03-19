@@ -90,6 +90,7 @@ public class TagSearch extends HttpServlet {
 		} else {
 			out.print("");
 		}
+		out.close();
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);

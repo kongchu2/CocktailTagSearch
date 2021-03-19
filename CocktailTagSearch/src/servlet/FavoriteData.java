@@ -120,6 +120,7 @@ public class FavoriteData extends HttpServlet {
 			json.put("tag", tagArray);
 		}
 		out.print(json);
+		out.close();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

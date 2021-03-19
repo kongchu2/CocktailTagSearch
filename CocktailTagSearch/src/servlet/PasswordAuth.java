@@ -35,6 +35,7 @@ public class PasswordAuth extends HttpServlet {
 				out.print("0");
 			}
 		}
+		out.close();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

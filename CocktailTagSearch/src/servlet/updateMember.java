@@ -36,6 +36,7 @@ public class updateMember extends HttpServlet {
 		
 		out.print("<script>alert(\"성공적으로 변경되었습니다\");</script>");
 		response.sendRedirect("myPage.html");
+		out.close();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

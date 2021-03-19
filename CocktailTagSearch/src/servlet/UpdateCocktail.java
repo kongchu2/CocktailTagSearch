@@ -74,7 +74,7 @@ public class UpdateCocktail extends HttpServlet {
 		JSONObject json = new JSONObject();
 		json.put("isUpdated", isUpdated ? "1":"0");
 		out.print(json);
-		
+		out.close();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -41,6 +41,7 @@ public class Login extends HttpServlet {
 			session.invalidate();
 			out.print("wrong");
 		}
+		out.close();
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub

@@ -68,6 +68,7 @@ public class AddCocktail extends HttpServlet {
 		JSONObject json = new JSONObject();
 		json.put("isAdded", count>0 ? "1":"0");
 		out.print(json);
+		out.close();
 	}
 
 	private String extractFileName(String partHeader) {
