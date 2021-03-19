@@ -3,10 +3,56 @@ DataLoadFunc.push(addAdminBtn);
 
 $('#likeimg').click(likePost);
 
+var postId = getParam("id");
+
 $(document).ready(function() {
     $("#menuContents").load("menuContents.html");
     getSessionData();
+    getCocktailData();
 });
+
+function getParam(sname) {
+    var params = location.search.substr(location.search.indexOf("?") + 1);
+    var sval = "";
+    params = params.split("&");
+    for (var i = 0; i < params.length; i++) {
+        temp = params[i].split("=");
+        if ([temp[0]] == sname) { 
+            sval = temp[1];
+        }
+    }
+    return sval;
+}
+
+function getCocktailData() {
+    $.ajax({
+        type:"GET",
+        url:"/CocktailTagSearch/GetCocktail",
+        data: {
+            id:postId
+        },
+        success: function(data) {
+            setCocktailData(data);
+        },
+        error : function(data) { console.log(data)}
+    });
+}
+
+function setCocktailData(data) {
+    $("title").text(data.name);
+    $(".postTitle").text(data.name);
+    $(".post-image-container > img").attr("src", data.image);
+    $(".description").text(data.desc);
+    $(".history").text(data.history);
+    $(".taste").text(data.taste);
+    $(".base").text(data.base);
+    $(".build").text(data.build);
+    $(".glass").text(data.glass);
+    $(data.tags).each(function(index, item) {
+        tag = "<a desc='"+item.desc+"' href='javascript:likeTag("+item.id+")'><div tagId='"+item.id+"' class='tagBlock "+item.category+"'>"+item.name+"</div></a>";
+        $("#postTagContents").append(tag);
+    });
+}
 
 function likePost() {
     if(userData.signed == "0") {
@@ -14,7 +60,7 @@ function likePost() {
     }
     $.ajax({
         type:"post",
-        url:"CocktailTagSearch/AddPostLike",
+        url:"/CocktailTagSearch/AddPostLike",
         data: {
             cocktailId: postId,
             userId: userData.user.id
@@ -31,7 +77,7 @@ function getLikeData() {
     }
     $.ajax({
         type:"post",
-        url:"CocktailTagSearch/GetPostLike",
+        url:"/CocktailTagSearch/GetPostLike",
         data: {
             cocktailId: postId,
             userId:userData.user.id
@@ -59,7 +105,7 @@ function likeTag(tagId) {
     }
     $.ajax({
         type:"post",
-        url:"CocktailTagSearch/AddTagLike",
+        url:"/CocktailTagSearch/AddTagLike",
         data: {
             tagId: tagId,
             userId:userData.user.id
@@ -87,7 +133,7 @@ function deleteCocktail() {
             func = function() {
                 $.ajax({
                     type:"post",
-                    url:"CocktailTagSearch/DeleteCocktail",
+                    url:"/CocktailTagSearch/DeleteCocktail",
                     data: {
                         cocktailId: postId
                     },
@@ -254,7 +300,7 @@ function editCocktail() {
                     });
                     $.ajax({
                         type:"post",
-                        url:"CocktailTagSearch/UpdateCocktail",
+                        url:"/CocktailTagSearch/UpdateCocktail",
                         data: {
                             cocktail: JSON.stringify(cocktail),
                             tag:JSON.stringify(addedTagList)

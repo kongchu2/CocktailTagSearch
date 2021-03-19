@@ -113,6 +113,24 @@ public class CocktailVO {
 		hashMap.put("tags", tempTagArray);
 		return hashMap;
 	}
+	public JSONObject toJSON() {
+		JSONObject json = new JSONObject();
+		json.put("id", getId());
+		json.put("name", getName());
+		json.put("image", getImage());
+		json.put("desc", getDesc());
+		json.put("history", getHistory());
+		json.put("taste", getTaste());
+		json.put("base", getBase());
+		json.put("build", getBuild());
+		json.put("glass", getGlass());
+		JSONArray tagArray = new JSONArray();
+		for(TagVO tag : tagList) {
+			tagArray.add(tag.toJSON());
+		}
+		json.put("tags", tagArray);
+		return json;
+	}
 	@Override
 	public String toString() {
 		return "CocktailVO [id=" + id + ", name=" + name + ", image=" + image + ", desc=" + desc + ", history="

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class TagVO {
 	private int id = 0;
@@ -51,6 +52,14 @@ public class TagVO {
 		hashMap.put("desc", getDesc());
 		hashMap.put("category", getCategory());
 		return hashMap;
+	}
+	public JSONObject toJSON() {
+		JSONObject json  = new JSONObject();
+		json.put("id", getId());
+		json.put("name", getName());
+		json.put("desc", getDesc());
+		json.put("category", getCategory());
+		return json;
 	}
 	@Override
 	public String toString() {
