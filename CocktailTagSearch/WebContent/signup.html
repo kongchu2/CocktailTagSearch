@@ -1,7 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" session = "false"%>
-<%@ page import="java.sql.*" %>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -50,7 +46,7 @@
 			<div class="signin-inner-container">
    				<div id="title"><p class="mainTitle" /></div>
 				<div class="signinTitle"> <h1>Sign up to Cocktail Tags</h1> </div>
-				<form method="post" action="signupCtrl.jsp" name="memberInfo" onsubmit="return checkValue();">
+				<form method="post" action="/CocktailTagSearch/SignUp" name="memberInfo" onsubmit="return checkValue();">
 					<div class="signin-input">
 						<span>UserID</span>
 						<input type="text" id="id" class="inputBox" name="id">

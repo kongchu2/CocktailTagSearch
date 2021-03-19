@@ -20,7 +20,7 @@ function createSignUp() {
 	  text: "Sign up"
     }));
 	$('.sign_up').on("click", function() {
-		location.href = 'signup.jsp';
+		location.href = 'signup.html';
 	});
 }
 function createSignIn() {

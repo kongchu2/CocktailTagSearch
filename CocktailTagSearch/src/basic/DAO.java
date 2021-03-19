@@ -16,7 +16,14 @@ public class DAO {
 		try {
 			JDBCConnection.close(rs, stmt, conn);
 		} catch (Exception e) {
-			e.printStackTrace();
+			error(e);
+		}
+	}
+	public void close_notIncludeRS() {
+		try {
+			JDBCConnection.close(stmt, conn);
+		} catch (Exception e) {
+			error(e);
 		}
 	}
 
@@ -37,7 +44,7 @@ public class DAO {
 			}
 			error(e);
 		} finally {
-			close();
+			close_notIncludeRS();
 		}
 		return count;
 	}
@@ -59,6 +66,6 @@ public class DAO {
 		return resultList;
 	}
 	public void error(Exception e) {
-		e.printStackTrace();
+		error(e);
 	}
 }
