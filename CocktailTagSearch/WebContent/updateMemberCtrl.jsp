@@ -1,5 +1,5 @@
-<%@page import="Member.MemberDAO"%>
-<%@page import="Member.MemberVO"%>
+<%@page import="org.cocktailtagsearch.member.MemberDAO"%>
+<%@page import="org.cocktailtagsearch.member.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" session = "false"%>
     
