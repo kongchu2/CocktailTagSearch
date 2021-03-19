@@ -37,7 +37,7 @@ public class DeleteCocktail extends HttpServlet {
 				map.put("isDeleted", "0");
 			}
 		}
-		JSONObject json = new JSONObject();
+		JSONObject json = new JSONObject(map);
 		
 		out.print(json);
 		out.close();

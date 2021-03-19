@@ -129,7 +129,7 @@ function addAdminBtn() {
 function deleteCocktail() {
     if(userData.user.permission === 1 && confirm("정말 삭제하시겠습니까?")) {
         $('#postContents').empty();
-        $('#postContents').load("PasswordAuth.html", function() {
+        $('#postContents').load("passwordAuthor.html", function() {
             func = function() {
                 $.ajax({
                     type:"post",
@@ -157,6 +157,7 @@ function editCocktail() {
         cocktail = {
             id: postId,
             name: $(".postTitle").text(),
+            image: $(".cocktailImages").attr("src"),
             desc: $(".description").text(),
             history: $(".history").text(),
             taste: $(".taste").text(),
@@ -172,7 +173,7 @@ function editCocktail() {
             }
             tagList.push(tag);
         });
-        $('#postContents').load("PasswordAuth.html", function() {
+        $('#postContents').load("passwordAuthor.html", function() {
             func = function() {
                 $("#postContents").empty();
                 editItemsDiv = $("<div/>");
@@ -238,7 +239,7 @@ function editCocktail() {
                     };
                     $.ajax({
                         type:"post",
-                        url:"CocktailTagSearch/TagSearch",
+                        url:"/CocktailTagSearch/TagSearch",
                         dataType:"json",
                         data: {
                             search: $("#tagSearch").val(),
@@ -285,6 +286,7 @@ function editCocktail() {
                 submit.text("제출");
                 $(submit).on('click', function() {//change 된 것만 보내기
                     cocktail.name = $('textarea.name').val(),
+                    cocktail.image = $('textarea.image').val(),
                     cocktail.desc = $('textarea.desc').val(),
                     cocktail.history = $('textarea.history').val(),
                     cocktail.taste = $('textarea.taste').val(),

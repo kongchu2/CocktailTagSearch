@@ -143,10 +143,9 @@ public class CocktailQuerier {
 		int update = 0;
 
 		String sql = "UPDATE COCKTAIL "
-				+ "SET NAME=?, IMAGE=?, \"DESC\"=?, HISTORY_DESC=?, TASTE_DESC=?, BASE_ALCOHOL=?, BUILD_METHOD=?, COCKTAIL_GLASS=? WHERE COCKTAIL_ID = "
-				+ cocktail_id;
-		update = dao.executeUpdateSQL(sql, cocktail.getName(), cocktail.getImage().replace("image/cocktail/", ""),
-				cocktail.getDesc(), cocktail.getHistory(), cocktail.getTaste(), cocktail.getGlass());
+				+ "SET NAME=?, IMAGE=?, \"DESC\"=?, HISTORY_DESC=?, TASTE_DESC=?, BASE_ALCOHOL=?, BUILD_METHOD=?, COCKTAIL_GLASS=? "
+				+ "WHERE COCKTAIL_ID = ?";
+		update = dao.executeUpdateSQL(sql, cocktail.getName(), cocktail.getImage().replace("image/cocktail/", ""), cocktail.getDesc(), cocktail.getHistory(), cocktail.getTaste(),cocktail.getBase(),cocktail.getBuild(), cocktail.getGlass(), cocktail_id);
 
 		sql = "DELETE FROM COCKTAIL_TAG WHERE COCKTAIL_ID=?";
 		dao.executeUpdateSQL(sql, cocktail_id);

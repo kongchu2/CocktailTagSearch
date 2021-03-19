@@ -58,6 +58,7 @@ public class UpdateCocktail extends HttpServlet {
 		
 		CocktailVO cocktail = new CocktailVO();
 		cocktail.setName((String) cocktailJSON.get("name"));
+		cocktail.setImage((String) cocktailJSON.get("image"));
 		cocktail.setDesc((String) cocktailJSON.get("desc"));
 		cocktail.setHistory((String) cocktailJSON.get("history"));
 		cocktail.setTaste((String) cocktailJSON.get("taste"));
@@ -69,7 +70,7 @@ public class UpdateCocktail extends HttpServlet {
 		cocktail.setTagList(tag_dao.getTagListByTagIdList(tagIdList));
 		
 		CocktailQuerier cocktail_dao = new CocktailQuerier();
-		boolean isUpdated = cocktail_dao.UpdateCocktail(cocktail,  ((Long)cocktailJSON.get("id")).intValue());
+		boolean isUpdated = cocktail_dao.UpdateCocktail(cocktail,  Integer.parseInt((String)cocktailJSON.get("id")));
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("isUpdated", isUpdated ? "1":"0");

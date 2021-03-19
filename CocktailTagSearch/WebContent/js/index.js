@@ -321,7 +321,7 @@ function createCocktail(index, item) {
     });
 
 	cocktail.on('click', function() {
-		var url = "Cocktail_post.html?id="+item.id;
+		var url = "cocktailPost.html?id="+item.id;
 		$(location).attr('href', url);
 	})
 

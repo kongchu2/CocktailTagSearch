@@ -66,6 +66,6 @@ public class DAO {
 		return resultList;
 	}
 	public void error(Exception e) {
-		error(e);
+		e.printStackTrace();
 	}
 }

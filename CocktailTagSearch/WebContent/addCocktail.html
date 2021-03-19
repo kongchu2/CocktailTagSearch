@@ -93,9 +93,11 @@
     </div>
     <script src="js/loadMenu.js"></script>
     <script>
-        if(userData.signed == "0") {
+        notSignedFunc.push(function() {
+            if(userData.signed == "0") {
             window.location.href="index.html";
-        }
+            }
+        })
         DataLoadFunc.push(function () {
             if(userData.user.permission !== 1) {
                 window.location.href="index.html";
