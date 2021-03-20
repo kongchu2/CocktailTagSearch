@@ -15,7 +15,7 @@ public class CocktailVO {
 	private String base = null;
 	private String build = null;
 	private String glass = null;
-	private ArrayList<TagVO> tagList;
+	private ArrayList<TagVO> tagList = null;
 	public int getId() {
 		return id;
 	}

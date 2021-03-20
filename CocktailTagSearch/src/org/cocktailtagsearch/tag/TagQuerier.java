@@ -28,6 +28,9 @@ public class TagQuerier {
 	public ArrayList<TagVO> getTagListByTagIdList(ArrayList<Integer> tagIdList) {
 		String sql = "SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE TAG_ID IN(!) GROUP BY  TAG_ID, TAG_NAME, \"DESC\", CATEGORY ORDER BY TAG_ID";
 		String subQueryWhere = "";
+		if(tagIdList.size() < 1) {
+			return new ArrayList<TagVO>();
+		}
 		for (int tagId : tagIdList) {
 			subQueryWhere += tagId + ", ";
 		}
