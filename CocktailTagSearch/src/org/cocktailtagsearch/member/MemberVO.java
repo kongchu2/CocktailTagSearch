@@ -6,6 +6,14 @@ public class MemberVO {
 	private String login_id;
 	private String name;
 	private String password;
+	private String salt;
+	
+	public String getSalt() {
+		return salt;
+	}
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
 	private char permission;
 	public int getMember_id() {
 		return member_id;
@@ -40,7 +48,6 @@ public class MemberVO {
 	@Override
 	public String toString() {
 		return "MemberVO [member_id=" + member_id + ", login_id=" + login_id + ", name=" + name + ", password="
-				+ password + "]";
+				+ password + ", salt=" + salt + ", permission=" + permission + "]";
 	}
-	
 }

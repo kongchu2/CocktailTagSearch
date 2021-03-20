@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.cocktailtagsearch.member.MemberDAO;
 import org.cocktailtagsearch.member.MemberVO;
+import org.cocktailtagsearch.util.PasswordHash;
 
 @WebServlet("/Login")
 public class Login extends HttpServlet {
@@ -29,7 +30,13 @@ public class Login extends HttpServlet {
 		session.setMaxInactiveInterval(10*60);
 		
 		MemberDAO dao = new MemberDAO();
-		MemberVO member = dao.loginCheck(id, pw);
+		String hex = null;
+		try {
+			hex = PasswordHash.Hashing(pw, dao.getSalt(id));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		MemberVO member = dao.loginCheck(id, hex);
 		
 		if(member != null) {
 			session.setAttribute("userId", member.getMember_id());

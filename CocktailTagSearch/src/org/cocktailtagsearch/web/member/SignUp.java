@@ -2,6 +2,11 @@ package org.cocktailtagsearch.web.member;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Base64;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.cocktailtagsearch.member.MemberDAO;
 import org.cocktailtagsearch.member.MemberVO;
+import org.cocktailtagsearch.util.PasswordHash;
 
 
 @WebServlet("/SignUp")
@@ -33,12 +39,29 @@ public class SignUp extends HttpServlet {
 		if(vo != null) {
 			out.print("<script>alert(\"아이디가 중복되었습니다.\");history.go(-1);</script>");
 		} else {
+
 			MemberVO newMember = new MemberVO();
 			newMember.setLogin_id(login_id);
 			newMember.setName(name);
-			newMember.setPassword(pw);
 			newMember.setPermission('0');
+			try {
+				SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+				
+				byte[] bytes = new byte[22];
+				random.nextBytes(bytes);
+				String salt = new String(Base64.getEncoder().encode(bytes));
+				newMember.setSalt(salt);
+				
+				String hex = null;
+				
+				hex = PasswordHash.Hashing(pw, salt);
+				
+				newMember.setPassword(hex);				
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
 			int cnt = dao.addMember(newMember);
+			
 			if(cnt > 0) {
 				out.print("<script>alert(\"성공\");</script>");
 			} else {

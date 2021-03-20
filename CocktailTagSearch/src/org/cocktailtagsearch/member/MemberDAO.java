@@ -99,7 +99,7 @@ public class MemberDAO {
 			stmt.setString(1, member.getLogin_id());
 			stmt.setString(2, member.getName());
 			stmt.setString(3, member.getPassword());
-			stmt.setString(4, "testsalt");
+			stmt.setString(4, member.getSalt());
 			stmt.setString(5, Character.toString(member.getPermission()));
 			
 			cnt = stmt.executeUpdate();
@@ -339,5 +339,48 @@ public class MemberDAO {
 			JDBCConnection.close(stmt, conn);
 		}
 		return delete;
+	}
+	
+	// MEMBER_ID
+	public String getSalt(int memberId) {
+		String salt = null;
+		try {
+			conn = JDBCConnection.getConnection();
+		
+			String sql = "SELECT password_salt FROM MEMBER WHERE MEMBER_ID=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, memberId);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				salt = rs.getString("password_salt");
+			} 
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, stmt, conn);
+		}
+		
+		return salt;
+	}
+	// LOGIN_ID
+	public String getSalt(String loginId) {
+		String salt = null;
+		try {
+			conn = JDBCConnection.getConnection();
+			
+			String sql = "SELECT password_salt FROM MEMBER WHERE LOGIN_ID=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, loginId);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				salt = rs.getString("password_salt");
+			} 
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(rs, stmt, conn);
+		}
+		
+		return salt;
 	}
 }
