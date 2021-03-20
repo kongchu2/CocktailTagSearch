@@ -1,6 +1,7 @@
 package org.cocktailtagsearch.cocktail;
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -34,7 +35,12 @@ public class CocktailQuerier {
 			cocktail.setTagList(tagDao.getTagListByCocktailId(cocktail.getId()));
 		return cocktailList;
 	}
-
+	public int getMaxId() {
+		String sql = "SELECT MAX(COCKTAIL_ID) MAX FROM COCKTAIL";
+		Object maxObj = dao.executeSQL(sql).get(0).get("MAX");
+		int max = ((BigDecimal)maxObj).intValue();
+		return max;
+	}
 	public ArrayList<CocktailVO> getSearchedCocktailList(String searchWord, int cocktailLength) {
 		String sql = "SELECT * FROM (SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE, \"DESC\" FROM COCKTAIL WHERE NAME LIKE'%"
 				+ searchWord + "%' AND ROWNUM <= ?) WHERE rnum > ?";
@@ -111,6 +117,7 @@ public class CocktailQuerier {
 	}
 
 	/*
+	 * @Deprecated
 	 * public int InsertCocktailList(ArrayList<CocktailVO> cocktailList) { int
 	 * success = 0; try { conn = JDBCConnection.getConnection();
 	 * 

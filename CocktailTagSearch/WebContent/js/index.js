@@ -356,3 +356,13 @@ function setInfiniteScrolling() {
     }
   }, 200));
 }
+
+function goRandomCocktail() {
+  $.ajax({
+    type:"get",
+		url:"/CocktailTagSearch/GetRandomCocktail",
+    success:function(data) {
+	    location.href = "cocktailPost.html?id="+data;
+    }
+  });
+}
