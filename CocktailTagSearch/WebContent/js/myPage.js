@@ -14,27 +14,30 @@ $(document).ready(function() {
 function getUserData() {
   $.ajax({
     type:"post",
-	url:"/CocktailTagSearch/FavoriteData",
+	url:"/CocktailTagSearch/GetFavoriteData",
 	dataType: "json",
     success: function(data) {
+	console.log(1);
 	  if(data != null) {
-	    if(data.user != null) {
-	      $('.myPageName').text(data.user.name);
-	      $('.myPageId').text(data.user.login_id);
-	      $.each(data.cocktail, function(index, item) {
+	    if(data.favorite.user != null) {
+		console.log(data.favorite.user.name);
+	      $('.myPageName').text(data.favorite.user.name);
+	      $('.myPageId').text(data.favorite.user.login_id);
+		
+	      $.each(data.favorite.cocktail, function(index, item) {
 	        var cocktail = $('<div/>');
 	        cocktail.addClass('myPageCocktails');
 		    cocktail.attr('id', item.id);
 		    cocktail.attr('desc', item.desc);
 		    cocktail.text(item.name);
 		    cocktail.on('click', function() {
-	          var url = "Cocktail_post.jsp?id="+item.id;
+	          var url = "cocktailPost.html?id="+item.id;
 		      $(location).attr('href', url);
 		    });
 	          $('#myPageCocktailContents').append(cocktail);
           });
 
-          $.each(data.tag, function(index, item) {
+          $.each(data.favorite.tag, function(index, item) {
 	        $('#myPageTagContents').append($('<div/>', {
               class: "myPageTags",
 	          id: item.id,
@@ -48,6 +51,9 @@ function getUserData() {
 		  location.href = "index.html";
 	    }
 	  }
+	},
+	error:function(error) {
+		console.log(error);
 	}
 	
   });

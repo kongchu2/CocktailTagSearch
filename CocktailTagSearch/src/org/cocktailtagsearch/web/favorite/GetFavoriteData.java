@@ -24,7 +24,7 @@ import org.cocktailtagsearch.tag.TagQuerier;
 import org.cocktailtagsearch.tag.TagVO;
 import org.json.simple.JSONObject;
 
-@WebServlet("/FavoriteData")
+@WebServlet("/GetFavoriteData")
 public class GetFavoriteData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -56,6 +56,8 @@ public class GetFavoriteData extends HttpServlet {
 		} else {
 			flag = false;
 		}
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		if(flag) {
 			memberDAO = new MemberDAO();
 			memberVO = memberDAO.getMember(login_id);
@@ -105,11 +107,12 @@ public class GetFavoriteData extends HttpServlet {
 				tagArray.add(tagJson);
 			}
 
-			json.put("user", new JSONObject(userMap));
+			json.put("user", userMap);
 			json.put("cocktail", cocktailArray);
 			json.put("tag", tagArray);
+			map.put("favorite", json);
 		}
-		out.print(json);
+		out.print(new JSONObject(map));
 		out.close();
 	}
 
