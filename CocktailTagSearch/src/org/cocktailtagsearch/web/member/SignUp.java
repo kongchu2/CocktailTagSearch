@@ -3,6 +3,7 @@ package org.cocktailtagsearch.web.member;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 import java.security.SecureRandom;
 import java.util.Base64;
 
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.cocktailtagsearch.member.MemberDAO;
 import org.cocktailtagsearch.member.MemberVO;
 import org.cocktailtagsearch.util.PasswordHash;
+import org.cocktailtagsearch.util.RsaDecryption;
 
 
 @WebServlet("/SignUp")
@@ -25,9 +27,21 @@ public class SignUp extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		String login_id	= request.getParameter("id");
-		String name	= request.getParameter("name");
-		String pw	= request.getParameter("pw");
+		String login_id	= request.getParameter("df8Z368CKkFDNHk7");
+		String name	= request.getParameter("tFw9C8dV2KGBhbrY");
+		String pw	= request.getParameter("wGKnr4ppPF8rBPss");
+		
+		PrivateKey privateKey = RsaDecryption.SESSION_KEY;
+        
+        try {
+			login_id = RsaDecryption.decryptRsa(privateKey, login_id);
+			pw = RsaDecryption.decryptRsa(privateKey, pw);
+			name = RsaDecryption.decryptRsa(privateKey, name);
+        } catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		RsaDecryption.SESSION_KEY = null;
 		
 		MemberDAO dao = new MemberDAO();
 		MemberVO vo = dao.getMember(login_id);

@@ -893,6 +893,11 @@ footer::after {
   
   border-radius: 8px;
 }
+@media (max-width: 884px) {
+  .sign_name {
+  	display: none;
+  }
+}
 .sign_in, .sign_up, .sign_out, .myPageLink {
   padding: 7px 20px;
   margin: 0 5px;

@@ -1,19 +1,19 @@
 var RSAModulus = null;
 var RSAExponent = null;
-
+	
 DataLoadFunc.push(function() {
     if(userData.signed === "1") {
         location.href = "index.html";
     }
 }); 
-
+  
 $(document).ready(function() {
     getSessionData();
 	getKey();
 });
-
-$('.submitBtn').on('click', login);
 	
+$('.submitBtn').on('click', sign_up);
+
 function getKey() {
 	$.ajax({
         type:"post",
@@ -27,11 +27,12 @@ function getKey() {
 }
 
 function checkValue() {
-    inputs = [
+	inputs = [
         {value: $('#id').val(), name: "아이디"},
+        {value: $('#name').val(), name: "닉네임"},
         {value: $('#pw').val(), name: "비밀번호"}
     ]
-    var bool = true;
+	var bool = true;
     $(inputs).each(function(index, item) {
         if(item.value === "") {
             alert(item.name + "(이)가 비어 있습니다.");
@@ -39,32 +40,37 @@ function checkValue() {
         }
     });
 	if(!bool) return bool;
-    return true;
+	
+	if($('#pw').val() != $('#pwCheck').val()) {
+		alert("비밀번호 확인과 비밀번호가 동일하지 않습니다.");
+		return false;
+	}
+	
+	return true;
 }
 
-function login() {
+function sign_up() {
     if(checkValue()) {
 		var rsa = new RSAKey();
 		rsa.setPublic(RSAModulus,RSAExponent);
 		
 		var id = $("#id");
 		var pw = $("#pw");
+		var name = $("#name");
 		var encrypt_id = rsa.encrypt(id.val());
 		var encrypt_pw = rsa.encrypt(pw.val());
+		var encrypt_name = rsa.encrypt(name.val());
 		
         $.ajax({
             type:"post",
-            url:"/CocktailTagSearch/Login",
+            url:"/CocktailTagSearch/SignUp",
             data: {
-                evyv6StCkKAvwEDu: encrypt_pw,
-                HxxKFRVJZqxcft8V: encrypt_id
+                df8Z368CKkFDNHk7: encrypt_id,
+                tFw9C8dV2KGBhbrY: encrypt_name,
+                wGKnr4ppPF8rBPss: encrypt_pw
             },
-            success:function(data) {
-                if(data === "wrong") {
-                    alert("비밀번호 또는 아이디가 틀렸습니다.");
-                } else if(data === "right") {
-                    location.href = "index.html";
-                }
+			success:function(data) {
+              location.href = "index.html";
             }
         });
     }

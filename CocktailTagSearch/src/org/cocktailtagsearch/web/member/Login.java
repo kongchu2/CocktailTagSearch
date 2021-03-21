@@ -2,6 +2,12 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.SecureRandom;
+import java.security.spec.RSAPublicKeySpec;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,22 +19,36 @@ import javax.servlet.http.HttpSession;
 import org.cocktailtagsearch.member.MemberDAO;
 import org.cocktailtagsearch.member.MemberVO;
 import org.cocktailtagsearch.util.PasswordHash;
+import org.cocktailtagsearch.util.RsaDecryption;
 
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		
-		String id = request.getParameter("id");
-		String pw = request.getParameter("pw");
+		String id = request.getParameter("HxxKFRVJZqxcft8V");
+		String pw = request.getParameter("evyv6StCkKAvwEDu");
 		
 		HttpSession session = request.getSession(true);
 		
 		session.setMaxInactiveInterval(10*60);
-		
+ 
+        PrivateKey privateKey = RsaDecryption.SESSION_KEY;
+        
+        try {
+        	System.out.println(privateKey +" "+pw);
+			id = RsaDecryption.decryptRsa(privateKey, id);
+			pw = RsaDecryption.decryptRsa(privateKey, pw);
+        } catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+        RsaDecryption.SESSION_KEY = null;
+
 		MemberDAO dao = new MemberDAO();
 		String hex = null;
 		try {
@@ -51,7 +71,6 @@ public class Login extends HttpServlet {
 		out.close();
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

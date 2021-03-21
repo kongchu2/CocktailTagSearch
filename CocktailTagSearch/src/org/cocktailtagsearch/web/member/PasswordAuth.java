@@ -3,6 +3,7 @@ package org.cocktailtagsearch.web.member;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.cocktailtagsearch.member.MemberDAO;
 import org.cocktailtagsearch.util.PasswordHash;
+import org.cocktailtagsearch.util.RsaDecryption;
 
 
 @WebServlet("/PasswordAuth")
@@ -24,11 +26,24 @@ public class PasswordAuth extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		HttpSession session = request.getSession(false);
+		
+		
 		if(session == null) {
 			response.sendRedirect("login.html");
 			out.print("0");
 		} else {
-			String pw = request.getParameter("pw");
+			String pw	= request.getParameter("fXVA92VbkUVvHGNq");
+			
+			PrivateKey privateKey = RsaDecryption.SESSION_KEY;
+	        
+	        try {
+				pw = RsaDecryption.decryptRsa(privateKey, pw);
+	        } catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			RsaDecryption.SESSION_KEY = null;
+			
 			int memberId = (int) session.getAttribute("userId");
 			MemberDAO dao = new MemberDAO();
 			
