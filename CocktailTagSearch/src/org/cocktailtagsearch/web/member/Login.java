@@ -2,12 +2,7 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
-import java.security.SecureRandom;
-import java.security.spec.RSAPublicKeySpec;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,6 +28,7 @@ public class Login extends HttpServlet {
 		String id = request.getParameter("HxxKFRVJZqxcft8V");
 		String pw = request.getParameter("evyv6StCkKAvwEDu");
 		
+		
 		HttpSession session = request.getSession(true);
 		
 		session.setMaxInactiveInterval(10*60);
@@ -40,8 +36,7 @@ public class Login extends HttpServlet {
         PrivateKey privateKey = RsaDecryption.SESSION_KEY;
         
         try {
-        	System.out.println(privateKey +" "+pw);
-			id = RsaDecryption.decryptRsa(privateKey, id);
+			id = RsaDecryption.decryptRsa(privateKey, id);                        
 			pw = RsaDecryption.decryptRsa(privateKey, pw);
         } catch (Exception e1) {
 			e1.printStackTrace();

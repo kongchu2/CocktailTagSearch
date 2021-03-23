@@ -22,22 +22,22 @@
     <script>
         $("#profileContents").load("passwordAuthor.html", function() {
             func = function() {
-                $("#profileContents").load("editChoose.html");
+                $("#profileContents").load("editChoose.html", function() {
+                	$("#nameEditBtn").click(function() {
+                        $('#chooseEdit').remove();
+                        $('#profileContents').load("editName.html");
+                    });
+                    $("#pwEditBtn").click(function() {
+                        $('#chooseEdit').remove();
+                        $('#profileContents').load("editPassword.html");
+                    });
+                });
             }
         });
         
         $(document).ready(function() {
             $("#menuContents").load("menuContents.html");
             getSessionData();
-        });
-        
-        $("#nameEditBtn").click(function() {
-            $('#chooseEdit').remove();
-            $('#profileContents').load("editName.html");
-        });
-        $("#pwEditBtn").click(function() {
-            $('#chooseEdit').remove();
-            $('#profileContents').load("editPassword.html");
         });
     </script>
     <script src="js/loadMenu.js"></script>
