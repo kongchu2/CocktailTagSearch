@@ -8,12 +8,26 @@
 	    }
     }
 </script>
-<div id="profile" class="formBackground">
-    <h1>이름 변경</h1>
-    <form action="updateMember" method="POST" name="editProfile" onsubmit="checkValue();">
-        <input type="text" name="memberId" class="inputBox" style="display: none;" id="memberId">
-        <input type="text" name="type" class="inputBox" value="name" style="display: none;">
-        <input type="text" name="name" class="inputBox" id="name" placeholder="이름">
-        <input type="submit"  id="authBtn" class="submitBtn">
-    </form>
+<div id="signinContents">
+	<div class="signin-inner-container">
+ 				<div id="title"><p class="mainTitle" /></div>
+		<div class="signinTitle"> <h1>Update to profile name</h1> </div>
+		
+	    <form action="updateMember" method="POST" name="editProfile" onsubmit="checkValue();">
+			<div class="signin-input">
+				<span>UserID</span>
+				<input type="text" id="id" class="inputBox" name="id">
+			</div>
+			<div class="signin-input">
+				<span>Password</span>
+				<input type="password" id="pw" class="inputBox" name="pw">
+			</div>
+			<div class="signin-button-inner-container">
+				<div class="signin-button">
+					<input type="BUTTON" value="Update" class="submitBtn">
+				</div>
+			</div>
+			
+	    </form>
+	</div>
 </div>

@@ -4,21 +4,40 @@
     <meta charset="UTF-8">
     <title>회원 정보 수정</title>
     <link rel="stylesheet" href="css/index.css">
-    <script src="jquery.js"></script>
+    <script src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/RSA/rsa.js"></script>
+	<script type="text/javascript" src="./js/RSA/jsbn.js"></script>
+	<script type="text/javascript" src="./js/RSA/prng4.js"></script>
+	<script type="text/javascript" src="./js/RSA/rng.js"></script>
 </head>
 <body>
     <div id="contents">
-        <div id="menuContents">
-        </div>
-        <div id="postContents" style="width:40%;height:700px">
+	  <div id="menuContents">
+      </div>
+    </div>
+    <div id="profile-wrap">
+        <div id="profileContents">
         </div>
     </div>
-    
     <script>
-        $("#postContents").load("passwordAuthor.html", function() {
+        $("#profileContents").load("passwordAuthor.html", function() {
             func = function() {
-                $("#postContents").load("editChoose.html");
+                $("#profileContents").load("editChoose.html");
             }
+        });
+        
+        $(document).ready(function() {
+            $("#menuContents").load("menuContents.html");
+            getSessionData();
+        });
+        
+        $("#nameEditBtn").click(function() {
+            $('#chooseEdit').remove();
+            $('#profileContents').load("editName.html");
+        });
+        $("#pwEditBtn").click(function() {
+            $('#chooseEdit').remove();
+            $('#profileContents').load("editPassword.html");
         });
     </script>
     <script src="js/loadMenu.js"></script>

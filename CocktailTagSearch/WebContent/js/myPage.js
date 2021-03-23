@@ -87,6 +87,14 @@ $('.myPageSelectRemove').on('click', function() {
 	removeToggle = !removeToggle;
 });
 
+$('.myPageEditProfile').on('click', function() {
+	location.href = "updateProfile.html";
+});
+
+$('.myPageDeleteProfile').on('click', function() {
+	location.href = "deleteUser.html";
+});
+
 function selectedFavorite() {
   $('.myPageSelectRemove').attr('data-content', 'Done');
   $('.myPageCocktails').off('click');

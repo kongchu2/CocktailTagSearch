@@ -495,6 +495,35 @@ footer::after {
 
   flex-direction: column;	
 }
+#profile-wrap {
+  background-color: rgb(255, 255, 255);
+  
+  max-width: calc(100% - 80px);
+  width: calc(100% - 40px);
+  width: 100%;
+  height: 800px;
+  
+  
+  
+  margin: 0 auto;
+  padding: 0;
+  
+  display: flex;
+  flex-direction: column;
+  
+  overflow: auto;
+}
+#profileContents {
+  background-color: rgb(255, 255, 255);
+  
+  position: relative;
+
+  height: auto;
+  
+  margin-left: 40px;
+  max-width: calc(100% - 80px);
+  width: calc(100% - 40px);
+}
 #searchContents {
   width: 100%;
   position: relative;
@@ -923,7 +952,7 @@ footer::after {
   
   border-radius: 8px;
 }
-.myPageSelectRemove {
+.function-inner-container > div {
   background-color: raba(0,0,0, 0.4);
   border-radius: 10px;
   box-shadow: 0px 0px 4px 1px black;
@@ -931,14 +960,19 @@ footer::after {
   text-align: center;
   
   font-family: today;
-  font-weight: bolder;
+  font-weight: 400;
   font-size: 10pt;
   
   cursor: pointer;
   
   padding: 12px 5px;
   
+  margin: 10px 0;
+  
   width: 120px;
+}
+.function-inner-container {
+  padding: 20px;
 }
 .myPageSelectRemove::after {
   content: attr(data-content);
