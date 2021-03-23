@@ -14,17 +14,15 @@
 		<div class="signinTitle"> <h1>Update to profile name</h1> </div>
 		
 	    <form action="updateMember" method="POST" name="editProfile" onsubmit="checkValue();">
+		    <input type="text" name="memberId" class="inputBox" style="display: none;" id="memberId">
+	        <input type="text" name="type" class="inputBox" value="name" style="display: none;">
 			<div class="signin-input">
-				<span>UserID</span>
-				<input type="text" id="id" class="inputBox" name="id">
-			</div>
-			<div class="signin-input">
-				<span>Password</span>
-				<input type="password" id="pw" class="inputBox" name="pw">
+				<span>UserName</span>
+        		<input type="text" name="name" class="inputBox" id="name">
 			</div>
 			<div class="signin-button-inner-container">
 				<div class="signin-button">
-					<input type="BUTTON" value="Update" class="submitBtn">
+					<input type="submit" value="Update" id="authBtn" class="submitBtn">
 				</div>
 			</div>
 			

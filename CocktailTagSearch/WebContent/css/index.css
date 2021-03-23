@@ -952,7 +952,7 @@ footer::after {
   
   border-radius: 8px;
 }
-.function-inner-container > div {
+.function-inner-container div  {
   background-color: raba(0,0,0, 0.4);
   border-radius: 10px;
   box-shadow: 0px 0px 4px 1px black;
@@ -963,6 +963,8 @@ footer::after {
   font-weight: 400;
   font-size: 10pt;
   
+  color: black;
+  
   cursor: pointer;
   
   padding: 12px 5px;
@@ -970,6 +972,9 @@ footer::after {
   margin: 10px 0;
   
   width: 120px;
+}
+.function-inner-container a{
+  text-decoration: none;
 }
 .function-inner-container {
   padding: 20px;
@@ -1257,16 +1262,28 @@ form{
   margin:auto;
 }
 .chooseBtn {
-  padding: 7px 30px;
-  margin: 0 5px;
-  background-color: #875A00;
-  color: white;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
+  background-color: raba(0,0,0, 0.4);
+  border-radius: 10px;
+  box-shadow: 0px 0px 4px 1px black;
+  
+  text-align: center;
+  
+  font-family: today;
+  font-weight: 400;
+  font-size: 10pt;
+  
+  color: black;
+  
   cursor: pointer;
-  border-radius: 8px;
-  margin-bottom: 30px;
+  
+  padding: 12px 5px;
+  
+  position:relative;
+  top: 200px;
+  
+  margin: 20px auto;
+  
+  width: 120px;
 }
 .selected {
   box-shadow: 2px 2px 2px 1px black inset;

@@ -157,7 +157,7 @@ function selectToggle(e) {
 
 function addAdminBtn() {
 	if(userData.user.permission === 1) {
-		$('#myPageContents').append("<a href='addCocktail.html'><div class='myPageAdminBtn'>칵테일 추가하기</div></a>");
-		$('#myPageContents').append("<a href='addTag.html'><div class='myPageAdminBtn'>태그 추가하기</div></a>");
+		$('.function-inner-container').append("<a href='addCocktail.html'><div class='myPageAdminBtn'>칵테일 추가하기</div></a>");
+		$('.function-inner-container').append("<a href='addTag.html'><div class='myPageAdminBtn'>태그 추가하기</div></a>");
 	}
 }

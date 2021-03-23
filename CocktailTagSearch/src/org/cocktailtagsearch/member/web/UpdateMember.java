@@ -2,6 +2,7 @@ package org.cocktailtagsearch.member.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.PrivateKey;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.cocktailtagsearch.member.MemberDAO;
+import org.cocktailtagsearch.util.PasswordHash;
+import org.cocktailtagsearch.util.RsaDecryption;
 
 @WebServlet("/updateMember")
 public class UpdateMember extends HttpServlet {
@@ -22,6 +25,10 @@ public class UpdateMember extends HttpServlet {
 		String type = request.getParameter("type");
 		int memberId = Integer.parseInt(request.getParameter("memberId"));
 		
+		PrivateKey privateKey = RsaDecryption.SESSION_KEY;
+		
+        RsaDecryption.SESSION_KEY = null;
+
 		MemberDAO dao = new MemberDAO();
 		
 		boolean isUpdated = false;
@@ -30,8 +37,24 @@ public class UpdateMember extends HttpServlet {
 			String name = request.getParameter("name");
 			isUpdated = dao.updateMemberName(memberId, name);
 		} else {
-			String pw = request.getParameter("pw");
-			isUpdated = dao.updateMemberPassword(memberId, pw);
+
+			String id = request.getParameter("encrypt_id");
+			String pw = request.getParameter("encrypt_pw");
+			
+			try {                      
+				pw = RsaDecryption.decryptRsa(privateKey, pw);
+				id = RsaDecryption.decryptRsa(privateKey, id);
+	        } catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			
+			String hex = null;
+			try {
+				hex = PasswordHash.Hashing(pw, dao.getSalt(id));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			isUpdated = dao.updateMemberPassword(memberId, hex);
 		}
 		
 		if(isUpdated) {
@@ -45,7 +68,6 @@ public class UpdateMember extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
