@@ -17,16 +17,10 @@ public class RsaDecryption {
         byte[] encryptedBytes = hexToByteArray(securedValue);
         cipher.init(Cipher.DECRYPT_MODE, privateKey);
         byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
-        String decryptedValue = new String(decryptedBytes, "utf-8"); // 문자 인코딩 주의.
+        String decryptedValue = new String(decryptedBytes, "utf-8");
         return decryptedValue;
     }
- 
-    /**
-     * 16진 문자열을 byte 배열로 변환한다.
-     * 
-     * @param hex
-     * @return
-     */
+    
     public static byte[] hexToByteArray(String hex) {
         if (hex == null || hex.length() % 2 != 0) { return new byte[] {}; }
  

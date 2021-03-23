@@ -2,13 +2,30 @@ var removeToggle = false;
 
 $(document).ready(getUserData);
 $(document).ready(function() {
-  $('.myPageSelectRemove').attr('data-content', '선택 삭제하기');
+  $('.myPageSelectRemove').attr('data-content', 'Select remove');
 });
+
 DataLoadFunc.push(addAdminBtn);
 
 $(document).ready(function() {
     $("#menuContents").load("menuContents.html");
     getSessionData();
+});
+
+$('.myPageCocktailTitle , .myPageTagTitle').on('click', function(e) {
+	const target = $(e.currentTarget);
+	target.toggleClass('myPageTitleClick');
+	var node = target.parent().children("div:not(.myPageFavoriteTitle)");
+	
+	node.toggleClass("myPageFavoriteClick");
+	if(node.hasClass("myPageFavoriteClick")) {
+		node.css("display", "block");
+	}
+	else { 
+		setTimeout(function() { 
+		  node.css("display", "none");
+		}, 400);
+	}
 });
 
 function getUserData() {
@@ -17,10 +34,8 @@ function getUserData() {
 	url:"/CocktailTagSearch/GetFavoriteData",
 	dataType: "json",
     success: function(data) {
-	console.log(1);
-	  if(data != null) {
+	  if(data.favorite != null) {
 	    if(data.favorite.user != null) {
-		console.log(data.favorite.user.name);
 	      $('.myPageName').text(data.favorite.user.name);
 	      $('.myPageId').text(data.favorite.user.login_id);
 		
@@ -28,8 +43,9 @@ function getUserData() {
 	        var cocktail = $('<div/>');
 	        cocktail.addClass('myPageCocktails');
 		    cocktail.attr('id', item.id);
-		    cocktail.attr('desc', item.desc);
 		    cocktail.text(item.name);
+			cocktail.css("animation-delay", (index*100)+700+"ms");
+			cocktail.css("display", "none");
 		    cocktail.on('click', function() {
 	          var url = "cocktailPost.html?id="+item.id;
 		      $(location).attr('href', url);
@@ -38,18 +54,19 @@ function getUserData() {
           });
 
           $.each(data.favorite.tag, function(index, item) {
-	        $('#myPageTagContents').append($('<div/>', {
-              class: "myPageTags",
-	          id: item.id,
-	          desc: item.desc,
-              text: item.name
-            }));
+			var tag = $('<div/>');
+	        tag.addClass('myPageCocktails');
+		    tag.attr('id', item.id);
+		    tag.text(item.name);
+			tag.css("animation-delay", (index*100)+700+"ms");
+			tag.css("display", "none");
+	        $('#myPageTagContents').append(tag);
           }); 
-	    } else {
+	    } 
+	  } else {
 	      alert("로그인 시간이 만료되었습니다.");
 		  logout();
 		  location.href = "index.html";
-	    }
 	  }
 	},
 	error:function(error) {
@@ -71,7 +88,7 @@ $('.myPageSelectRemove').on('click', function() {
 });
 
 function selectedFavorite() {
-  $('.myPageSelectRemove').attr('data-content', '결정');
+  $('.myPageSelectRemove').attr('data-content', 'Done');
   $('.myPageCocktails').off('click');
   $('#myPageCocktailContents').on('click', selectToggle);
   $('#myPageTagContents').on('click', selectToggle); 
@@ -79,7 +96,7 @@ function selectedFavorite() {
 }
 
 function cancelSelectedFavorite() {
-  $('.myPageSelectRemove').attr('data-content', '선택 삭제하기');
+  $('.myPageSelectRemove').attr('data-content', 'Select remove');
   $('#myPageCocktailContents').off('click', selectToggle);
   $('#myPageTagContents').off('click', selectToggle);
   
