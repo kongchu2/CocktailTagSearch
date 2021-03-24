@@ -25,7 +25,6 @@ public class SignUp extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
 
 		String login_id	= request.getParameter("df8Z368CKkFDNHk7");
 		String name	= request.getParameter("tFw9C8dV2KGBhbrY");
@@ -43,13 +42,14 @@ public class SignUp extends HttpServlet {
 
 		RsaDecryption.SESSION_KEY = null;
 		
+		
 		MemberDAO dao = new MemberDAO();
 		MemberVO vo = dao.getMember(login_id);
 		
 		PrintWriter out = response.getWriter();
 		
 		if(vo != null) {
-			out.print("<script>alert(\"아이디가 중복되었습니다.\");history.go(-1);</script>");
+			out.print("overlap");
 		} else {
 
 			MemberVO newMember = new MemberVO();
@@ -75,11 +75,10 @@ public class SignUp extends HttpServlet {
 			int cnt = dao.addMember(newMember);
 			
 			if(cnt > 0) {
-				out.print("<script>alert(\"성공\");</script>");
+				out.print("success");
 			} else {
-				out.print("<script>alert(\"실패\");</script>");
-			}
-			response.sendRedirect("index.html");
+				out.print("fail");
+			}	
 		}
 		out.close();
 	}

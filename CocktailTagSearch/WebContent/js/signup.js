@@ -9,10 +9,11 @@ DataLoadFunc.push(function() {
   
 $(document).ready(function() {
     getSessionData();
-	getKey();
+	getKey(); 
 });
 	
 $('.submitBtn').on('click', sign_up);
+$('.submitBtn').on('click', getKey);
 
 function getKey() {
 	$.ajax({
@@ -70,7 +71,15 @@ function sign_up() {
                 wGKnr4ppPF8rBPss: encrypt_pw
             },
 			success:function(data) {
-              location.href = "index.html";
+                if(data == "overlap") {
+                    alert("아이디가 중복되었습니다.");
+                    id.focus();
+                } else if(data == "success") {
+                    alert("성공하였습니다.");
+                    $(location).attr('href',"/CocktailTagSearch/login.html");
+                } else if(data == "fail") {
+                    alert("실패하였습니다.");
+                }
             }
         });
     }
