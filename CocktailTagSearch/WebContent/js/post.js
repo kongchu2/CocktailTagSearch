@@ -6,8 +6,9 @@ $('#likeimg').click(likePost);
 var postId = getParam("id");
 
 $(document).ready(function() {
-    $("#menuContents").load("menuContents.html");
-    getSessionData();
+    $("#menuContents").load("menuContents.html", function() {
+        getSessionData();
+    });
     getCocktailData();
 });
 
