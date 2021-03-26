@@ -1,4 +1,4 @@
-package org.cocktailtagsearch.util;
+package org.cocktailtagsearch.util.security;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

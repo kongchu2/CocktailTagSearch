@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.cocktailtagsearch.util.JDBCConnection;
+import org.cocktailtagsearch.db.connect.JDBCConnection;
 
 public class Cocktail_TagDAO {
 	

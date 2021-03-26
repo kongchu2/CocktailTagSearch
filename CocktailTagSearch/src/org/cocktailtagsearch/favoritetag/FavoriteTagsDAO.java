@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.cocktailtagsearch.util.JDBCConnection;
+import org.cocktailtagsearch.db.connect.JDBCConnection;
 
 public class FavoriteTagsDAO {
 	
@@ -14,6 +14,39 @@ public class FavoriteTagsDAO {
 	private PreparedStatement stmt = null;
 	private ResultSet rs = null;
 	
+	public boolean switchlikeTag(int memberId, int tagId) {
+		boolean like = false;
+		try {
+			conn = JDBCConnection.getConnection();
+			conn.setAutoCommit(false);
+			String sql = "SELECT * FROM FAVORITE_TAGS WHERE MEMBER_ID=? AND TAG_ID=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, memberId);
+			stmt.setInt(2, tagId);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				sql = "DELETE FROM FAVORITE_TAGS WHERE MEMBER_ID=? AND TAG_ID=?";
+			} else {
+				like = true;
+				sql = "INSERT INTO FAVORITE_TAGS VALUES(?, ?)";
+			}
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, memberId);
+			stmt.setInt(2, tagId);
+			stmt.executeUpdate();
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(stmt, conn);
+		}
+		return like;
+	}
 	public ArrayList<FavoriteTagsVO> getFavoriteTagList() {
 		
 		ArrayList<FavoriteTagsVO> favoriteTagList = new ArrayList<FavoriteTagsVO>();

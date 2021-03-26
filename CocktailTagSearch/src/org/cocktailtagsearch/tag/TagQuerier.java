@@ -3,7 +3,7 @@ package org.cocktailtagsearch.tag;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.cocktailtagsearch.util.DAO;
+import org.cocktailtagsearch.db.access.DAO;
 import org.cocktailtagsearch.util.MapParser;
 
 public class TagQuerier {

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.cocktailtagsearch.favoritetag.FavoriteTagsDAO;
-import org.cocktailtagsearch.member.MemberDAO;
+import org.cocktailtagsearch.member.MemberQuerier;
 import org.cocktailtagsearch.member.MemberVO;
 import org.cocktailtagsearch.tag.TagQuerier;
 import org.cocktailtagsearch.tag.TagVO;
@@ -61,7 +61,7 @@ public class FavoriteTagData extends HttpServlet {
 		}
 		
 		if(flag) {
-			MemberDAO memberDAO = new MemberDAO();
+			MemberQuerier memberDAO = new MemberQuerier();
 			MemberVO memberVO = memberDAO.getMember(login_id);
 
 			FavoriteTagsDAO favoriteTagsDAO = new FavoriteTagsDAO();

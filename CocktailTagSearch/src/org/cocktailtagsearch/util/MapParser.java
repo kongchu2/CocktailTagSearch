@@ -51,7 +51,7 @@ public class MapParser {
 		return resultList;
 	}
 
-	public static MemberVO convertHashMaptoMemberVO(HashMap<String, Object> map) {
+	public static MemberVO toMemberVO(HashMap<String, Object> map) {
 		MemberVO member = new MemberVO();
 		member.setMember_id(Caster.bigDecimalObjToInt(map.get("MEMBER_ID")));
 		member.setLogin_id( (String)map.get("LOGIN_ID"));
@@ -61,10 +61,10 @@ public class MapParser {
 		return member;
 	}
 
-	public static ArrayList<MemberVO> convertHashMapListtoMemberList(ArrayList<HashMap<String, Object>> list) {
+	public static ArrayList<MemberVO> toMemberList(ArrayList<HashMap<String, Object>> list) {
 		ArrayList<MemberVO> resultList = new ArrayList<MemberVO>();
 		for (HashMap<String, Object> map : list) {
-			MemberVO vo = convertHashMaptoMemberVO(map);
+			MemberVO vo = toMemberVO(map);
 			resultList.add(vo);
 		}
 		return resultList;

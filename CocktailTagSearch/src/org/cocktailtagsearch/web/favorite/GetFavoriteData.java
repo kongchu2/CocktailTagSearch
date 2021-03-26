@@ -18,7 +18,7 @@ import org.cocktailtagsearch.favoritecocktail.FavoriteCocktailDAO;
 import org.cocktailtagsearch.favoritecocktail.FavoriteCocktailVO;
 import org.cocktailtagsearch.favoritetag.FavoriteTagsDAO;
 import org.cocktailtagsearch.favoritetag.FavoriteTagsVO;
-import org.cocktailtagsearch.member.MemberDAO;
+import org.cocktailtagsearch.member.MemberQuerier;
 import org.cocktailtagsearch.member.MemberVO;
 import org.cocktailtagsearch.tag.TagQuerier;
 import org.cocktailtagsearch.tag.TagVO;
@@ -36,7 +36,7 @@ public class GetFavoriteData extends HttpServlet {
 
 		HttpSession session = request.getSession(false);
 		
-		MemberDAO memberDAO = null;
+		MemberQuerier memberDAO = null;
 		MemberVO memberVO = null;
 		FavoriteCocktailDAO favoriteCocktailDAO = null;
 		FavoriteTagsDAO favoriteTagsDAO = null;
@@ -59,7 +59,7 @@ public class GetFavoriteData extends HttpServlet {
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		if(flag) {
-			memberDAO = new MemberDAO();
+			memberDAO = new MemberQuerier();
 			memberVO = memberDAO.getMember(login_id);
 
 			HashMap<String, Object> userMap = new HashMap<String, Object>();

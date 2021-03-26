@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.cocktailtagsearch.util.RsaDecryption;
+import org.cocktailtagsearch.util.security.RsaDecryption;
 import org.json.simple.JSONObject;
 
 @WebServlet("/GetRsaKey")

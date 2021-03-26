@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.cocktailtagsearch.util.JDBCConnection;
+import org.cocktailtagsearch.db.connect.JDBCConnection;
 
 public class FavoriteCocktailDAO {
 	
@@ -14,6 +14,39 @@ public class FavoriteCocktailDAO {
 	private PreparedStatement stmt = null;
 	private ResultSet rs = null;
 	
+	public boolean switchlikePost(int memberId, int cocktailId) {
+		boolean like = false;
+		try {
+			conn = JDBCConnection.getConnection();
+			conn.setAutoCommit(false);
+			String sql = "SELECT * FROM FAVORITE_COCKTAIL WHERE MEMBER_ID=? AND COCKTAIL_ID=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, memberId);
+			stmt.setInt(2, cocktailId);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				sql = "DELETE FROM FAVORITE_COCKTAIL WHERE MEMBER_ID=? AND COCKTAIL_ID=?";
+			} else {
+				like = true;
+				sql = "INSERT INTO FAVORITE_COCKTAIL VALUES(?, ?)";
+			}
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, memberId);
+			stmt.setInt(2, cocktailId);
+			stmt.executeUpdate();
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(stmt, conn);
+		}
+		return like;
+	}
 	public ArrayList<FavoriteCocktailVO> getFavoriteCocktailList() {
 		
 		ArrayList<FavoriteCocktailVO> favoriteCocktailList = new ArrayList<FavoriteCocktailVO>();

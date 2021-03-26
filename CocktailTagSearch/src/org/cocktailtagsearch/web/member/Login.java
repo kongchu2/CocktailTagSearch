@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.cocktailtagsearch.member.MemberDAO;
+import org.cocktailtagsearch.member.MemberQuerier;
 import org.cocktailtagsearch.member.MemberVO;
-import org.cocktailtagsearch.util.PasswordHash;
-import org.cocktailtagsearch.util.RsaDecryption;
+import org.cocktailtagsearch.util.security.PasswordHash;
+import org.cocktailtagsearch.util.security.RsaDecryption;
 
 @WebServlet("/Login")
 public class Login extends HttpServlet {
@@ -44,24 +44,29 @@ public class Login extends HttpServlet {
 
         RsaDecryption.SESSION_KEY = null;
 
-		MemberDAO dao = new MemberDAO();
+		MemberQuerier dao = new MemberQuerier();
 		String hex = null;
 		try {
 			hex = PasswordHash.Hashing(pw, dao.getSalt(id));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		MemberVO member = dao.loginCheck(id, hex);
-		
-		if(member != null) {
-			session.setAttribute("userId", member.getMember_id());
-			session.setAttribute("userLogin_id", member.getLogin_id());
-			session.setAttribute("userName", member.getName());
-			session.setAttribute("permission", member.getPermission());
-			out.print("right");
-		} else {
+		if(hex == null) {
 			session.invalidate();
 			out.print("wrong");
+		}
+		else {
+			MemberVO member = dao.loginCheck(id, hex);
+			if(member != null) {
+				session.setAttribute("userId", member.getMember_id());
+				session.setAttribute("userLogin_id", member.getLogin_id());
+				session.setAttribute("userName", member.getName());
+				session.setAttribute("permission", member.getPermission());
+				out.print("right");
+			} else {
+				session.invalidate();
+				out.print("wrong");
+			}
 		}
 		out.close();
 	}

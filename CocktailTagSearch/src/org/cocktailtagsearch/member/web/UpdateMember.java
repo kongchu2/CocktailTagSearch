@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.cocktailtagsearch.member.MemberDAO;
-import org.cocktailtagsearch.util.PasswordHash;
-import org.cocktailtagsearch.util.RsaDecryption;
+import org.cocktailtagsearch.member.MemberQuerier;
+import org.cocktailtagsearch.util.security.PasswordHash;
+import org.cocktailtagsearch.util.security.RsaDecryption;
 
 @WebServlet("/updateMember")
 public class UpdateMember extends HttpServlet {
@@ -29,7 +29,7 @@ public class UpdateMember extends HttpServlet {
 		
         RsaDecryption.SESSION_KEY = null;
 
-		MemberDAO dao = new MemberDAO();
+		MemberQuerier dao = new MemberQuerier();
 		
 		boolean isUpdated = false;
 		

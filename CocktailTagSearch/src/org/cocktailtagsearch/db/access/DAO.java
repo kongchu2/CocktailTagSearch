@@ -1,4 +1,4 @@
-package org.cocktailtagsearch.util;
+package org.cocktailtagsearch.db.access;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import org.cocktailtagsearch.db.connect.JDBCConnection;
+import org.cocktailtagsearch.util.ResultSetParser;
 
 public class DAO {
 	private Connection conn = null;

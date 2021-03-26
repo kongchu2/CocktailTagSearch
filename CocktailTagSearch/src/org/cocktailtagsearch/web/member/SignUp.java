@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.cocktailtagsearch.member.MemberDAO;
+import org.cocktailtagsearch.member.MemberQuerier;
 import org.cocktailtagsearch.member.MemberVO;
-import org.cocktailtagsearch.util.PasswordHash;
-import org.cocktailtagsearch.util.RsaDecryption;
+import org.cocktailtagsearch.util.security.PasswordHash;
+import org.cocktailtagsearch.util.security.RsaDecryption;
 
 
 @WebServlet("/SignUp")
@@ -43,7 +43,7 @@ public class SignUp extends HttpServlet {
 		RsaDecryption.SESSION_KEY = null;
 		
 		
-		MemberDAO dao = new MemberDAO();
+		MemberQuerier dao = new MemberQuerier();
 		MemberVO vo = dao.getMember(login_id);
 		
 		PrintWriter out = response.getWriter();

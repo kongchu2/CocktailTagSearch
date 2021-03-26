@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.cocktailtagsearch.member.MemberDAO;
-import org.cocktailtagsearch.util.PasswordHash;
-import org.cocktailtagsearch.util.RsaDecryption;
+import org.cocktailtagsearch.member.MemberQuerier;
+import org.cocktailtagsearch.util.security.PasswordHash;
+import org.cocktailtagsearch.util.security.RsaDecryption;
 
 
 @WebServlet("/PasswordAuth")
@@ -45,7 +45,7 @@ public class PasswordAuth extends HttpServlet {
 			RsaDecryption.SESSION_KEY = null;
 			
 			int memberId = (int) session.getAttribute("userId");
-			MemberDAO dao = new MemberDAO();
+			MemberQuerier dao = new MemberQuerier();
 			
 			String hex = null;
 			try {

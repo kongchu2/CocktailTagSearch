@@ -1,4 +1,4 @@
-package org.cocktailtagsearch.util;
+package org.cocktailtagsearch.db.connect;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

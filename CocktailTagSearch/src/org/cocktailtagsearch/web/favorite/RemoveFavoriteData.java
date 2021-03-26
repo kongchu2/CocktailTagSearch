@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.cocktailtagsearch.favoritecocktail.FavoriteCocktailDAO;
 import org.cocktailtagsearch.favoritetag.FavoriteTagsDAO;
-import org.cocktailtagsearch.member.MemberDAO;
+import org.cocktailtagsearch.member.MemberQuerier;
 import org.cocktailtagsearch.member.MemberVO;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -76,7 +76,7 @@ public class RemoveFavoriteData extends HttpServlet {
 			flag = false;
 		}
 		if(flag) {
-			MemberDAO memberDAO = new MemberDAO();
+			MemberQuerier memberDAO = new MemberQuerier();
 			MemberVO memberVO = memberDAO.getMember(login_id);
 			
 			int member_id = memberVO.getMember_id();

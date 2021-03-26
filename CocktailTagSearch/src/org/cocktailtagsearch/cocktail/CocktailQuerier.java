@@ -6,10 +6,10 @@ import java.util.HashMap;
 
 import org.cocktailtagsearch.cocktailtag.Cocktail_TagDAO;
 import org.cocktailtagsearch.cocktailtag.Cocktail_TagVO;
+import org.cocktailtagsearch.db.access.DAO;
 import org.cocktailtagsearch.tag.TagQuerier;
 import org.cocktailtagsearch.tag.TagVO;
 import org.cocktailtagsearch.util.Caster;
-import org.cocktailtagsearch.util.DAO;
 import org.cocktailtagsearch.util.MapParser;
 
 public class CocktailQuerier {

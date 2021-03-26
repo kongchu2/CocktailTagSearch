@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.cocktailtagsearch.member.MemberDAO;
+import org.cocktailtagsearch.member.MemberQuerier;
 
 @WebServlet("/deleteUser")
 public class DeleteMember extends HttpServlet {
@@ -22,7 +22,7 @@ public class DeleteMember extends HttpServlet {
 		
 		int id = (Integer)session.getAttribute("userId");
 		
-		MemberDAO dao = new MemberDAO();
+		MemberQuerier dao = new MemberQuerier();
 		dao.deleteMember(id);
 		
 	}

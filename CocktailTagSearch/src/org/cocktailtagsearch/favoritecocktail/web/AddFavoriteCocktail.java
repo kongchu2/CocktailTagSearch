@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.cocktailtagsearch.member.MemberDAO;
+import org.cocktailtagsearch.favoritecocktail.FavoriteCocktailDAO;
+import org.cocktailtagsearch.member.MemberQuerier;
 import org.json.simple.JSONObject;
 
 @WebServlet("/AddPostLike")
@@ -25,7 +26,7 @@ public class AddFavoriteCocktail extends HttpServlet {
 		int cocktailId = Integer.parseInt(request.getParameter("cocktailId"));
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		
-		MemberDAO dao = new MemberDAO();
+		FavoriteCocktailDAO dao = new FavoriteCocktailDAO();
 		boolean isLiked = dao.switchlikePost(userId, cocktailId);
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();

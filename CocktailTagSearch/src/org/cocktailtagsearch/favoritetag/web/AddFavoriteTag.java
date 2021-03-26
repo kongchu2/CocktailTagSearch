@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.cocktailtagsearch.member.MemberDAO;
+import org.cocktailtagsearch.favoritetag.FavoriteTagsDAO;
 import org.json.simple.JSONObject;
 
 
@@ -26,7 +26,7 @@ public class AddFavoriteTag extends HttpServlet {
 		int tagId = Integer.parseInt(request.getParameter("tagId"));
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		
-		MemberDAO dao = new MemberDAO();
+		FavoriteTagsDAO dao = new FavoriteTagsDAO();
 		boolean isLiked = dao.switchlikeTag(userId, tagId);
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
