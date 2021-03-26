@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.cocktailtagsearch.favoritecocktail.FavoriteCocktailQuerier;
-import org.cocktailtagsearch.member.MemberQuerier;
 import org.json.simple.JSONObject;
 
 @WebServlet("/AddPostLike")
