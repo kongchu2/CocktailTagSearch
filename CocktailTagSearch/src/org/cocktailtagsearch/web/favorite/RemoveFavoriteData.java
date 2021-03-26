@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.cocktailtagsearch.favoritecocktail.FavoriteCocktailDAO;
-import org.cocktailtagsearch.favoritetag.FavoriteTagsDAO;
+import org.cocktailtagsearch.favoritecocktail.FavoriteCocktailQuerier;
+import org.cocktailtagsearch.favoritetag.FavoriteTagsQuerier;
 import org.cocktailtagsearch.member.MemberQuerier;
 import org.cocktailtagsearch.member.MemberVO;
 import org.json.simple.JSONArray;
@@ -81,8 +81,8 @@ public class RemoveFavoriteData extends HttpServlet {
 			
 			int member_id = memberVO.getMember_id();
 			
-			FavoriteCocktailDAO FCdao = new FavoriteCocktailDAO();
-			FavoriteTagsDAO FTdao = new FavoriteTagsDAO();
+			FavoriteCocktailQuerier FCdao = new FavoriteCocktailQuerier();
+			FavoriteTagsQuerier FTdao = new FavoriteTagsQuerier();
 			
 			if(cocktailIdList != null) 
 				FCdao.deleteFavoriteCocktailByMember_idAndCocktail_idList(member_id, cocktailIdList);

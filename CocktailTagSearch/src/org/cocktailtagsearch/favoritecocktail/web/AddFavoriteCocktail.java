@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.cocktailtagsearch.favoritecocktail.FavoriteCocktailDAO;
+import org.cocktailtagsearch.favoritecocktail.FavoriteCocktailQuerier;
 import org.cocktailtagsearch.member.MemberQuerier;
 import org.json.simple.JSONObject;
 
@@ -26,7 +26,7 @@ public class AddFavoriteCocktail extends HttpServlet {
 		int cocktailId = Integer.parseInt(request.getParameter("cocktailId"));
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		
-		FavoriteCocktailDAO dao = new FavoriteCocktailDAO();
+		FavoriteCocktailQuerier dao = new FavoriteCocktailQuerier();
 		boolean isLiked = dao.switchlikePost(userId, cocktailId);
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -36,7 +36,6 @@ public class AddFavoriteCocktail extends HttpServlet {
 		out.close();
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 }

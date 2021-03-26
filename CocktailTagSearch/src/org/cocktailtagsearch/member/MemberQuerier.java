@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.cocktailtagsearch.db.access.DAO;
-import org.cocktailtagsearch.favoritecocktail.FavoriteCocktailDAO;
-import org.cocktailtagsearch.favoritetag.FavoriteTagsDAO;
+import org.cocktailtagsearch.favoritecocktail.FavoriteCocktailQuerier;
+import org.cocktailtagsearch.favoritetag.FavoriteTagsQuerier;
 import org.cocktailtagsearch.util.MapParser;
 
 
 public class MemberQuerier {
-	DAO dao = new DAO();
+	private DAO dao = new DAO();
 	
 	public MemberVO getMember(String login_id) {
 		MemberVO member = null;
@@ -78,8 +78,8 @@ public class MemberQuerier {
 		boolean delete = false;
 		String sql = "DELETE FROM MEMBER WHERE MEMBER_ID=?";
 		
-		FavoriteCocktailDAO FCDao = new FavoriteCocktailDAO();
-		FavoriteTagsDAO FTDao = new FavoriteTagsDAO();
+		FavoriteCocktailQuerier FCDao = new FavoriteCocktailQuerier();
+		FavoriteTagsQuerier FTDao = new FavoriteTagsQuerier();
 		
 		FCDao.deleteFavoriteCocktailByMember_id(memberId);
 		FTDao.deleteFavoriteTagByMember_id(memberId);		

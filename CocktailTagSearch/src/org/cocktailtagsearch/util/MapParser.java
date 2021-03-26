@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.cocktailtagsearch.cocktail.CocktailVO;
+import org.cocktailtagsearch.favoritecocktail.FavoriteCocktailVO;
+import org.cocktailtagsearch.favoritetag.FavoriteTagsVO;
 import org.cocktailtagsearch.member.MemberVO;
 import org.cocktailtagsearch.tag.TagVO;
 
@@ -66,6 +68,32 @@ public class MapParser {
 		for (HashMap<String, Object> map : list) {
 			MemberVO vo = toMemberVO(map);
 			resultList.add(vo);
+		}
+		return resultList;
+	}
+	public static FavoriteCocktailVO toFavoriteCocktailVO(HashMap<String, Object> map) {
+		FavoriteCocktailVO vo = new FavoriteCocktailVO();
+		vo.setCocktail_id(Caster.bigDecimalObjToInt(map.get("COCKTAIL_ID")));
+		vo.setMember_id(Caster.bigDecimalObjToInt(map.get("MEMBER_ID")));
+		return vo;
+	}
+	public static ArrayList<FavoriteCocktailVO> toFavoriteCocktailList(ArrayList<HashMap<String, Object>> list) {
+		ArrayList<FavoriteCocktailVO> resultList = new ArrayList<FavoriteCocktailVO>();
+		for(HashMap<String, Object> map : list) {
+			resultList.add(toFavoriteCocktailVO(map));
+		}
+		return resultList;
+	}
+	public static FavoriteTagsVO toFavoriteTagVO(HashMap<String, Object> map) {
+		FavoriteTagsVO vo = new FavoriteTagsVO();
+		vo.setMember_id(Caster.bigDecimalObjToInt(map.get("MEMBER_ID")));
+		vo.setTag_id(Caster.bigDecimalObjToInt(map.get("TAG_ID")));
+		return vo;
+	}
+	public static ArrayList<FavoriteTagsVO> toFavoriteTagList(ArrayList<HashMap<String, Object>> list) {
+		ArrayList<FavoriteTagsVO> resultList = new ArrayList<FavoriteTagsVO>();
+		for(HashMap<String, Object> map : list) {
+			resultList.add(toFavoriteTagVO(map));
 		}
 		return resultList;
 	}

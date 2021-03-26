@@ -14,9 +14,9 @@ import javax.servlet.http.HttpSession;
 
 import org.cocktailtagsearch.cocktail.CocktailQuerier;
 import org.cocktailtagsearch.cocktail.CocktailVO;
-import org.cocktailtagsearch.favoritecocktail.FavoriteCocktailDAO;
+import org.cocktailtagsearch.favoritecocktail.FavoriteCocktailQuerier;
 import org.cocktailtagsearch.favoritecocktail.FavoriteCocktailVO;
-import org.cocktailtagsearch.favoritetag.FavoriteTagsDAO;
+import org.cocktailtagsearch.favoritetag.FavoriteTagsQuerier;
 import org.cocktailtagsearch.favoritetag.FavoriteTagsVO;
 import org.cocktailtagsearch.member.MemberQuerier;
 import org.cocktailtagsearch.member.MemberVO;
@@ -38,8 +38,8 @@ public class GetFavoriteData extends HttpServlet {
 		
 		MemberQuerier memberDAO = null;
 		MemberVO memberVO = null;
-		FavoriteCocktailDAO favoriteCocktailDAO = null;
-		FavoriteTagsDAO favoriteTagsDAO = null;
+		FavoriteCocktailQuerier favoriteCocktailDAO = null;
+		FavoriteTagsQuerier favoriteTagsDAO = null;
 		CocktailQuerier cocktailDAO = null;
 		TagQuerier tagDAO = null;
 		
@@ -68,10 +68,10 @@ public class GetFavoriteData extends HttpServlet {
 			userMap.put("login_id", memberVO.getLogin_id());
 			userMap.put("member_id", memberVO.getMember_id());
 			
-			favoriteCocktailDAO = new FavoriteCocktailDAO();
+			favoriteCocktailDAO = new FavoriteCocktailQuerier();
 			favoriteCocktailList = favoriteCocktailDAO.getFavoriteCocktailListByMember_id(memberVO.getMember_id());
 
-			favoriteTagsDAO = new FavoriteTagsDAO();
+			favoriteTagsDAO = new FavoriteTagsQuerier();
 			favoriteTagList = favoriteTagsDAO.getFavoriteTagListByMember_id(memberVO.getMember_id());
 			
 			cocktailDAO = new CocktailQuerier();
