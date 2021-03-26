@@ -57,6 +57,7 @@ function setCocktailData(data) {
 
 function likePost() {
     if(userData.signed == "0") {
+        alert("로그인 후 사용 가능한 기능입니다.");
         return;
     }
     $.ajax({
@@ -102,6 +103,7 @@ function setLikeIcon(isLiked) {
 
 function likeTag(tagId) {
     if(userData.signed == "0") {
+        alert("로그인 후 사용 가능한 기능입니다.");
         return;
     }
     $.ajax({
