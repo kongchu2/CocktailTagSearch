@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.cocktailtagsearch.member.MemberQuerier;
 import org.cocktailtagsearch.util.security.PasswordHash;
@@ -36,6 +37,8 @@ public class UpdateMember extends HttpServlet {
 		if(type.equals("name")) {
 			String name = request.getParameter("name");
 			isUpdated = dao.updateMemberName(memberId, name);
+			HttpSession session = request.getSession(false);
+			session.setAttribute("userName", name);
 		} else {
 
 			String id = request.getParameter("encrypt_id");
