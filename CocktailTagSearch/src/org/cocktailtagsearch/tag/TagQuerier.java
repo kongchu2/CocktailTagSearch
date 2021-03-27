@@ -8,7 +8,7 @@ import org.cocktailtagsearch.util.MapParser;
 
 public class TagQuerier {
 	private final int LIMIT = 5;
-	DAO dao = new DAO();
+	private DAO dao = new DAO();
 
 	public TagVO getTag(int id) {
 		String sql = "SELECT * FROM (SELECT * FROM TAG WHERE TAG_ID=?) WHERE  ROWNUM <= ?";

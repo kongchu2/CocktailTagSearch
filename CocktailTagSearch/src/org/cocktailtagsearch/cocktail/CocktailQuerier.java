@@ -4,7 +4,7 @@ package org.cocktailtagsearch.cocktail;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.cocktailtagsearch.cocktailtag.Cocktail_TagDAO;
+import org.cocktailtagsearch.cocktailtag.Cocktail_TagQuerier;
 import org.cocktailtagsearch.cocktailtag.Cocktail_TagVO;
 import org.cocktailtagsearch.db.access.DAO;
 import org.cocktailtagsearch.tag.TagQuerier;
@@ -52,7 +52,6 @@ public class CocktailQuerier {
 			cocktail.setTagList(tagDao.getTagListByCocktailId(cocktail.getId()));
 		return cocktailList;
 	}
-
 
 	public ArrayList<CocktailVO> getCocktailListByTagList(ArrayList<Integer> tagList, int cocktailLength) {
 		String sql = "SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE, \"DESC\" " + "FROM COCKTAIL "
@@ -104,7 +103,7 @@ public class CocktailQuerier {
 		String sql = "INSERT INTO COCKTAIL VALUES ((select max(cocktail_id)+1 from cocktail), ?, ?, ?, ?, ?, ?, ?, ?)";
 		int cnt = dao.executeUpdateSQL(sql, cocktail.getName(), cocktail.getImage(), cocktail.getDesc(),
 				cocktail.getHistory(), cocktail.getTaste(), cocktail.getGlass());
-		Cocktail_TagDAO dao = new Cocktail_TagDAO();
+		Cocktail_TagQuerier dao = new Cocktail_TagQuerier();
 		ArrayList<Cocktail_TagVO> list = new ArrayList<Cocktail_TagVO>();
 		for (int tagId : tagIdList) {
 			Cocktail_TagVO vo = new Cocktail_TagVO();
@@ -115,37 +114,6 @@ public class CocktailQuerier {
 		dao.addTag_CocktailByList(list);
 		return cnt;
 	}
-
-	/*
-	 * @Deprecated
-	 * public int InsertCocktailList(ArrayList<CocktailVO> cocktailList) { int
-	 * success = 0; try { conn = JDBCConnection.getConnection();
-	 * 
-	 * ArrayList<CocktailVO> cl = getCocktailList(); int maxId = 0; for(CocktailVO c
-	 * : cl) { if(c.getId() > maxId) { maxId = c.getId(); } }
-	 * 
-	 * String sql = "INSERT INTO COCKTAIL" +
-	 * "(\"COCKTAIL_ID\", \"NAME\", \"IMAGE\", \"DESC\", \"HISTORY_DESC\", \"TASTE_DESC\", \"BASE_ALCOHOL\", \"BUILD_METHOD\", \"COCKTAIL_GLASS\") "
-	 * + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"; stmt = conn.prepareStatement(sql);
-	 * 
-	 * Iterator<CocktailVO> it = cocktailList.iterator(); while(it.hasNext()){
-	 * CocktailVO cocktail = it.next(); stmt.setInt(1, ++maxId); stmt.setString(2,
-	 * cocktail.getName()); stmt.setString(3, cocktail.getImage());
-	 * stmt.setString(4, cocktail.getDesc()); stmt.setString(5,
-	 * cocktail.getHistory()); stmt.setString(6, cocktail.getTaste());
-	 * stmt.setString(7, cocktail.getBase()); stmt.setString(8,
-	 * cocktail.getBuild()); stmt.setString(9, cocktail.getGlass());
-	 * stmt.addBatch(); } int[] numUpdates = stmt.executeBatch(); for (int i=0; i <
-	 * numUpdates.length; i++) { if (numUpdates[i] == -2)
-	 * System.out.println("Execution " + i + ": unknown number of rows updated");
-	 * else System.out.println("Execution " + i + "successful: " + numUpdates[i] +
-	 * " rows updated"); }
-	 * 
-	 * success = cocktailList.size();
-	 * 
-	 * } catch(Exception e) { e.printStackTrace(); } finally {
-	 * JDBCConnection.close(rs, stmt, conn); } return success; }
-	 */
 	public boolean UpdateCocktail(CocktailVO cocktail, int cocktail_id) {
 		int update = 0;
 
