@@ -351,7 +351,7 @@ function getMoreCocktail() {
 
 function setInfiniteScrolling() {
   $(window).scroll( _.throttle(function()	{
-    if (dataLoaded && $(document).height() <= ($(window).scrollTop() + $(window).height()) + 100) {
+    if (dataLoaded && $(document).height() <= ($(window).scrollTop() + $(window).height()) + 200) {
       getMoreCocktail();
     }
   }, 200));

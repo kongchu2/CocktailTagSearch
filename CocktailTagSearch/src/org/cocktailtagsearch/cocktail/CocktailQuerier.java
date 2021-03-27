@@ -102,7 +102,7 @@ public class CocktailQuerier {
 	public int InsertCocktail(CocktailVO cocktail, ArrayList<Integer> tagIdList) {
 		String sql = "INSERT INTO COCKTAIL VALUES ((select max(cocktail_id)+1 from cocktail), ?, ?, ?, ?, ?, ?, ?, ?)";
 		int cnt = dao.executeUpdateSQL(sql, cocktail.getName(), cocktail.getImage(), cocktail.getDesc(),
-				cocktail.getHistory(), cocktail.getTaste(), cocktail.getGlass());
+				cocktail.getHistory(), cocktail.getTaste(),cocktail.getBase(),cocktail.getBuild(), cocktail.getGlass());
 		Cocktail_TagQuerier dao = new Cocktail_TagQuerier();
 		ArrayList<Cocktail_TagVO> list = new ArrayList<Cocktail_TagVO>();
 		for (int tagId : tagIdList) {
