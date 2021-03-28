@@ -13,7 +13,7 @@ import org.cocktailtagsearch.util.Caster;
 import org.cocktailtagsearch.util.MapParser;
 
 public class CocktailQuerier {
-	private final int SCROLLING_LOAD_COUNT = 10;
+	private final int SCROLLING_LOAD_COUNT = 12;
 	private DAO dao = new DAO();
 
 	public CocktailVO getCocktail(int cocktail_id) {
