@@ -107,7 +107,7 @@ public class CocktailQuerier {
 		ArrayList<Cocktail_TagVO> list = new ArrayList<Cocktail_TagVO>();
 		for (int tagId : tagIdList) {
 			Cocktail_TagVO vo = new Cocktail_TagVO();
-			vo.setCocktailId(getMaxId()+1);
+			vo.setCocktailId(getMaxId());
 			vo.setTagId(tagId);
 			list.add(vo);
 		}

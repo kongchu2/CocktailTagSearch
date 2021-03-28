@@ -11,7 +11,7 @@ public class Cocktail_TagQuerier {
 	public int addTag_Cocktail(Cocktail_TagVO vo) {
 		int count = -1;
 		String sql = "INSERT INTO COCKTAIL_TAG VALUES(?, ?)";
-		count = dao.executeUpdateSQL(sql, vo.getCocktailId(), vo.getTagId());
+		count = dao.executeUpdateSQL(sql, vo.getTagId(),vo.getCocktailId());
 		return count;
 	}
 	public int addTag_CocktailByList(ArrayList<Cocktail_TagVO> list) {
