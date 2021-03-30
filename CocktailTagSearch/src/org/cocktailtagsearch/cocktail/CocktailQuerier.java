@@ -25,8 +25,17 @@ public class CocktailQuerier {
 		return cocktail;
 	}
 
+	public ArrayList<CocktailVO> getCocktailList() {
+		String sql = "SELECT * FROM COCKTAIL";
+		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql);
+		ArrayList<CocktailVO> cocktailList = MapParser.convertHashMapListtoCocktailList(list);
+		TagQuerier tagDao = new TagQuerier();
+		for (CocktailVO cocktail : cocktailList)
+			cocktail.setTagList(tagDao.getTagListByCocktailId(cocktail.getId()));
+		return cocktailList;
+	}
 	public ArrayList<CocktailVO> getCocktailList(int cocktailLength) {
-		String sql = "SELECT rnum, cocktail.* FROM (SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE, \"DESC\" "
+		String sql = "SELECT rnum, cocktail.* FROM (SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE "
 				+ "FROM COCKTAIL WHERE ROWNUM <= ?) " + "cocktail WHERE rnum > ?";
 		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql, cocktailLength + SCROLLING_LOAD_COUNT,cocktailLength);
 		ArrayList<CocktailVO> cocktailList = MapParser.convertHashMapListtoCocktailList(list);
@@ -42,7 +51,7 @@ public class CocktailQuerier {
 		return max;
 	}
 	public ArrayList<CocktailVO> getSearchedCocktailList(String searchWord, int cocktailLength) {
-		String sql = "SELECT * FROM (SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE, \"DESC\" FROM COCKTAIL WHERE NAME LIKE'%"
+		String sql = "SELECT * FROM (SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE FROM COCKTAIL WHERE NAME LIKE'%"
 				+ searchWord + "%' AND ROWNUM <= ?) WHERE rnum > ?";
 		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql, cocktailLength + SCROLLING_LOAD_COUNT,
 				cocktailLength);
@@ -54,7 +63,7 @@ public class CocktailQuerier {
 	}
 
 	public ArrayList<CocktailVO> getCocktailListByTagList(ArrayList<Integer> tagList, int cocktailLength) {
-		String sql = "SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE, \"DESC\" " + "FROM COCKTAIL "
+		String sql = "SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE " + "FROM COCKTAIL "
 				+ "WHERE COCKTAIL_ID IN " + "(SELECT COCKTAIL_ID " + "FROM (SELECT * FROM COCKTAIL_TAG WHERE !) "
 				+ "GROUP BY COCKTAIL_ID " + "HAVING COUNT(*) > ?) " + "AND ROWNUM <= ?";
 		String subQueryWhere = "";
@@ -77,7 +86,7 @@ public class CocktailQuerier {
 
 	public ArrayList<CocktailVO> getSearchedCocktailListByTagList(String searchWord, ArrayList<Integer> tagList,
 			int cocktailLength) {
-		String sql = "SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE, \"DESC\" " + "FROM COCKTAIL "
+		String sql = "SELECT ROWNUM rnum, COCKTAIL_ID, NAME, IMAGE " + "FROM COCKTAIL "
 				+ "WHERE COCKTAIL_ID IN " + "(SELECT COCKTAIL_ID " + "FROM (SELECT * FROM COCKTAIL_TAG WHERE !) "
 				+ "GROUP BY COCKTAIL_ID " + "HAVING COUNT(*) > ?) AND NAME LIKE'%" + searchWord + "%' "
 				+ "AND ROWNUM <= ?";
