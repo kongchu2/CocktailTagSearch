@@ -301,7 +301,7 @@ function createCocktail(index, item) {
     cocktail.addClass('cocktailItems');
 	cocktail.append($('<img/>', {
       class: "cocktailImages",
-	  src: item.image,
+	  src: 'image/cocktail/'+item.image,
       alt: item.name
     }));
 	cocktail.append($('<div/>', {
@@ -315,7 +315,7 @@ function createCocktail(index, item) {
     $.each(item.tags, function(index, tag_item) {
       cocktail.children('.itemTagsBox').append($('<div/>', {
         class: "itemTags",
-		desc: tag_item.desc,
+		    desc: tag_item.desc,
         text: tag_item.name
       }));
     });

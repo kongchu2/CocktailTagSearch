@@ -10,13 +10,12 @@ import org.cocktailtagsearch.member.MemberVO;
 import org.cocktailtagsearch.tag.TagVO;
 
 public class MapParser {
-	private static final String IMAGE_PATH = "image/cocktail/";
 
 	public static CocktailVO convertHashMaptoCocktailVO(HashMap<String, Object> map) {
 		CocktailVO vo = new CocktailVO();
 		vo.setId(Caster.bigDecimalObjToInt(map.get("COCKTAIL_ID")));
 		vo.setName((String)map.get("NAME"));
-		vo.setImage(IMAGE_PATH + (String)map.get("IMAGE"));
+		vo.setImage((String)map.get("IMAGE"));
 		vo.setDesc((String)map.get("DESC"));
 		vo.setHistory((String)map.get("HISTORY_DESC"));
 		vo.setTaste((String)map.get("TASTE_DESC"));

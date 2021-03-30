@@ -69,6 +69,7 @@ public class CocktailSearch extends HttpServlet {
 		}
 		JSONObject json = new JSONObject();
 		json.put("cocktails", cocktailArray);
+		System.out.println(json);
 		out.print(json);
 		out.close();
 	}

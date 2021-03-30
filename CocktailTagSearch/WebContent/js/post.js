@@ -42,7 +42,7 @@ function getCocktailData() {
 function setCocktailData(data) {
     $("title").text(data.name);
     $(".postTitle").text(data.name);
-    $(".post-image-container > img").attr("src", data.image);
+    $(".post-image-container > img").attr("src", "image/cocktail/"+data.image);
     $(".description").text(data.desc);
     $(".history").text(data.history);
     $(".taste").text(data.taste);

@@ -101,7 +101,6 @@ public class CocktailVO {
 		hashMap.put("id", getId());
 		hashMap.put("name", getName());
 		hashMap.put("image", getImage());
-		hashMap.put("desc", getDesc());
 		ArrayList<JSONObject> tempTagArray = new ArrayList<JSONObject>();
 		for(TagVO tag : getTagList()) {
 			HashMap<String, Object> tempHashMap = tag.toHashMap();
