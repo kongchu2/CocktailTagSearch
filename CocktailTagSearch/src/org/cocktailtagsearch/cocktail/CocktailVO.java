@@ -76,6 +76,15 @@ public class CocktailVO {
 	public void setTagList(ArrayList<TagVO> tagList) {
 		this.tagList = tagList;
 	}
+	public boolean isContainTag(int tagId) {
+		boolean flag = false;
+		for(TagVO tag : this.tagList) {
+			if(tag.getId() == tagId) {
+				flag = true;
+			}
+		}
+		return flag;
+	}
 	public HashMap<String, Object> toHashMap() {
 		HashMap<String ,Object> hashMap = new HashMap<String, Object>();
 		hashMap.put("id", getId());

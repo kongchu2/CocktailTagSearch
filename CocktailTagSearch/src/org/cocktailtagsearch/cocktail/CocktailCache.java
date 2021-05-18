@@ -42,13 +42,8 @@ public class CocktailCache {
 			CocktailVO vo = CocktailList.get(i);
 			boolean flag = true;
 			for(Integer tagId : tagList) {
-				for(TagVO tag : vo.getTagList()) {
-					if(tag.getId() == tagId) {
-						flag = true;
-						break;
-					} else {
-						flag = false;
-					}
+				if(!vo.isContainTag(tagId)) {
+					flag = false;
 				}
 			}
 			if(flag) list.add(vo);
@@ -65,13 +60,8 @@ public class CocktailCache {
 			if(vo.getName().contains(searchStr)) {
 				boolean flag = true;
 				for(Integer tagId : tagIdList) {
-					for(TagVO tag : vo.getTagList()) {
-						if(tag.getId() == tagId) {
-							flag = true;
-							break;
-						} else {
-							flag = false;
-						}
+					if(!vo.isContainTag(tagId)) {
+						flag = false;
 					}
 				}
 				if(flag) list.add(vo);
