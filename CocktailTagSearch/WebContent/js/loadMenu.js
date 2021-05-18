@@ -55,7 +55,7 @@ function createMyPageLink() {
 function getSessionData() {
   $.ajax({
     type:"post",
-	  url:"/CocktailTagSearch/SessionData",
+	  url:"/SessionData",
     success: function(data) {
       if(data.signed == "0") {
         createSignIn();
@@ -77,6 +77,6 @@ function getSessionData() {
 }
 
 function logout() {
-  fetch('/CocktailTagSearch/Logout');
+  fetch('/Logout');
   location.reload();
 }

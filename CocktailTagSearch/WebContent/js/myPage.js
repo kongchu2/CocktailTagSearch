@@ -31,7 +31,7 @@ $('.myPageCocktailTitle , .myPageTagTitle').on('click', function(e) {
 function getUserData() {
   $.ajax({
     type:"post",
-	url:"/CocktailTagSearch/GetFavoriteData",
+	url:"/GetFavoriteData",
 	dataType: "json",
     success: function(data) {
 	  if(data.favorite != null) {
@@ -134,7 +134,7 @@ function removeSelectedFavorite() {
 
   $.ajax({
     type:"post",
-	url:"/CocktailTagSearch/RemoveFavoriteData",
+	url:"/RemoveFavoriteData",
 	dataType: "json",
 	data: {
 		cocktail: JSON.stringify(removeCocktail),

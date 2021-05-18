@@ -17,9 +17,15 @@ public class JDBCConnection {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		Connection conn = ds.getConnection();
-		
+		Connection conn  =null;
+		try {
+			conn = ds.getConnection();
+		} catch(Exception e) {
+			System.out.println("!@#$!@#$");
+			e.printStackTrace();
+			System.out.println("!@#$!@#$");
+		}
+		System.out.println(conn);
 		return conn;
 	}
 	public static void close(ResultSet rs, Statement stmt, Connection conn) {

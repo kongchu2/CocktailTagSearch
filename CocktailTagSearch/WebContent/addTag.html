@@ -21,7 +21,7 @@
             formData = new FormData($("#form")[0]);
             $.ajax({
                 type: 'POST',
-                url: '/CocktailTagSearch/AddTag',
+                url: '/AddTag',
                 data:formData,
                 success: function(data) {
                     if(data.isAdded == '1') {

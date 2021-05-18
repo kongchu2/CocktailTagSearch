@@ -11,7 +11,7 @@ $('.submitBtn').on('click', auth);
 function getKey() {
 	$.ajax({
         type:"post",
-        url:"/CocktailTagSearch/GetRsaKey",
+        url:"/GetRsaKey",
 		dataType:"json",
         success:function(data) {
           RSAModulus = data.RSAModulus;
@@ -33,7 +33,7 @@ function auth() {
 	 
     $.ajax({
         type:"post",
-        url:"/CocktailTagSearch/PasswordAuth",
+        url:"/PasswordAuth",
         data: {
             fXVA92VbkUVvHGNq: encrypt_pw
         },

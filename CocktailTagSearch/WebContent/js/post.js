@@ -28,7 +28,7 @@ function getParam(sname) {
 function getCocktailData() {
     $.ajax({
         type:"GET",
-        url:"/CocktailTagSearch/GetCocktail",
+        url:"/GetCocktail",
         data: {
             id:postId
         },
@@ -62,7 +62,7 @@ function likePost() {
     }
     $.ajax({
         type:"post",
-        url:"/CocktailTagSearch/AddPostLike",
+        url:"/AddPostLike",
         data: {
             cocktailId: postId,
             userId: userData.user.id
@@ -79,7 +79,7 @@ function getLikeData() {
     }
     $.ajax({
         type:"post",
-        url:"/CocktailTagSearch/GetPostLike",
+        url:"/GetPostLike",
         data: {
             cocktailId: postId,
             userId:userData.user.id
@@ -108,7 +108,7 @@ function likeTag(tagId) {
     }
     $.ajax({
         type:"post",
-        url:"/CocktailTagSearch/AddTagLike",
+        url:"/AddTagLike",
         data: {
             tagId: tagId,
             userId:userData.user.id
@@ -136,7 +136,7 @@ function deleteCocktail() {
             func = function() {
                 $.ajax({
                     type:"post",
-                    url:"/CocktailTagSearch/DeleteCocktail",
+                    url:"/DeleteCocktail",
                     data: {
                         cocktailId: postId
                     },
@@ -242,7 +242,7 @@ function editCocktail() {
                     };
                     $.ajax({
                         type:"post",
-                        url:"/CocktailTagSearch/TagSearch",
+                        url:"/TagSearch",
                         dataType:"json",
                         data: {
                             search: $("#tagSearch").val(),
@@ -305,7 +305,7 @@ function editCocktail() {
                     });
                     $.ajax({
                         type:"post",
-                        url:"/CocktailTagSearch/UpdateCocktail",
+                        url:"/UpdateCocktail",
                         data: {
                             cocktail: JSON.stringify(cocktail),
                             tag:JSON.stringify(addedTagList)

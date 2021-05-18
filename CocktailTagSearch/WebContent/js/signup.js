@@ -18,7 +18,7 @@ $('.submitBtn').on('click', getKey);
 function getKey() {
 	$.ajax({
         type:"post",
-        url:"/CocktailTagSearch/GetRsaKey",
+        url:"/GetRsaKey",
 		dataType:"json",
         success:function(data) {
           RSAModulus = data.RSAModulus;
@@ -64,7 +64,7 @@ function sign_up() {
 		
         $.ajax({
             type:"post",
-            url:"/CocktailTagSearch/SignUp",
+            url:"/SignUp",
             data: {
                 df8Z368CKkFDNHk7: encrypt_id,
                 tFw9C8dV2KGBhbrY: encrypt_name,
@@ -76,7 +76,7 @@ function sign_up() {
                     id.focus();
                 } else if(data == "success") {
                     alert("성공하였습니다.");
-                    $(location).attr('href',"/CocktailTagSearch/login.html");
+                    $(location).attr('href',"/login.html");
                 } else if(data == "fail") {
                     alert("실패하였습니다.");
                 }

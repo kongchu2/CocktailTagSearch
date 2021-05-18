@@ -61,7 +61,6 @@ public class TagSearch extends HttpServlet {
 			else
 				tagList = tag_dao.getSearchedTagListWithoutTagIdList(searchStr, tagIdList);
 		}
-		
 		JSONObject json = null;
 		JSONArray tags = new JSONArray();
 		
