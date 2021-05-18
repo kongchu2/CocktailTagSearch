@@ -5,9 +5,14 @@ import java.util.ArrayList;
 public class TagCache {
 	private final static int MAX_SHOW_TAG_COUNT = 6;
 	private static ArrayList<TagVO> TagList;
-	static {
+	public static void init() {
 		TagQuerier dao = new TagQuerier();
 		TagCache.TagList = dao.getTagList();
+	}
+	static {
+		if(TagList == null) {
+			init();
+		}
 	}
 	public static ArrayList<TagVO> getTagList() {
 		ArrayList<TagVO> temp = new ArrayList<TagVO>();

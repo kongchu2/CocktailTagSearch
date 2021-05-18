@@ -7,11 +7,14 @@ import org.cocktailtagsearch.tag.TagVO;
 public class CocktailCache {
 	
 	private final static int SCROLLING_LOAD_COUNT = 12;
-	public static ArrayList<CocktailVO> CocktailList;
+	private static ArrayList<CocktailVO> CocktailList;
+	public static void init() {
+		CocktailQuerier cq = new CocktailQuerier();
+		CocktailList = cq.getCocktailList();
+	}
 	static {
 		if(CocktailList == null) {
-			CocktailQuerier cq = new CocktailQuerier();
-			CocktailList = cq.getCocktailList();
+			init();
 		}
 	}
 	public static ArrayList<CocktailVO> getCocktailList(int cocktailLength) {
