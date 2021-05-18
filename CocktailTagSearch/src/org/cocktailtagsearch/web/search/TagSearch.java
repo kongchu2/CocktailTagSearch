@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.cocktailtagsearch.tag.TagCache;
 import org.cocktailtagsearch.tag.TagQuerier;
 import org.cocktailtagsearch.tag.TagVO;
 import org.json.simple.JSONArray;
@@ -52,14 +53,14 @@ public class TagSearch extends HttpServlet {
 		ArrayList<TagVO> tagList = null;
 		if(tagIdList.size() == 0) {
 			if(searchStr.equals("")) 
-				tagList = tag_dao.getTagList();
+				tagList = TagCache.getTagList();
 			else
-				tagList = tag_dao.getSearchedTagList(searchStr);
+				tagList = TagCache.getSearchedTagList(searchStr);
 		} else {
 			if(searchStr.equals("")) 
-				tagList = tag_dao.getTagListWithoutTagIdList(tagIdList);
+				tagList = TagCache.getTagListWithoutTagIdList(tagIdList);
 			else
-				tagList = tag_dao.getSearchedTagListWithoutTagIdList(searchStr, tagIdList);
+				tagList = TagCache.getSearchedTagListWithoutTagIdList(searchStr, tagIdList);
 		}
 		JSONObject json = null;
 		JSONArray tags = new JSONArray();
