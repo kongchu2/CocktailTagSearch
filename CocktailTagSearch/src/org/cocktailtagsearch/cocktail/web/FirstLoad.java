@@ -10,6 +10,7 @@ import org.cocktailtagsearch.tag.TagCache;
 
 @WebServlet(name="Firstload", loadOnStartup = 2, urlPatterns = {"/FirstLoad"})
 public class FirstLoad extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 	    CocktailCache.init();

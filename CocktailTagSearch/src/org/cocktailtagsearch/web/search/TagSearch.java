@@ -44,7 +44,7 @@ public class TagSearch extends HttpServlet {
 		ArrayList<Integer> tagIdList = new ArrayList<Integer>();
 				
 		for(int i=0;i<tagArray.size();i++) {
-			int tagId = ((Long)((JSONObject)tagArray.get(i)).get("id")).intValue();
+			int tagId = ((Long)tagArray.get(i)).intValue();
 			tagIdList.add(tagId);
 		}
 		

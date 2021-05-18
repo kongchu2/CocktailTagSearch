@@ -16,6 +16,8 @@ var remove_continuous_pressing = false;
 
 var cocktailItemLength = 0;
 
+var contextPath = "";
+
 $(document).ready(init);
 
 $(document).ready(function() {
@@ -182,7 +184,7 @@ function removeTag(e) {
 function findMathingTag(tagName, callback) {
   $.ajax({
 		type:"post",
-		url:"/MatchingTag",
+		url:contextPath+"/MatchingTag",
 		dataType:"json",
 		data: {
 		  name: tagName
@@ -201,11 +203,11 @@ function findMathingTag(tagName, callback) {
 function getAutocompleteTags() {
   $.ajax({
 		type:"post",
-		url:"/TagSearch",
+		url:contextPath+"/TagSearch",
 		dataType:"json",
 		data: {
 		  search: $(".searchText").val(),
-	      tags: JSON.stringify(selectTagList)
+	      tags: JSON.stringify(getSelectTagIdList())
 		},
 		success:function(data) {
 		  if(data === "") 
@@ -220,15 +222,23 @@ function getAutocompleteTags() {
   });
 }
 
+function getSelectTagIdList() {
+  newList = [];
+  for(let i=0;i<selectTagList.length;i++) {
+    newList.push(selectTagList[i].id);
+  }
+  return newList;
+}
+
 function getCocktailItems() {
   dataLoaded = false;
   $.ajax({
     type:"post",
-		url:"/CocktailSearch",
+		url:contextPath+"/CocktailSearch",
     dataType:"json",
 		data: {
 		  search: $(".searchText").val(),
-	    tags: JSON.stringify(selectTagList),
+	    tags: JSON.stringify(getSelectTagIdList()),
       length: cocktailItemLength
 		},
     success:function(data) {
@@ -250,10 +260,10 @@ function getFavoriteTags() {
 	
 	$.ajax({
     type:"post",
-	url:"/FavoriteTagData",
+	url:contextPath+"/FavoriteTagData",
 	data: {
 		love: JSON.stringify(favoriteTags),
-	    tags: JSON.stringify(selectTagList)
+	  tags: JSON.stringify(getSelectTagIdList())
 	},
 	dataType: "json",
 	error : function(error) {
@@ -360,7 +370,7 @@ function setInfiniteScrolling() {
 function goRandomCocktail() {
   $.ajax({
     type:"get",
-		url:"/GetRandomCocktail",
+		url:contextPath+"/GetRandomCocktail",
     success:function(data) {
 	    location.href = "cocktailPost.html?id="+data;
     }
