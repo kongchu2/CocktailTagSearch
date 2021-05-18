@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.cocktailtagsearch.cocktail.CocktailCache;
 import org.cocktailtagsearch.cocktail.CocktailQuerier;
 import org.cocktailtagsearch.cocktail.CocktailVO;
 import org.json.simple.JSONArray;
@@ -52,14 +53,14 @@ public class CocktailSearch extends HttpServlet {
 		
 		if(tagIdList.size() == 0) {
 			if(searchStr.equals(""))
-				cocktailList = dao.getCocktailList(cocktailLength);
+				cocktailList = CocktailCache.getCocktailList(cocktailLength); 
 			else
-				cocktailList = dao.getSearchedCocktailList(searchStr, cocktailLength);
+				cocktailList = CocktailCache.getSearchedCocktailList(searchStr, cocktailLength);
 		} else {
 			if(searchStr.equals(""))
-				cocktailList = dao.getCocktailListByTagList(tagIdList, cocktailLength);
+				cocktailList = CocktailCache.getCocktailListByTagList(tagIdList, cocktailLength);
 			else
-				cocktailList = dao.getSearchedCocktailListByTagList(searchStr, tagIdList, cocktailLength);
+				cocktailList = CocktailCache.getSearchedCocktailListByTagList(searchStr, tagIdList, cocktailLength);
 		}
 		JSONArray cocktailArray = new JSONArray();
 		

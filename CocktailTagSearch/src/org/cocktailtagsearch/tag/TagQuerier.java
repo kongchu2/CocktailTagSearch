@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.cocktailtagsearch.db.access.DAO;
+import org.cocktailtagsearch.util.Caster;
 import org.cocktailtagsearch.util.MapParser;
 
 public class TagQuerier {
@@ -120,6 +121,17 @@ public class TagQuerier {
 				+ "GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY";
 		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql, cocktailId);
 		ArrayList<TagVO> tagList = MapParser.convertHashMapListtoTagList(list);
+		return tagList;
+	}
+	public ArrayList<Integer> getTagIdListByCocktailId(int cocktailId) {
+		String sql = "SELECT TAG_ID" + "FROM TAG " + "WHERE TAG_ID IN ("
+				+ "SELECT TAG_ID " + "FROM COCKTAIL_TAG " + "WHERE COCKTAIL_ID=?) "
+				+ "GROUP BY TAG_ID";
+		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql, cocktailId);
+		ArrayList<Integer> tagList = new ArrayList<Integer>();
+		for (HashMap<String ,Object> tag : list) {
+			tagList.add(Caster.bigDecimalObjToInt(tag.get("TAG_ID")));
+		}
 		return tagList;
 	}
 
