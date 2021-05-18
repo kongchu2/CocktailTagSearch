@@ -6,11 +6,7 @@ import org.cocktailtagsearch.tag.TagVO;
 
 public class CocktailCache {
 	private final static int SCROLLING_LOAD_COUNT = 12;
-	private static ArrayList<CocktailVO> CocktailList;
-	static {
-		CocktailQuerier dao = new CocktailQuerier();
-		CocktailCache.CocktailList = dao.getCocktailList();
-	}
+	public static ArrayList<CocktailVO> CocktailList;
 	public static ArrayList<CocktailVO> getCocktailList(int cocktailLength) {
 		ArrayList<CocktailVO> temp = new ArrayList<CocktailVO>();
 		for(int i=cocktailLength;i<cocktailLength+SCROLLING_LOAD_COUNT&&CocktailList.size()>i;i++)
