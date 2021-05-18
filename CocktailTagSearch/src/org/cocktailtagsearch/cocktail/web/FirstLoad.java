@@ -12,9 +12,9 @@ import org.cocktailtagsearch.cocktail.CocktailQuerier;
 public class FirstLoad extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-	    	CocktailQuerier dao = new CocktailQuerier();
-			CocktailCache.CocktailList = dao.getCocktailList();
-			System.out.println("실행됨");
+	    CocktailQuerier dao = new CocktailQuerier();
+		CocktailCache.CocktailList = dao.getCocktailList();
+		System.out.println("실행됨");
 	}
 
 }

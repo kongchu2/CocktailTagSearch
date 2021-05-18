@@ -5,8 +5,15 @@ import java.util.ArrayList;
 import org.cocktailtagsearch.tag.TagVO;
 
 public class CocktailCache {
+	
 	private final static int SCROLLING_LOAD_COUNT = 12;
 	public static ArrayList<CocktailVO> CocktailList;
+	static {
+		if(CocktailList == null) {
+			CocktailQuerier cq = new CocktailQuerier();
+			CocktailList = cq.getCocktailList();
+		}
+	}
 	public static ArrayList<CocktailVO> getCocktailList(int cocktailLength) {
 		ArrayList<CocktailVO> temp = new ArrayList<CocktailVO>();
 		for(int i=cocktailLength;i<cocktailLength+SCROLLING_LOAD_COUNT&&CocktailList.size()>i;i++)
