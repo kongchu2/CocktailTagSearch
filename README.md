@@ -9,10 +9,10 @@
   2. 회원 기능 <br>
     - 회원으로 가입하여 좋아하는 칵테일이나 태그를 저장하여 검색창에서 사용할 수 있습니다.
 # 3. 사용 기술
-  + BACK - Java(Servlet), Oracle11gXE, tomcat 8.5 <br>
+  + BACK - Java(Servlet), Oracle11gXE, Tomcat 8.5 <br>
   + FRONT - JavaScript, JQuery
 # 4. 링크
   + 운영중인 페이지 - <a href="http://cocktailtags.ga/" target="_blank">Page</a>
 # 5. 사용한 라이브러리
   + json-simple <a href="https://github.com/fangyidong/json-simple">GitHub Link</a>
-  + Jquery <a href="https://github.com/jquery/jquery">GitHub Link</a>
+  + JQuery <a href="https://github.com/jquery/jquery">GitHub Link</a>
