@@ -16,7 +16,7 @@ var remove_continuous_pressing = false;
 
 var cocktailItemLength = 0;
 
-var contextPath = "";
+var contextPath = ""; 
 
 $(document).ready(init);
 

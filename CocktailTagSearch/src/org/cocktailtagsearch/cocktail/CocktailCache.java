@@ -4,20 +4,18 @@ import java.util.ArrayList;
 
 import org.cocktailtagsearch.tag.TagVO;
 
+
 public class CocktailCache {
-	
 	private final static int SCROLLING_LOAD_COUNT = 12;
 	private static ArrayList<CocktailVO> CocktailList;
 	public static void init() {
 		CocktailQuerier cq = new CocktailQuerier();
 		CocktailList = cq.getCocktailList();
 	}
-	static {
+	public static ArrayList<CocktailVO> getCocktailList(int cocktailLength) {
 		if(CocktailList == null) {
 			init();
 		}
-	}
-	public static ArrayList<CocktailVO> getCocktailList(int cocktailLength) {
 		ArrayList<CocktailVO> temp = new ArrayList<CocktailVO>();
 		for(int i=cocktailLength;i<cocktailLength+SCROLLING_LOAD_COUNT&&CocktailList.size()>i;i++)
 			temp.add(CocktailList.get(i));
