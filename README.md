@@ -12,4 +12,4 @@
   + BACK - Java(Servlet), Oracle11gXE, tomcat 8.5 <br>
   + FRONT - JavaScript, JQuery
 # 4. 링크
-  + 운영중인 페이지 - <a href="http://cocktailtags.ga/">Page</a>
+  + 운영중인 페이지 - <a href="http://cocktailtags.ga/" target="_blank">Page</a>
