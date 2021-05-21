@@ -17,4 +17,5 @@
   + json-simple <a href="https://github.com/fangyidong/json-simple">GitHub Link</a>
   + JQuery <a href="https://github.com/jquery/jquery">GitHub Link</a>
 # 6. ERD 다이어그램
-  + <a href="https://www.erdcloud.com/d/jAJGDvABPdB4epHei">ERDCLOUD Link</a>
+  + <a href="https://www.erdcloud.com/d/f9pi26bGL9L8mX2Fn">ERDCLOUD Link</a>
+
