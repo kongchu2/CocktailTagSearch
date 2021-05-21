@@ -10,7 +10,7 @@
     - 회원으로 가입하여 좋아하는 칵테일이나 태그를 저장하여 검색창에서 사용할 수 있습니다.
 # 3. 사용 기술
   + BACK - Java(Servlet), Oracle11gXE, Tomcat 8.5 <br>
-  + FRONT - JavaScript, JQuery
+  + FRONT - JavaScript, JQuery, AJAX
 # 4. 링크
   + 운영중인 페이지 - <a href="http://cocktailtags.kro.kr" target="_blank">Page</a>
 # 5. 사용한 라이브러리
