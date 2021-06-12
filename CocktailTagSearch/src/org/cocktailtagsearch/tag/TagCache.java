@@ -9,12 +9,10 @@ public class TagCache {
 		TagQuerier dao = new TagQuerier();
 		TagCache.TagList = dao.getTagList();
 	}
-	static {
+	public static ArrayList<TagVO> getTagList() {
 		if(TagList == null) {
 			init();
 		}
-	}
-	public static ArrayList<TagVO> getTagList() {
 		ArrayList<TagVO> temp = new ArrayList<TagVO>();
 		for(int i=0;i<MAX_SHOW_TAG_COUNT&&TagList.size()>i;i++)
 			temp.add(TagList.get(i));

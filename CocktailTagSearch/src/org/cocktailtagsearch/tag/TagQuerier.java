@@ -19,9 +19,9 @@ public class TagQuerier {
 	}
 
 	public ArrayList<TagVO> getTagList() {
-		String sql = "SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG WHERE ROWNUM <= ? "
+		String sql = "SELECT TAG_ID, TAG_NAME, \"DESC\", CATEGORY FROM TAG "
 				+ " GROUP BY TAG_ID, TAG_NAME, \"DESC\", CATEGORY";
-		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql, LIMIT);
+		ArrayList<HashMap<String, Object>> list = dao.executeSQL(sql);
 		ArrayList<TagVO> tagList = MapParser.convertHashMapListtoTagList(list);
 		return tagList;
 	}

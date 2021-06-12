@@ -31,7 +31,7 @@ $('.myPageCocktailTitle , .myPageTagTitle').on('click', function(e) {
 function getUserData() {
   $.ajax({
     type:"post",
-	url:"/GetFavoriteData",
+	url:"GetFavoriteData",
 	dataType: "json",
     success: function(data) {
 	  if(data.favorite != null) {

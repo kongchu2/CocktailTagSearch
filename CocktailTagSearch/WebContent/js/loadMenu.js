@@ -55,7 +55,7 @@ function createMyPageLink() {
 function getSessionData() {
   $.ajax({
     type:"post",
-	  url:"/SessionData",
+	  url:"SessionData",
     success: function(data) {
       if(data.signed == "0") {
         createSignIn();

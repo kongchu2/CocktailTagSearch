@@ -184,7 +184,7 @@ function removeTag(e) {
 function findMathingTag(tagName, callback) {
   $.ajax({
 		type:"post",
-		url:contextPath+"/MatchingTag",
+		url:contextPath+"MatchingTag",
 		dataType:"json",
 		data: {
 		  name: tagName
@@ -203,7 +203,7 @@ function findMathingTag(tagName, callback) {
 function getAutocompleteTags() {
   $.ajax({
 		type:"post",
-		url:contextPath+"/TagSearch",
+		url:contextPath+"TagSearch",
 		dataType:"json",
 		data: {
 		  search: $(".searchText").val(),
@@ -234,7 +234,7 @@ function getCocktailItems() {
   dataLoaded = false;
   $.ajax({
     type:"post",
-		url:contextPath+"/CocktailSearch",
+		url:contextPath+"CocktailSearch",
     dataType:"json",
 		data: {
 		  search: $(".searchText").val(),
@@ -260,7 +260,7 @@ function getFavoriteTags() {
 	
 	$.ajax({
     type:"post",
-	url:contextPath+"/FavoriteTagData",
+	url:contextPath+"FavoriteTagData",
 	data: {
 		love: JSON.stringify(favoriteTags),
 	  tags: JSON.stringify(getSelectTagIdList())
@@ -370,7 +370,7 @@ function setInfiniteScrolling() {
 function goRandomCocktail() {
   $.ajax({
     type:"get",
-		url:contextPath+"/GetRandomCocktail",
+		url:contextPath+"GetRandomCocktail",
     success:function(data) {
 	    location.href = "cocktailPost.html?id="+data;
     }

@@ -18,7 +18,7 @@ $('.submitBtn').on('click', getKey);
 function getKey() {
 	$.ajax({
         type:"post",
-        url:"/GetRsaKey",
+        url:"GetRsaKey",
 		dataType:"json",
         success:function(data) {
           RSAModulus = data.RSAModulus;
@@ -64,7 +64,7 @@ function sign_up() {
 		
         $.ajax({
             type:"post",
-            url:"/SignUp",
+            url:"SignUp",
             data: {
                 df8Z368CKkFDNHk7: encrypt_id,
                 tFw9C8dV2KGBhbrY: encrypt_name,
