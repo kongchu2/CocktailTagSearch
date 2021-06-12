@@ -8,7 +8,7 @@ import org.cocktailtagsearch.util.Caster;
 import org.cocktailtagsearch.util.MapParser;
 
 public class TagQuerier {
-	private final int LIMIT = 5;
+	private final int LIMIT = 999;
 	private DAO dao = new DAO();
 
 	public TagVO getTag(int id) {
