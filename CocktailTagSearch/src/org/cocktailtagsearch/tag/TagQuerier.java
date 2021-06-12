@@ -51,7 +51,9 @@ public class TagQuerier {
 		for (int tagId : tagIdList) {
 			subQueryWhere1 += tagId + ", ";
 		}
-		subQueryWhere1 = subQueryWhere1.substring(0, subQueryWhere1.length() - 2);
+		if(subQueryWhere1.length() > 2)
+			subQueryWhere1 = subQueryWhere1.substring(0, subQueryWhere1.length() - 2);
+		else return new ArrayList<TagVO>();
 		sql = sql.replace("1!", subQueryWhere1);
 
 		String subQueryWhere2 = "";
