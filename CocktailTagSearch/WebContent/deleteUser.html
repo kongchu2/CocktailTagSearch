@@ -14,7 +14,7 @@
             if(confirm("탈퇴하시겠습니까? 취소할 수 없습니다.")) {
                 $.ajax({
                     type:"post",
-                    url:"/deleteUser",
+                    url:"deleteUser",
                     success: function(data) {
                         alert("탈퇴되었습니다.");
                         logout();

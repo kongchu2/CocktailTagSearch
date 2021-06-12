@@ -15,7 +15,7 @@
             formData.append("tags", JSON.stringify(tagIdList));
             $.ajax({
                 type: 'POST',
-                url: '/AddCocktail',
+                url: 'AddCocktail',
                 processData: false,
                 contentType: false,
                 data:formData,
@@ -118,7 +118,7 @@
             };
             $.ajax({
                 type:"post",
-                url:"/TagSearch",
+                url:"TagSearch",
                 dataType:"json",
                 data: {
                     search: $("#tagSearch").val(),
