@@ -16,6 +16,8 @@
 # 5. 사용한 라이브러리
   + json-simple <a href="https://github.com/fangyidong/json-simple">GitHub Link</a>
   + JQuery <a href="https://github.com/jquery/jquery">GitHub Link</a>
-# 6. ERD 다이어그램
+# 6. 사용한 외부 API
+  + telegram API
+# 7. ERD 다이어그램
   + <a href="https://www.erdcloud.com/d/f9pi26bGL9L8mX2Fn">ERDCLOUD Link</a>
 
