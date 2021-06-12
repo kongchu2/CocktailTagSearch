@@ -77,6 +77,6 @@ function getSessionData() {
 }
 
 function logout() {
-  fetch('/Logout');
+  fetch('Logout');
   location.reload();
 }
