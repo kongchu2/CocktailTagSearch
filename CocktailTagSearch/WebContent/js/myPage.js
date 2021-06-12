@@ -134,7 +134,7 @@ function removeSelectedFavorite() {
 
   $.ajax({
     type:"post",
-	url:"/RemoveFavoriteData",
+	url:"RemoveFavoriteData",
 	dataType: "json",
 	data: {
 		cocktail: JSON.stringify(removeCocktail),

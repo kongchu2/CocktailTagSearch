@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.cocktailtagsearch.tag.TagCache;
-import org.cocktailtagsearch.tag.TagQuerier;
 import org.cocktailtagsearch.tag.TagVO;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -47,8 +46,6 @@ public class TagSearch extends HttpServlet {
 			int tagId = ((Long)tagArray.get(i)).intValue();
 			tagIdList.add(tagId);
 		}
-		
-		TagQuerier tag_dao = new TagQuerier();
 		
 		ArrayList<TagVO> tagList = null;
 		if(tagIdList.size() == 0) {

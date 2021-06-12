@@ -2,8 +2,6 @@ package org.cocktailtagsearch.cocktail;
 
 import java.util.ArrayList;
 
-import org.cocktailtagsearch.tag.TagVO;
-
 
 public class CocktailCache {
 	private final static int SCROLLING_LOAD_COUNT = 12;

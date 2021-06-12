@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.cocktailtagsearch.cocktail.CocktailCache;
-import org.cocktailtagsearch.cocktail.CocktailQuerier;
 import org.cocktailtagsearch.cocktail.CocktailVO;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -48,7 +47,6 @@ public class CocktailSearch extends HttpServlet {
 			tagIdList.add(tagId);
 		}
 		
-		CocktailQuerier dao = new CocktailQuerier();
 		ArrayList<CocktailVO> cocktailList = null;
 		
 		if(tagIdList.size() == 0) {

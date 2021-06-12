@@ -76,7 +76,7 @@ function sign_up() {
                     id.focus();
                 } else if(data == "success") {
                     alert("성공하였습니다.");
-                    $(location).attr('href',"/login.html");
+                    $(location).attr('href',"login.html");
                 } else if(data == "fail") {
                     alert("실패하였습니다.");
                 }
